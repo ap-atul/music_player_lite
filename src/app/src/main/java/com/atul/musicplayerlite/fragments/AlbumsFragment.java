@@ -1,37 +1,33 @@
 package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.MainViewModel;
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.adapter.AlbumsAdapter;
 import com.atul.musicplayerlite.factory.MainViewModelFactory;
-import com.atul.musicplayerlite.listener.SongSelectListener;
 import com.atul.musicplayerlite.model.Album;
-import com.atul.musicplayerlite.model.Music;
-import com.atul.musicplayerlite.player.PlayerManager;
 
 import java.util.List;
 
-public class SongsFragment extends Fragment implements SongSelectListener {
+public class AlbumsFragment extends Fragment {
 
     private MainViewModel viewModel;
 
-    public SongsFragment() {
-
+    public AlbumsFragment() {
     }
 
-    public static SongsFragment newInstance() {
-        SongsFragment fragment = new SongsFragment();
+    public static AlbumsFragment newInstance() {
+        AlbumsFragment fragment = new AlbumsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -49,27 +45,17 @@ public class SongsFragment extends Fragment implements SongSelectListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
-        List<Music> musicList = viewModel.getSongs(false);
+        List<Album> albumList = viewModel.getAlbums(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration( new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new SongsAdapter(this, musicList));
+        recyclerView.setAdapter(new AlbumsAdapter(albumList));
 
 //        PlayerManager playerManager = new PlayerManager(getContext(), musicList);
 //        playerManager.start(); // start from first song
 
         return view;
 
-    }
-
-    @Override
-    public void playAlbum(Album album) {
-        new PlayerManager(getActivity(), album.music);
-    }
-
-    @Override
-    public void playQueue(List<Music> musicList) {
-        new PlayerManager(getActivity(), musicList);
     }
 }

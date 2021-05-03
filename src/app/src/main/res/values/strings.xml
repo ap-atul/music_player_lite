@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Music Player Lite</string>
-    <string name="tab_text_1">Songs</string>
-    <string name="tab_text_2">Tab 2</string>
+
+
+    <string name="tab_one">Artists</string>
+    <string name="tab_two">Albums</string>
+    <string name="tab_three">Songs</string>
+    <string name="tab_four">Folders</string>
+    <string name="tab_five">Settings</string>
+
+
 
 </resources>

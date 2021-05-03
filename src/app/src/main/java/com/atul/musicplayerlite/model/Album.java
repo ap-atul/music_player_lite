@@ -3,9 +3,16 @@ package com.atul.musicplayerlite.model;
 import java.util.List;
 
 public class Album {
-    private String title;
-    private String year;
+    public String title;
+    public String year;
 
-    private Long duration;
-    private List<Music> music;
+    public Long duration;
+    public List<Music> music;
+
+    public Album(String title, String year, Long duration, List<Music> music) {
+        this.title = title;
+        this.year = year;
+        this.duration = duration;
+        this.music = music;
+    }
 }

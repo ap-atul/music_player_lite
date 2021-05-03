@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.util.Size;
 
 import androidx.annotation.RequiresApi;
@@ -36,6 +37,7 @@ public class MusicLibraryHelper {
                 MediaStore.Audio.AudioColumns.DISPLAY_NAME,
                 MediaStore.Audio.AudioColumns.DURATION,
                 MediaStore.Audio.AudioColumns.ALBUM_ID,
+                MediaStore.Audio.AudioColumns.ALBUM,
                 collection,
                 MediaStore.Audio.AudioColumns._ID,
                 MediaStore.Audio.AudioColumns.DATE_MODIFIED
@@ -52,6 +54,7 @@ public class MusicLibraryHelper {
         int displayMameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);
         int durationInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION);
         int albumIdInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM_ID);
+        int albumInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM);
         int relativePathInd = musicCursor.getColumnIndexOrThrow(collection);
         int idInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID);
         int dateModifiedInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATE_MODIFIED);
@@ -60,7 +63,7 @@ public class MusicLibraryHelper {
             String artist = musicCursor.getString(artistInd);
             String title = musicCursor.getString(titleInd);
             String displayName = musicCursor.getString(displayMameInd);
-            String album = musicCursor.getString(albumIdInd);
+            String album = musicCursor.getString(albumInd);
             String relativePath = musicCursor.getString(relativePathInd);
 
             if(VersioningHelper.isVersionQ())

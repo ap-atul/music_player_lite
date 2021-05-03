@@ -9,20 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.listener.SongSelectListener;
+import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
+public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
 
-    private final List<Music> musicList;
-    public SongSelectListener listener;
+    private final List<Album> albumList;
 
-    public SongsAdapter(SongSelectListener listener, List<Music> musics){
-        this.listener = listener;
-        this.musicList = musics;
+    public AlbumsAdapter(List<Album> albums){
+        this.albumList = albums;
     }
 
     @NonNull
@@ -34,16 +31,16 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.songName.setText(musicList.get(position).displayName);
-        holder.albumName.setText(musicList.get(position).album);
+        holder.songName.setText(albumList.get(position).title);
+        holder.albumName.setText(albumList.get(position).year + " . " + String.valueOf(albumList.get(position).music.size()));
     }
 
     @Override
     public int getItemCount() {
-        return musicList.size();
+        return albumList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView songName;
         private final TextView albumName;
@@ -53,15 +50,6 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
 
             songName = itemView.findViewById(R.id.song_name);
             albumName = itemView.findViewById(R.id.song_album);
-
-            itemView.findViewById(R.id.root_layout).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    List<Music> musics = new ArrayList<>();
-                    musics.add(musicList.get(getAdapterPosition()));
-                    listener.playQueue(musics);
-                }
-            });
         }
     }
 }

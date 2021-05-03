@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/root_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_marginTop="5dp"
+    android:background="?selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/song_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoSizeTextType="uniform"
+        android:textSize="@dimen/text_big"
+        android:textColor="@color/material_on_background_emphasis_high_type" />
+
+    <TextView
+        android:id="@+id/song_album"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/song_name"
         android:textSize="@dimen/text_medium"
-        android:textColor="@color/material_on_background_emphasis_high_type"
-        android:text="Something"/>
+        android:textColor="@color/material_on_background_emphasis_medium" />
 
 </RelativeLayout>

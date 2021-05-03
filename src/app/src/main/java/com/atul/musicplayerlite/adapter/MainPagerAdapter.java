@@ -9,25 +9,46 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.fragments.AlbumsFragment;
+import com.atul.musicplayerlite.fragments.ArtistsFragment;
+import com.atul.musicplayerlite.fragments.FoldersFragment;
+import com.atul.musicplayerlite.fragments.SettingsFragment;
 import com.atul.musicplayerlite.fragments.SongsFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final int[] TAB_TITLES = new int[]{
+            R.string.tab_one, R.string.tab_two, R.string.tab_three,
+            R.string.tab_four, R.string.tab_five
+    };
+    List<Fragment> fragments = new ArrayList<>();
+
+    public void setFragments() {
+        fragments.add(ArtistsFragment.newInstance());
+        fragments.add(AlbumsFragment.newInstance());
+        fragments.add(SongsFragment.newInstance());
+        fragments.add(FoldersFragment.newInstance());
+        fragments.add(SettingsFragment.newInstance());
+    }
+
     private final Context mContext;
 
     public MainPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        setFragments();
     }
 
     @NotNull
     @Override
     public Fragment getItem(int position) {
-        return SongsFragment.newInstance();
+        return fragments.get(position);
     }
 
     @Nullable
@@ -38,6 +59,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return fragments.size();
     }
 }

@@ -3,70 +3,150 @@ package com.atul.musicplayerlite.player;
 import android.app.Service;
 import android.content.ContentUris;
 import android.content.Intent;
-import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
-import android.provider.MediaStore;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
+import com.atul.musicplayerlite.helper.NotificationHelper;
+import com.atul.musicplayerlite.model.Music;
 
-import java.io.IOException;
+import java.util.List;
 
+public class PlayerService extends Service implements
+        MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
+        MediaPlayer.OnCompletionListener {
 
-public class PlayerService extends Service implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener {
-    private static final String ACTION_PLAY = "com.example.action.PLAY";
-    private MediaPlayer player = null;
+    private final IBinder musicBind = new MusicBinder();
+    private MediaPlayer player;
+    private List<Music> musicList;
+    private int songPosn;
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public void onCreate() {
+        super.onCreate();
+        songPosn = 0;
+        player = new MediaPlayer();
+        initMusicPlayer();
+    }
+
+    public void initMusicPlayer() {
+        player.setWakeMode(getApplicationContext(),
+                PowerManager.PARTIAL_WAKE_LOCK);
+        player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        player.setOnPreparedListener(this);
+        player.setOnCompletionListener(this);
+        player.setOnErrorListener(this);
+    }
+
+    public void setList(List<Music> theSongs) {
+        musicList = theSongs;
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent.getAction().equals(ACTION_PLAY)){
-            player = new MediaPlayer();
-            player.setOnPreparedListener(this);
-            player.setOnErrorListener(this);
-            player.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
-            player.setAudioAttributes(
-                    new AudioAttributes.Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_MEDIA)
-                            .build()
-            );
-            player.prepareAsync();
+    public IBinder onBind(Intent intent) {
+        return musicBind;
+    }
+
+    @Override
+    public boolean onUnbind(Intent intent) {
+        player.stop();
+        player.release();
+        return false;
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        if (player.getCurrentPosition() > 0) {
+            mp.reset();
+            playNext();
         }
-        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        mp.reset();
+        return false;
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
-    }
 
-    @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
-        Log.i("PLAYER_ERROR", String.valueOf(what));
-        return false;
+        NotificationHelper notificationHelper = new NotificationHelper(this);
+        notificationHelper.createNotification();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        if(player != null) player.release();
+        stopForeground(true);
     }
 
-    public void play (Long id){
-        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-        try {
-            player.setDataSource(getApplicationContext(), contentUri);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public class MusicBinder extends Binder {
+        public PlayerService getService() {
+            return PlayerService.this;
         }
     }
+
+    public void playSong() {
+        player.reset();
+        Music playSong = musicList.get(songPosn);
+
+        long currSong = playSong.id;
+
+        Uri trackUri = ContentUris.withAppendedId(
+                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                currSong);
+
+        try {
+            player.setDataSource(getApplicationContext(), trackUri);
+        } catch (Exception e) {
+            Log.e("MUSIC SERVICE", "Error setting data source", e);
+        }
+
+        player.prepareAsync();
+    }
+
+    public void setSong(int songIndex) {
+        songPosn = songIndex;
+    }
+
+    public int getPosn() {
+        return player.getCurrentPosition();
+    }
+
+    public int getDur() {
+        return player.getDuration();
+    }
+
+    public boolean isPng() {
+        return player.isPlaying();
+    }
+
+    public void pausePlayer() {
+        player.pause();
+    }
+
+    public void seek(int posn) {
+        player.seekTo(posn);
+    }
+
+    public void go() {
+        player.start();
+    }
+
+    public void playPrev() {
+        songPosn--;
+        if (songPosn < 0) songPosn = musicList.size() - 1;
+        playSong();
+    }
+
+    public void playNext() {
+        songPosn++;
+        if (songPosn >= musicList.size()) songPosn = 0;
+        playSong();
+    }
+
 }
