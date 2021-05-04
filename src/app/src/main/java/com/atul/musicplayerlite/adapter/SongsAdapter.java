@@ -9,18 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.listener.SongSelectListener;
+import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
 
     private final List<Music> musicList;
-    public SongSelectListener listener;
+    public MusicSelectListener listener;
 
-    public SongsAdapter(SongSelectListener listener, List<Music> musics){
+    public SongsAdapter(MusicSelectListener listener, List<Music> musics){
         this.listener = listener;
         this.musicList = musics;
     }

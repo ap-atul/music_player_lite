@@ -14,7 +14,7 @@ import com.atul.musicplayerlite.fragments.ArtistsFragment;
 import com.atul.musicplayerlite.fragments.FoldersFragment;
 import com.atul.musicplayerlite.fragments.SettingsFragment;
 import com.atul.musicplayerlite.fragments.SongsFragment;
-import com.atul.musicplayerlite.listener.PlayerControlListener;
+import com.atul.musicplayerlite.listener.MusicSelectListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +23,8 @@ import java.util.List;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
+    private MusicSelectListener selectListener;
+
     @StringRes
     private static final int[] TAB_TITLES = new int[]{
             R.string.tab_one, R.string.tab_two, R.string.tab_three,
@@ -30,20 +32,22 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     };
     List<Fragment> fragments = new ArrayList<>();
 
-    public void setFragments(PlayerControlListener listener) {
+    public void setFragments() {
         fragments.add(ArtistsFragment.newInstance());
         fragments.add(AlbumsFragment.newInstance());
-        fragments.add(SongsFragment.newInstance(listener));
+        fragments.add(SongsFragment.newInstance(selectListener));
         fragments.add(FoldersFragment.newInstance());
         fragments.add(SettingsFragment.newInstance());
     }
 
     private final Context mContext;
 
-    public MainPagerAdapter(Context context, FragmentManager fm, PlayerControlListener listener) {
+    public MainPagerAdapter(Context context, FragmentManager fm, MusicSelectListener selectListener) {
         super(fm);
-        mContext = context;
-        setFragments(listener);
+        this.mContext = context;
+        this.selectListener = selectListener;
+
+        setFragments();
     }
 
     @NotNull

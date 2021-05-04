@@ -1,19 +1,25 @@
 package com.atul.musicplayerlite.helper;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Size;
 
 import androidx.annotation.RequiresApi;
 
+import com.atul.musicplayerlite.MPConstants;
+import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.Music;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,15 +95,23 @@ public class MusicLibraryHelper {
             musicList.add(new Music(
                     artist, title, displayName, album, relativePath, "0",
                     year, track, startFrom, dateAdded,
-                    id, duration, albumId
+                    id, duration, albumId,
+                    ContentUris.withAppendedId(Uri.parse(context.getResources().getString(R.string.album_art_dir)), albumId)
             ));
         }
 
         return musicList;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
-    public static Bitmap getThumbnail (Context context, String uri) throws IOException {
-        return context.getContentResolver().loadThumbnail(Uri.parse(uri), new Size(640, 680), null);
+    public static Bitmap getThumbnail (Context context, Uri uri) {
+        try {
+            ParcelFileDescriptor fileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
+            Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor());
+            fileDescriptor.close();
+
+            return bitmap;
+        }catch (IOException e) {
+            return null;
+        }
     }
 }

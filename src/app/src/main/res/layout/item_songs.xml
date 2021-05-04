@@ -14,7 +14,7 @@
         android:id="@+id/song_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autoSizeTextType="uniform"
+        android:maxLines="1"
         android:textSize="@dimen/text_big"
         android:textColor="@color/material_on_background_emphasis_high_type" />
 

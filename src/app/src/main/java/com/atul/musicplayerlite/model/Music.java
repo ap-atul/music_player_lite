@@ -1,5 +1,7 @@
 package com.atul.musicplayerlite.model;
 
+import android.net.Uri;
+
 import org.jetbrains.annotations.NotNull;
 
 public class Music {
@@ -9,6 +11,7 @@ public class Music {
     public String album;
     public String relativePath;
     public String launchedBy;
+    public Uri albumArt;
 
     public int year;
     public int track;
@@ -21,7 +24,8 @@ public class Music {
 
     public Music(String artist, String title, String displayName, String album, String relativePath, String launchedBy,
                  int year, int track, int startFrom, int dateAdded,
-                 long id, long duration, long albumId) {
+                 long id, long duration, long albumId,
+                 Uri albumArt) {
         this.artist = artist;
         this.title = title;
         this.displayName = displayName;
@@ -35,6 +39,7 @@ public class Music {
         this.id = id;
         this.duration = duration;
         this.albumId = albumId;
+        this.albumArt = albumArt;
     }
 
     @NotNull

@@ -1,4 +1,4 @@
-package com.atul.musicplayerlite.player;
+package com.atul.musicplayerlite.service;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -18,36 +18,31 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
-import androidx.media.app.NotificationCompat.MediaStyle;
 
 import com.atul.musicplayerlite.MainActivity;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.Music;
 
-public class MusicNotificationManager {
+import static com.atul.musicplayerlite.MPConstants.*;
 
-    public static final int NOTIFICATION_ID = 101;
-    static final String PLAY_PAUSE_ACTION = "in.sensemusic.sense.PLAYPAUSE";
-    static final String NEXT_ACTION = "in.sensemusic.sense.NEXT";
-    static final String PREV_ACTION = "in.sensemusic.sense.PREV";
-    private final String CHANNEL_ID = "in.sensemusic.sense.CHANNEL_ID";
-    private final int REQUEST_CODE = 100;
-    private final NotificationManager mNotificationManager;
-    private final MusicService mMusicService;
+public class PlayerNotificationManager {
+
+    private final NotificationManager notificationManager;
+    private final PlayerService playerService;
     private NotificationCompat.Builder mNotificationBuilder;
     private int mAccent;
 
-    MusicNotificationManager(@NonNull final MusicService musicService) {
-        mMusicService = musicService;
-        mNotificationManager = (NotificationManager) mMusicService.getSystemService(Context.NOTIFICATION_SERVICE);
+    PlayerNotificationManager(@NonNull final PlayerService playerService) {
+        this.playerService = playerService;
+        notificationManager = (NotificationManager) playerService.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     public void setAccentColor(final int color) {
-        mAccent = getColorFromResource(mMusicService, color, R.color.purple_200);
+        mAccent = getColorFromResource(playerService, color, R.color.purple_200);
     }
 
     public final NotificationManager getNotificationManager() {
-        return mNotificationManager;
+        return notificationManager;
     }
 
     public final NotificationCompat.Builder getNotificationBuilder() {
@@ -70,7 +65,7 @@ public class MusicNotificationManager {
         final Intent pauseIntent = new Intent();
         pauseIntent.setAction(action);
 
-        return PendingIntent.getBroadcast(mMusicService, REQUEST_CODE, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(playerService, REQUEST_CODE, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public static Spanned buildSpanned(@NonNull final String res) {
@@ -80,25 +75,23 @@ public class MusicNotificationManager {
     }
 
     public Notification createNotification() {
-
-        final Music song = mMusicService.getMediaPlayerHolder().getCurrentSong();
-
-        mNotificationBuilder = new NotificationCompat.Builder(mMusicService, CHANNEL_ID);
+        final Music song = playerService.getPlayerManager().getCurrentSong();
+        mNotificationBuilder = new NotificationCompat.Builder(playerService, CHANNEL_ID);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNotificationChannel();
         }
 
-        final Intent openPlayerIntent = new Intent(mMusicService, MainActivity.class);
+        final Intent openPlayerIntent = new Intent(playerService, MainActivity.class);
         openPlayerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        final PendingIntent contentIntent = PendingIntent.getActivity(mMusicService, REQUEST_CODE,
+        final PendingIntent contentIntent = PendingIntent.getActivity(playerService, REQUEST_CODE,
                 openPlayerIntent, 0);
 
         final String artist = song.artist;
         final String songTitle = song.title;
 
-        @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) final Spanned spanned = buildSpanned(mMusicService.getString(R.string.app_name, artist, songTitle));
+        @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) final Spanned spanned = buildSpanned(playerService.getString(R.string.app_name, artist, songTitle));
 
         mNotificationBuilder
                 .setShowWhen(false)
@@ -113,13 +106,12 @@ public class MusicNotificationManager {
                 .addAction(notificationAction(NEXT_ACTION))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
-        mNotificationBuilder.setStyle(new MediaStyle().setShowActionsInCompactView(0, 1, 2));
+        mNotificationBuilder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2));
         return mNotificationBuilder.build();
     }
 
     @NonNull
     private NotificationCompat.Action notificationAction(@NonNull final String action) {
-
         int icon;
 
         switch (action) {
@@ -128,8 +120,7 @@ public class MusicNotificationManager {
                 icon = R.drawable.ic_controls_prev;
                 break;
             case PLAY_PAUSE_ACTION:
-
-                icon = mMusicService.getMediaPlayerHolder().getState() != PlaybackInfoListener.State.PAUSED ? R.drawable.ic_controls_pause : R.drawable.ic_controls_play;
+                icon = playerService.getPlayerManager().getPlayerState() != PlayerListener.State.PAUSED ? R.drawable.ic_controls_pause : R.drawable.ic_controls_play;
                 break;
             case NEXT_ACTION:
                 icon = R.drawable.ic_controls_next;
@@ -141,28 +132,29 @@ public class MusicNotificationManager {
     @RequiresApi(26)
     private void createNotificationChannel() {
 
-        if (mNotificationManager.getNotificationChannel(CHANNEL_ID) == null) {
+        if (notificationManager.getNotificationChannel(CHANNEL_ID) == null) {
             final NotificationChannel notificationChannel =
                     new NotificationChannel(CHANNEL_ID,
-                            mMusicService.getString(R.string.app_name),
+                            playerService.getString(R.string.app_name),
                             NotificationManager.IMPORTANCE_LOW);
 
             notificationChannel.setDescription(
-                    mMusicService.getString(R.string.app_name));
+                    playerService.getString(R.string.app_name));
 
             notificationChannel.enableLights(false);
             notificationChannel.enableVibration(false);
             notificationChannel.setShowBadge(false);
 
-            mNotificationManager.createNotificationChannel(notificationChannel);
+            notificationManager.createNotificationChannel(notificationChannel);
         }
     }
 
     private Bitmap getLargeIcon() {
 
-        final VectorDrawable vectorDrawable = (VectorDrawable) mMusicService.getDrawable(R.drawable.ic_music_note);
+        @SuppressLint("UseCompatLoadingForDrawables")
+        final VectorDrawable vectorDrawable = (VectorDrawable) playerService.getDrawable(R.drawable.ic_music_note);
 
-        final int largeIconSize = mMusicService.getResources().getDimensionPixelSize(R.dimen.text_medium);
+        final int largeIconSize = playerService.getResources().getDimensionPixelSize(R.dimen.text_medium);
         final Bitmap bitmap = Bitmap.createBitmap(largeIconSize, largeIconSize, Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
 

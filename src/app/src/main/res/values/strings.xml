@@ -8,6 +8,7 @@
     <string name="tab_four">Folders</string>
     <string name="tab_five">Settings</string>
     <string name="image">image</string>
+    <string name="album_art_dir">content://media/external/audio/albumart</string>
 
 
 </resources>

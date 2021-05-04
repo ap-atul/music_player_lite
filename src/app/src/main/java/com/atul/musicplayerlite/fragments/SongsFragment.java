@@ -1,9 +1,12 @@
 package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,29 +18,25 @@ import com.atul.musicplayerlite.MainViewModel;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
 import com.atul.musicplayerlite.factory.MainViewModelFactory;
-import com.atul.musicplayerlite.listener.PlayerControlListener;
-import com.atul.musicplayerlite.listener.SongSelectListener;
-import com.atul.musicplayerlite.model.Album;
+import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
-import com.atul.musicplayerlite.player.PlayerManager;
-
 import java.util.List;
 
-public class SongsFragment extends Fragment implements SongSelectListener {
+public class SongsFragment extends Fragment {
 
     private MainViewModel viewModel;
-    private PlayerManager manager;
-    private static PlayerControlListener playerListener;
+    private static MusicSelectListener listener;
 
     public SongsFragment() {
 
     }
 
-    public static SongsFragment newInstance(PlayerControlListener listener) {
+    public static SongsFragment newInstance(MusicSelectListener selectListener) {
         SongsFragment fragment = new SongsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-        SongsFragment.playerListener = listener;
+
+        SongsFragment.listener = selectListener;
         return fragment;
     }
 
@@ -45,6 +44,7 @@ public class SongsFragment extends Fragment implements SongSelectListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
+
     }
 
     @Override
@@ -57,25 +57,8 @@ public class SongsFragment extends Fragment implements SongSelectListener {
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new SongsAdapter(this, musicList));
-
-        manager = new PlayerManager(getActivity());
+        recyclerView.setAdapter(new SongsAdapter(listener, musicList));
 
         return view;
-
-    }
-
-    @Override
-    public void playAlbum(Album album) {
-
-    }
-
-    @Override
-    public void playQueue(List<Music> musicList) {
-        if(manager.isStarted())
-            manager.setSong(musicList);
-
-        playerListener.play(manager.getCurrentSong());
     }
 }

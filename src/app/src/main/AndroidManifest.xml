@@ -15,6 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicPlayerLite">
+
+        <service
+            android:name=".service.PlayerService"
+            android:enabled="true" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -29,7 +34,6 @@
             </intent-filter>
         </activity>
 
-        <service android:enabled="true" android:name=".player.MusicService" />
     </application>
 
 </manifest>

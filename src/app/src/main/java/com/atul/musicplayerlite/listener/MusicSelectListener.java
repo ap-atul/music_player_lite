@@ -5,7 +5,7 @@ import com.atul.musicplayerlite.model.Music;
 
 import java.util.List;
 
-public interface SongSelectListener {
+public interface MusicSelectListener {
     void playAlbum(Album album);
     void playQueue(List<Music> musicList);
 }
