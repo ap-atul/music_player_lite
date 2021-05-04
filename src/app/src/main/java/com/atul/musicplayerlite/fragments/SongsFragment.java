@@ -15,6 +15,7 @@ import com.atul.musicplayerlite.MainViewModel;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
 import com.atul.musicplayerlite.factory.MainViewModelFactory;
+import com.atul.musicplayerlite.listener.PlayerControlListener;
 import com.atul.musicplayerlite.listener.SongSelectListener;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
@@ -25,15 +26,18 @@ import java.util.List;
 public class SongsFragment extends Fragment implements SongSelectListener {
 
     private MainViewModel viewModel;
+    private PlayerManager manager;
+    private static PlayerControlListener playerListener;
 
     public SongsFragment() {
 
     }
 
-    public static SongsFragment newInstance() {
+    public static SongsFragment newInstance(PlayerControlListener listener) {
         SongsFragment fragment = new SongsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
+        SongsFragment.playerListener = listener;
         return fragment;
     }
 
@@ -53,11 +57,10 @@ public class SongsFragment extends Fragment implements SongSelectListener {
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration( new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new SongsAdapter(this, musicList));
 
-//        PlayerManager playerManager = new PlayerManager(getContext(), musicList);
-//        playerManager.start(); // start from first song
+        manager = new PlayerManager(getActivity());
 
         return view;
 
@@ -65,11 +68,14 @@ public class SongsFragment extends Fragment implements SongSelectListener {
 
     @Override
     public void playAlbum(Album album) {
-        new PlayerManager(getActivity(), album.music);
+
     }
 
     @Override
     public void playQueue(List<Music> musicList) {
-        new PlayerManager(getActivity(), musicList);
+        if(manager.isStarted())
+            manager.setSong(musicList);
+
+        playerListener.play(manager.getCurrentSong());
     }
 }

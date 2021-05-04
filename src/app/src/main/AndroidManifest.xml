@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
 
-        <service android:enabled="true" android:name=".player.PlayerService" />
+        <service android:enabled="true" android:name=".player.MusicService" />
     </application>
 
 </manifest>

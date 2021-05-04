@@ -14,6 +14,7 @@ import com.atul.musicplayerlite.fragments.ArtistsFragment;
 import com.atul.musicplayerlite.fragments.FoldersFragment;
 import com.atul.musicplayerlite.fragments.SettingsFragment;
 import com.atul.musicplayerlite.fragments.SongsFragment;
+import com.atul.musicplayerlite.listener.PlayerControlListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,20 +30,20 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     };
     List<Fragment> fragments = new ArrayList<>();
 
-    public void setFragments() {
+    public void setFragments(PlayerControlListener listener) {
         fragments.add(ArtistsFragment.newInstance());
         fragments.add(AlbumsFragment.newInstance());
-        fragments.add(SongsFragment.newInstance());
+        fragments.add(SongsFragment.newInstance(listener));
         fragments.add(FoldersFragment.newInstance());
         fragments.add(SettingsFragment.newInstance());
     }
 
     private final Context mContext;
 
-    public MainPagerAdapter(Context context, FragmentManager fm) {
+    public MainPagerAdapter(Context context, FragmentManager fm, PlayerControlListener listener) {
         super(fm);
         mContext = context;
-        setFragments();
+        setFragments(listener);
     }
 
     @NotNull
