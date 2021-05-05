@@ -9,6 +9,7 @@
     <!-- Dimens for text -->
     <dimen name="text_small">10sp</dimen>
     <dimen name="text_medium">12sp</dimen>
+    <dimen name="text_big_med">15sp</dimen>
     <dimen name="text_big">18sp</dimen>
     <dimen name="text_head">20sp</dimen>
     <dimen name="text_large">25sp</dimen>

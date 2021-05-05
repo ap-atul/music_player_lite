@@ -55,6 +55,7 @@ public class MainViewModel extends ViewModel {
         }
 
         for ( String k : map.keySet()){
+            Album album = map.get(k);
             albumList.add(map.get(k));
         }
 

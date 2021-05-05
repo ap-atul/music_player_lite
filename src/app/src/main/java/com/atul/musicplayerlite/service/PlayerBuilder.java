@@ -24,7 +24,8 @@ public class PlayerBuilder {
         this.context = context;
         this.playerListener = listener;
 
-        bindService();
+        if (!serviceBound)
+            bindService();
     }
 
     public PlayerManager getPlayerManager(){

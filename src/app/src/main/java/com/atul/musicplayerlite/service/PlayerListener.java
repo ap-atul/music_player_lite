@@ -24,7 +24,6 @@ public interface PlayerListener {
             PlayerListener.State.RESUMED})
     @Retention(RetentionPolicy.SOURCE)
     public @interface State {
-
         int INVALID = -1;
         int PLAYING = 0;
         int PAUSED = 1;

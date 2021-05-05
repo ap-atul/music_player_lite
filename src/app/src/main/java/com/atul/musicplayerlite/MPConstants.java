@@ -12,6 +12,7 @@ public class MPConstants {
 
     public static final String Broadcast_PLAY_NEW_AUDIO = "com.atul.musicplayerlite.PlayNewAudio";
 
+    public static final String MEDIA_SESSION_TAG = "com.atul.musicplayerlite.MediaSession";
 
     public static final int NOTIFICATION_ID = 101;
     public static final String PLAY_PAUSE_ACTION = "com.atul.musicplayerlite.PLAYPAUSE";

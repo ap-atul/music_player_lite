@@ -42,7 +42,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 albumList.get(position).year,
                 albumList.get(position).music.size()));
 
-        Bitmap art = MusicLibraryHelper.getThumbnail(holder.albumArt.getContext(), albumList.get(position).music.get(0).albumArt);
+        Bitmap art = MusicLibraryHelper.getThumbnail(holder.albumArt.getContext(),
+                albumList.get(position).music.get(0).albumArt);
 
         if(art == null)
             holder.albumArt.setImageResource(R.drawable.ic_controls_play);

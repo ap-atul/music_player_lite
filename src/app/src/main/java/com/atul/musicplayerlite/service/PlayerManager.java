@@ -11,6 +11,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,15 +19,27 @@ import androidx.annotation.NonNull;
 import com.atul.musicplayerlite.model.Music;
 
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import static com.atul.musicplayerlite.MPConstants.*;
+import static com.atul.musicplayerlite.MPConstants.AUDIO_FOCUSED;
+import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
+import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
+import static com.atul.musicplayerlite.MPConstants.DEBUG_TAG;
+import static com.atul.musicplayerlite.MPConstants.NEXT_ACTION;
+import static com.atul.musicplayerlite.MPConstants.NOTIFICATION_ID;
+import static com.atul.musicplayerlite.MPConstants.PLAY_PAUSE_ACTION;
+import static com.atul.musicplayerlite.MPConstants.PREV_ACTION;
+import static com.atul.musicplayerlite.MPConstants.VOLUME_DUCK;
+import static com.atul.musicplayerlite.MPConstants.VOLUME_NORMAL;
 
 public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
-    private PlayerListener playerListener;
     private final Context context;
     private final PlayerService playerService;
     private final AudioManager audioManager;
+    private PlayerListener playerListener;
     private int playerState;
     private Music currentSong;
     private List<Music> musicList;
@@ -36,7 +49,44 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private int currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private boolean playOnFocusGain;
 
-    public PlayerManager(@NonNull  PlayerService playerService){
+    private ScheduledExecutorService progressExecutorTask;
+    private Runnable progressTask;
+
+    private final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+            new AudioManager.OnAudioFocusChangeListener() {
+
+                @Override
+                public void onAudioFocusChange(final int focusChange) {
+
+                    switch (focusChange) {
+                        case AudioManager.AUDIOFOCUS_GAIN:
+                            currentAudioFocus = AUDIO_FOCUSED;
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
+                            // Audio focus was lost, but it's possible to duck (i.e.: play quietly)
+                            currentAudioFocus = AUDIO_NO_FOCUS_CAN_DUCK;
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                            // Lost audio focus, but will gain it back (shortly), so note whether
+                            // playback should resume
+                            currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
+                            playOnFocusGain = isMediaPlayer() && playerState == PlaybackStateCompat.STATE_PLAYING || playerState == PlaybackStateCompat.STATE_NONE;
+                            break;
+                        case AudioManager.AUDIOFOCUS_LOSS:
+                            // Lost audio focus, probably "permanently"
+                            currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
+                            break;
+                    }
+
+                    if (mediaPlayer != null) {
+                        // Update the player state based on the change
+                        configurePlayerState();
+                    }
+
+                }
+            };
+
+    public PlayerManager(@NonNull PlayerService playerService) {
         this.playerService = playerService;
         this.context = playerService.getApplicationContext();
         audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
@@ -67,12 +117,40 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
     }
 
-    public int getPlayerState () {
+    public int getPlayerState() {
         return playerState;
+    }
+
+    private void setPlayerState(@PlayerListener.State int state) {
+        playerState = state;
+        playerListener.onStateChanged(state);
+        playerService.getNotificationManager().updateNotification();
+
+        int playbackState = isPlaying() ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
+
+        playerService.getMediaSessionCompat().setPlaybackState(
+                new PlaybackStateCompat.Builder()
+                        .setActions(
+                                PlaybackStateCompat.ACTION_PLAY |
+                                        PlaybackStateCompat.ACTION_PAUSE |
+                                        PlaybackStateCompat.ACTION_SKIP_TO_NEXT |
+                                        PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
+                                        PlaybackStateCompat.ACTION_SEEK_TO |
+                                        PlaybackStateCompat.ACTION_PLAY_PAUSE)
+                        .setState(playbackState, mediaPlayer.getCurrentPosition(), 0)
+                        .build());
     }
 
     public Music getCurrentSong() {
         return currentSong;
+    }
+
+    public int getCurrentPosition(){
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    public int getDuration() {
+        return mediaPlayer.getDuration();
     }
 
     public void setPlayerListener(PlayerListener listener) {
@@ -80,7 +158,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         playerListener.onPrepared();
     }
 
-    public void setMusicList(List<Music> musicList){
+    public void setMusicList(List<Music> musicList) {
         this.musicList = musicList;
         this.currentSong = musicList.get(0);
 
@@ -90,22 +168,44 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     @Override
     public void onCompletion(MediaPlayer mp) {
         playerListener.onPlaybackCompleted();
+        playNext();
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
         playerListener.onMusicSet(currentSong);
+
+        if (progressExecutorTask == null) {
+            progressExecutorTask = Executors.newSingleThreadScheduledExecutor();
+
+            if (progressTask == null) {
+                progressTask = this::updateProgressCallback;
+            }
+
+            progressExecutorTask.scheduleAtFixedRate(
+                    progressTask,
+                    0,
+                    1000,
+                    TimeUnit.MILLISECONDS
+            );
+        }
     }
 
-    public boolean isPlaying(){
+    private void updateProgressCallback() {
+        Log.d(DEBUG_TAG, "Progress is sent");
+        int percentage = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
+        playerListener.onPositionChanged(percentage);
+    }
+
+    public boolean isPlaying() {
         return isMediaPlayer() && mediaPlayer.isPlaying();
     }
 
-    public boolean isMediaPlayer(){
+    public boolean isMediaPlayer() {
         return mediaPlayer != null;
     }
 
-    public void pauseMediaPlayer(){
+    public void pauseMediaPlayer() {
         setPlayerState(PlayerListener.State.PAUSED);
         mediaPlayer.pause();
 
@@ -113,24 +213,30 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         notificationManager.getNotificationManager().notify(NOTIFICATION_ID, notificationManager.createNotification());
     }
 
-    public void resumeMediaPlayer(){
-        if (!isPlaying()){
+    public void resumeMediaPlayer() {
+        if (!isPlaying()) {
             mediaPlayer.start();
             setPlayerState(PlayerListener.State.RESUMED);
             playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+
+            if (notificationManager != null) {
+                Log.d(DEBUG_TAG, "Notification updated");
+                notificationManager.updateNotification();
+            }
         }
     }
 
-    public void playPrev(){
+    public void playPrev() {
         int currentIndex = musicList.indexOf(currentSong) - 1;
         if (currentIndex <= -1)
             currentSong = musicList.get(0);
 
         currentSong = musicList.get(currentIndex);
         initMediaPlayer();
+        playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
     }
 
-    public void playNext(){
+    public void playNext() {
         int currentIndex = musicList.indexOf(currentSong) + 1;
         if (currentIndex > musicList.size())
             currentSong = musicList.get(0);
@@ -139,51 +245,26 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         initMediaPlayer();
     }
 
-    public void playPause(){
-        if (!isPlaying())
+    public void playPause() {
+        if (isPlaying()) {
             mediaPlayer.pause();
-        else
+            setPlayerState(PlayerListener.State.PAUSED);
+        } else {
             mediaPlayer.start();
+            setPlayerState(PlayerListener.State.PLAYING);
+        }
     }
 
     public void release() {
         mediaPlayer.release();
         playerListener.onRelease();
+
+        Log.d(DEBUG_TAG, "Released");
     }
 
-    private final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
-            new AudioManager.OnAudioFocusChangeListener() {
-
-                @Override
-                public void onAudioFocusChange(final int focusChange) {
-
-                    switch (focusChange) {
-                        case AudioManager.AUDIOFOCUS_GAIN:
-                            currentAudioFocus = AUDIO_FOCUSED;
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                            // Audio focus was lost, but it's possible to duck (i.e.: play quietly)
-                            currentAudioFocus = AUDIO_NO_FOCUS_CAN_DUCK;
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                            // Lost audio focus, but will gain it back (shortly), so note whether
-                            // playback should resume
-                            currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
-                            playOnFocusGain = isMediaPlayer() && playerState == PlayerListener.State.PLAYING || playerState == PlayerListener.State.RESUMED;
-                            break;
-                        case AudioManager.AUDIOFOCUS_LOSS:
-                            // Lost audio focus, probably "permanently"
-                            currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
-                            break;
-                    }
-
-                    if (mediaPlayer != null) {
-                        // Update the player state based on the change
-                        configurePlayerState();
-                    }
-
-                }
-            };
+    public void seekTo(int position) {
+        mediaPlayer.seekTo(position);
+    }
 
     private void configurePlayerState() {
 
@@ -247,15 +328,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             mediaPlayer.setDataSource(context, trackUri);
             mediaPlayer.prepare();
             mediaPlayer.start();
+
             playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
-        }catch (Exception e){
+
+            setPlayerState(PlayerListener.State.PLAYING);
+        } catch (Exception e) {
             Log.d(DEBUG_TAG, "exception in media player set : initMediaPlayer");
         }
-    }
-
-    private void setPlayerState(@PlayerListener.State int state){
-        playerState = state;
-        playerListener.onStateChanged(state);
     }
 
     @Override
@@ -263,7 +342,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         playerListener.onPositionChanged(percent);
     }
 
-    private class NotificationReceiver extends BroadcastReceiver {
+    public class NotificationReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
@@ -273,14 +352,17 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
                 switch (action) {
                     case PREV_ACTION:
+                        Log.i(DEBUG_TAG, "Previous song action");
                         playPrev();
                         break;
 
                     case PLAY_PAUSE_ACTION:
+                        Log.i(DEBUG_TAG, "Pause play song action");
                         playPause();
                         break;
 
                     case NEXT_ACTION:
+                        Log.i(DEBUG_TAG, "Next song action");
                         playNext();
                         break;
 
