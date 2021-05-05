@@ -165,6 +165,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         initMediaPlayer();
     }
 
+    public void detachService(){
+        playerService.stopForeground(false);
+    }
+
     @Override
     public void onCompletion(MediaPlayer mp) {
         playerListener.onPlaybackCompleted();

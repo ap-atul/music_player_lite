@@ -184,4 +184,10 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.control_play_pause)
             playerManager.playPause();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        playerManager.detachService();
+    }
 }
