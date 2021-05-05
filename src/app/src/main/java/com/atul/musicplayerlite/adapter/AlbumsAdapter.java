@@ -46,7 +46,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 albumList.get(position).music.get(0).albumArt);
 
         if(art == null)
-            holder.albumArt.setImageResource(R.drawable.ic_controls_play);
+            holder.albumArt.setImageResource(R.drawable.ic_album_art);
         else
             holder.albumArt.setImageBitmap(art);
     }

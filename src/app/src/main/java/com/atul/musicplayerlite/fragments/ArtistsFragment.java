@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.adapter.ArtistAdapter;
+import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.AlbumsAdapter;
@@ -41,18 +43,15 @@ public class ArtistsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
-        List<Album> albumList = viewModel.getArtist(false);
+        List<Artist> artistList = viewModel.getArtist(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new AlbumsAdapter(albumList));
-
-//        PlayerManager playerManager = new PlayerManager(getContext(), musicList);
-//        playerManager.start(); // start from first song
+        recyclerView.setAdapter(new ArtistAdapter(artistList));
 
         return view;
 

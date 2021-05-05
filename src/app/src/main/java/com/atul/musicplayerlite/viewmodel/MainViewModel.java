@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.model.Album;
+import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.model.Music;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class MainViewModel extends ViewModel {
 
     public List<Music> musicList;
     public List<Album> albumList;
-    public List<Album> artistList;
+    public List<Artist> artistList;
 
     public MainViewModel(Context context){
         musicList = MusicLibraryHelper.fetchMusicLibrary(context);
@@ -49,7 +50,7 @@ public class MainViewModel extends ViewModel {
             } else {
                 List<Music> list = new ArrayList<>();
                 list.add(music);
-                Album album = new Album(music.album, String.valueOf(music.year), music.duration, list);
+                Album album = new Album(music.artist, music.album, String.valueOf(music.year), music.duration, list);
                 map.put(music.album, album);
             }
         }
@@ -58,33 +59,34 @@ public class MainViewModel extends ViewModel {
             albumList.add(map.get(k));
         }
 
-        if (reverse) {
-            Collections.sort(albumList, new AlbumComparator());
+        Collections.sort(albumList, new AlbumComparator());
+        if (reverse)
             Collections.reverse(albumList);
-        }
-        else
-            Collections.sort(albumList, new AlbumComparator());
+
         return albumList;
     }
 
-    public List<Album> getArtist (boolean reverse) {
-        HashMap<String, Album> map = new HashMap<>();
+    public List<Artist> getArtist (boolean reverse) {
+        HashMap<String, Artist> map = new HashMap<>();
         artistList = new ArrayList<>();
+        albumList = getAlbums(false);
 
-        for( Music music : musicList){
-            if (map.containsKey(music.artist)){
-                Album album = map.get(music.artist);
-                assert album != null;
-                album.duration += music.duration;
-                album.music.add(music);
+        for( Album album : albumList){
+            if (map.containsKey(album.title)){
+                Artist artist = map.get(album.artist);
+                assert artist != null;
 
-                map.put(music.artist, album);
+                artist.albums.add(album);
+                artist.songCount += album.music.size();
+                artist.albumCount += 1;
+                map.put(album.artist, artist);
 
             } else {
-                List<Music> list = new ArrayList<>();
-                list.add(music);
-                Album album = new Album(music.artist, String.valueOf(music.year), music.duration, list);
-                map.put(music.artist, album);
+                List<Album> list = new ArrayList<>();
+                list.add(album);
+
+                Artist artist = new Artist(album.artist, list, album.music.size(), list.size());
+                map.put(album.artist, artist);
             }
         }
 
@@ -92,12 +94,10 @@ public class MainViewModel extends ViewModel {
             artistList.add(map.get(k));
         }
 
-        if (reverse) {
-            Collections.sort(artistList, new AlbumComparator());
+        Collections.sort(artistList, new ArtistComparator());
+        if (reverse)
             Collections.reverse(artistList);
-        }
-        else
-            Collections.sort(artistList, new AlbumComparator());
+
         return artistList;
     }
 
@@ -108,7 +108,6 @@ public class MainViewModel extends ViewModel {
     }
 }
 
-
 class AlbumComparator implements Comparator<Album> {
     @Override
     public int compare(Album a1, Album a2) {
@@ -117,9 +116,15 @@ class AlbumComparator implements Comparator<Album> {
 }
 
 class SongComparator implements Comparator<Music> {
-
     @Override
     public int compare(Music m1, Music m2) {
-        return m1.displayName.compareTo(m2.displayName);
+        return m1.title.compareTo(m2.title);
+    }
+}
+
+class ArtistComparator implements Comparator<Artist>{
+    @Override
+    public int compare(Artist a1, Artist a2) {
+        return a1.name.compareTo(a2.name);
     }
 }

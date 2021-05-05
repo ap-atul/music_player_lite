@@ -22,6 +22,8 @@ import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.model.Music;
 
+import java.util.Locale;
+
 import static com.atul.musicplayerlite.MPConstants.CHANNEL_ID;
 import static com.atul.musicplayerlite.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayerlite.MPConstants.NOTIFICATION_ID;
@@ -51,12 +53,6 @@ public class PlayerNotificationManager {
         return PendingIntent.getBroadcast(playerService, REQUEST_CODE, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
-    public static Spanned buildSpanned(@NonNull final String res) {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
-                Html.fromHtml(res, Html.FROM_HTML_MODE_LEGACY) :
-                Html.fromHtml(res);
-    }
-
     private int getDominantColor(Bitmap bitmap) {
         Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
         final int color = newBitmap.getPixel(0, 0);
@@ -78,30 +74,19 @@ public class PlayerNotificationManager {
         final PendingIntent contentIntent = PendingIntent.getActivity(playerService, REQUEST_CODE,
                 openPlayerIntent, 0);
 
-        final String artist = song.artist;
-        final String songTitle = song.title;
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(), song.albumArt);
 
-        //                    .setColor(getDominantColor(albumArt));
-        notificationBuilder
-                .setLargeIcon(albumArt);
-
-        @SuppressLint({"StringFormatInvalid", "LocalSuppress"})
-        final Spanned spanned = buildSpanned(playerService.getString(R.string.app_name, artist, songTitle));
-
-//                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-//                .setMediaSession(playerService.getMediaSessionCompat().getSessionToken())
-//                .setShowActionsInCompactView(1, 2, 3))
         notificationBuilder
                 .setShowWhen(false)
                 .setSmallIcon(R.drawable.ic_notif_music_note)
-                .setContentTitle(spanned)
+                .setContentTitle(song.title)
                 .setContentText(song.artist)
+                .setProgress(100, playerService.getPlayerManager().getCurrentPosition(), true)
                 .setColor(getDominantColor(albumArt))
                 .setColorized(false)
-                .setSubText(song.album)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
+                .setLargeIcon(albumArt)
                 .addAction(notificationAction(PREV_ACTION))
                 .addAction(notificationAction(PLAY_PAUSE_ACTION))
                 .addAction(notificationAction(NEXT_ACTION))
@@ -128,6 +113,7 @@ public class PlayerNotificationManager {
                 .setColor(getDominantColor(albumArt));
 
         notificationBuilder
+                .setContentTitle(song.title)
                 .setContentText(song.artist)
                 .setColorized(false)
                 .setSubText(song.album);
