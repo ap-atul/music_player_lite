@@ -1,23 +1,19 @@
 package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayerlite.MainViewModel;
+import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
-import com.atul.musicplayerlite.factory.MainViewModelFactory;
+import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 import java.util.List;

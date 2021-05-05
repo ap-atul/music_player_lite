@@ -1,7 +1,6 @@
 package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayerlite.MainViewModel;
+import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.AlbumsAdapter;
-import com.atul.musicplayerlite.factory.MainViewModelFactory;
+import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 import com.atul.musicplayerlite.model.Album;
 
 import java.util.List;

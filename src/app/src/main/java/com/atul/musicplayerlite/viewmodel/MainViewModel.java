@@ -1,4 +1,4 @@
-package com.atul.musicplayerlite;
+package com.atul.musicplayerlite.viewmodel;
 
 import android.content.Context;
 

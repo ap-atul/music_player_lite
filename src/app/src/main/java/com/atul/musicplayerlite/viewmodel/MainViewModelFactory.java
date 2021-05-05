@@ -1,12 +1,10 @@
-package com.atul.musicplayerlite.factory;
+package com.atul.musicplayerlite.viewmodel;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.atul.musicplayerlite.MainViewModel;
 
 public class MainViewModelFactory implements ViewModelProvider.Factory {
 
