@@ -1,4 +1,4 @@
-package com.atul.musicplayerlite.service;
+package com.atul.musicplayerlite.player;
 
 import android.content.ComponentName;
 import android.content.Context;

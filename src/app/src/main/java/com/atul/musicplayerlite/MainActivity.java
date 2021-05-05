@@ -1,18 +1,13 @@
 package com.atul.musicplayerlite;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -22,22 +17,14 @@ import com.atul.musicplayerlite.helper.PermissionHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
-import com.atul.musicplayerlite.service.PlayerBuilder;
-import com.atul.musicplayerlite.service.PlayerListener;
-import com.atul.musicplayerlite.service.PlayerManager;
+import com.atul.musicplayerlite.player.PlayerBuilder;
+import com.atul.musicplayerlite.player.PlayerListener;
+import com.atul.musicplayerlite.player.PlayerManager;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.Request;
-import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SizeReadyCallback;
-import com.bumptech.glide.request.target.Target;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
@@ -52,6 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
+    private TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +62,9 @@ public class MainActivity extends AppCompatActivity
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        TabLayout tabs = findViewById(R.id.tabs);
+        tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        setUpTabIcons();
 
         PermissionHelper.manageStoragePermission(MainActivity.this);
 
@@ -84,9 +73,22 @@ public class MainActivity extends AppCompatActivity
         play_pause.setOnClickListener(this);
     }
 
+    private void setUpTabIcons(){
+        for (int i = 0; i < tabs.getTabCount(); i++){
+            tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        if (playerManager != null && playerManager.isPlaying())
+            playerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         if (playerManager != null && playerManager.isPlaying())
             playerView.setVisibility(View.VISIBLE);
     }
@@ -111,7 +113,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onContentUpdate() {
-
     }
 
     @Override
@@ -127,31 +128,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPositionChanged(int position) {
         progressIndicator.setProgress(position);
-
-        try {
-            ScheduledExecutorService progressService = Executors.newScheduledThreadPool(1);
-            Runnable runnable = () -> {
-                int percentage = playerManager.getCurrentPosition() * 100 / playerManager.getDuration();
-                progressIndicator.setProgress(percentage);
-                Log.d(MPConstants.DEBUG_TAG, "Progress " + String.valueOf(percentage));
-            };
-
-            progressService.scheduleAtFixedRate(
-                    runnable,
-                    0,
-                    1000,
-                    TimeUnit.MILLISECONDS
-            );
-        }catch (Exception e){
-            e.printStackTrace();
-
-            Log.d(MPConstants.DEBUG_TAG, "Progress  dead" );
-        }
     }
 
     @Override
     public void onMusicSet(Music music) {
-        songName.setText(music.displayName);
+        songName.setText(music.title);
         playerView.setVisibility(View.VISIBLE);
 
         Bitmap art = MusicLibraryHelper.getThumbnail(getApplicationContext(), music.albumArt);

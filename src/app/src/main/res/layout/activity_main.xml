@@ -14,14 +14,16 @@
         android:layout_weight="1"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
-    <include
-        layout="@layout/layout_player_view"/>
+    <include layout="@layout/layout_player_view" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
+        style="?attr/tabStyle"
         android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
         android:layout_weight="0"
-        android:layout_height="?actionBarSize"/>
+        app:tabIndicatorAnimationMode="linear"
+        app:tabIndicatorFullWidth="true"
+        app:tabRippleColor="?colorPrimary" />
 
 </LinearLayout>

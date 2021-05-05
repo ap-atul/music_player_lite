@@ -1,4 +1,4 @@
-package com.atul.musicplayerlite.service;
+package com.atul.musicplayerlite.player;
 
 import androidx.annotation.IntDef;
 

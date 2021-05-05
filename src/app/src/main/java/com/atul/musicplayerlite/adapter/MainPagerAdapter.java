@@ -33,9 +33,9 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     List<Fragment> fragments = new ArrayList<>();
 
     public void setFragments() {
+        fragments.add(SongsFragment.newInstance(selectListener));
         fragments.add(ArtistsFragment.newInstance());
         fragments.add(AlbumsFragment.newInstance());
-        fragments.add(SongsFragment.newInstance(selectListener));
         fragments.add(FoldersFragment.newInstance());
         fragments.add(SettingsFragment.newInstance());
     }
@@ -59,7 +59,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
+        return null;
     }
 
     @Override

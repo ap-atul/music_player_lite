@@ -33,4 +33,12 @@ public class MPConstants {
     public static final int AUDIO_NO_FOCUS_NO_DUCK = 0;
     public static final int AUDIO_NO_FOCUS_CAN_DUCK = 1;
     public static final int AUDIO_FOCUSED = 2;
+
+    public static final int[] TAB_ICONS = new int[]{
+            R.drawable.ic_music_note,
+            R.drawable.ic_artist,
+            R.drawable.ic_library_music,
+            R.drawable.ic_folder_music,
+            R.drawable.ic_settings
+    };
 }

@@ -1,4 +1,4 @@
-package com.atul.musicplayerlite.service;
+package com.atul.musicplayerlite.player;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
@@ -19,9 +19,7 @@ import androidx.annotation.NonNull;
 import com.atul.musicplayerlite.model.Music;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.atul.musicplayerlite.MPConstants.AUDIO_FOCUSED;
 import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
@@ -48,9 +46,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private PlayerNotificationManager notificationManager;
     private int currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private boolean playOnFocusGain;
-
-    private ScheduledExecutorService progressExecutorTask;
-    private Runnable progressTask;
+    private MediaObserver mediaObserver;
 
     private final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -179,26 +175,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public void onPrepared(MediaPlayer mp) {
         playerListener.onMusicSet(currentSong);
 
-        if (progressExecutorTask == null) {
-            progressExecutorTask = Executors.newSingleThreadScheduledExecutor();
-
-            if (progressTask == null) {
-                progressTask = this::updateProgressCallback;
-            }
-
-            progressExecutorTask.scheduleAtFixedRate(
-                    progressTask,
-                    0,
-                    1000,
-                    TimeUnit.MILLISECONDS
-            );
+        if (mediaObserver == null){
+            mediaObserver = new MediaObserver();
+            new Thread(mediaObserver).start();
         }
-    }
-
-    private void updateProgressCallback() {
-        Log.d(DEBUG_TAG, "Progress is sent");
-        int percentage = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
-        playerListener.onPositionChanged(percentage);
     }
 
     public boolean isPlaying() {
@@ -262,6 +242,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public void release() {
         mediaPlayer.release();
         playerListener.onRelease();
+        mediaObserver.stop();
 
         Log.d(DEBUG_TAG, "Released");
     }
@@ -403,6 +384,32 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                             pauseMediaPlayer();
                         }
                         break;
+                }
+            }
+        }
+    }
+
+    private class MediaObserver implements Runnable{
+        private AtomicBoolean stop = new AtomicBoolean(false);
+
+        public void stop() {
+            stop.set(true);
+        }
+
+        @Override
+        public void run() {
+            while(!stop.get()){
+                try{
+
+                    if(isPlaying()){
+                        int percent = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
+                        playerListener.onPositionChanged(percent);
+                    }
+
+                    Thread.sleep(100);
+
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         }

@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
 
+    <color name="red">#ef9a9a</color>
+    <color name="pink">#f48fb1</color>
+    <color name="purple">#ce93d8</color>
+    <color name="deep_purple">#b39ddb</color>
+    <color name="indigo">#9fa8da</color>
+    <color name="blue">#90caf9</color>
+    <color name="light_blue">#81d4fa</color>
+    <color name="cyan">#80deea</color>
+    <color name="teal">#80cbc4</color>
+    <color name="green">#a5d6a7</color>
+    <color name="light_green">#c5e1a5</color>
+    <color name="lime">#e6ee9c</color>
+    <color name="yellow">#fff59d</color>
+    <color name="amber">#ffe082</color>
+    <color name="orange">#ffcc80</color>
+    <color name="deep_orange">#ffab91</color>
+    <color name="brown">#bcaaa4</color>
+    <color name="grey">#eeeeee</color>
+    <color name="blue_grey">#b0bec5</color>
+
+    <color name="windowBackground">#151515</color>
+    <color name="dialogsBackground">#212121</color>
+    <color name="widgetsColor">#fafafa</color>
+    <color name="systemBarsColor">#313131</color>
+
+    <color name="shuffleFabTint">@color/dialogsBackground</color>
 </resources>

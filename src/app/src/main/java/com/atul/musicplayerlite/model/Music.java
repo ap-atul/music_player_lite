@@ -10,7 +10,6 @@ public class Music {
     public String displayName;
     public String album;
     public String relativePath;
-    public String launchedBy;
     public Uri albumArt;
 
     public int year;
@@ -22,7 +21,7 @@ public class Music {
     public long duration;
     public long albumId;
 
-    public Music(String artist, String title, String displayName, String album, String relativePath, String launchedBy,
+    public Music(String artist, String title, String displayName, String album, String relativePath,
                  int year, int track, int startFrom, int dateAdded,
                  long id, long duration, long albumId,
                  Uri albumArt) {
@@ -31,7 +30,6 @@ public class Music {
         this.displayName = displayName;
         this.album = album;
         this.relativePath = relativePath;
-        this.launchedBy = launchedBy;
         this.year = year;
         this.track = track;
         this.startFrom = startFrom;
@@ -51,7 +49,6 @@ public class Music {
                 ", displayName='" + displayName + '\'' +
                 ", album='" + album + '\'' +
                 ", relativePath='" + relativePath + '\'' +
-                ", launchedBy='" + launchedBy + '\'' +
                 ", year=" + year +
                 ", track=" + track +
                 ", startFrom=" + startFrom +

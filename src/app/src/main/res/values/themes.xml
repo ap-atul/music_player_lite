@@ -1,24 +1,188 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Theme.MusicPlayerLite" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseTheme.Red" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorSecondary">@color/red</item>
     </style>
 
-    <style name="Theme.MusicPlayerLite.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="BaseTheme.Pink" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pink</item>
+        <item name="colorSecondary">@color/pink</item>
     </style>
 
-    <style name="Theme.MusicPlayerLite.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="BaseTheme.Purple" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorSecondary">@color/purple</item>
+    </style>
 
+    <style name="BaseTheme.DeepPurple" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/deep_purple</item>
+        <item name="colorSecondary">@color/deep_purple</item>
+    </style>
+
+    <style name="BaseTheme.Indigo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/indigo</item>
+        <item name="colorSecondary">@color/indigo</item>
+    </style>
+
+    <style name="BaseTheme.Blue" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
+    </style>
+
+    <style name="BaseTheme.LightBlue" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorSecondary">@color/light_blue</item>
+    </style>
+
+    <style name="BaseTheme.Cyan" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cyan</item>
+        <item name="colorSecondary">@color/cyan</item>
+    </style>
+
+    <style name="BaseTheme.Teal" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/teal</item>
+        <item name="colorSecondary">@color/teal</item>
+    </style>
+
+    <style name="BaseTheme.Green" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorSecondary">@color/green</item>
+    </style>
+
+    <style name="BaseTheme.LightGreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/light_green</item>
+        <item name="colorSecondary">@color/light_green</item>
+    </style>
+
+    <style name="BaseTheme.Lime" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/lime</item>
+        <item name="colorSecondary">@color/lime</item>
+    </style>
+
+    <style name="BaseTheme.Yellow" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/yellow</item>
+        <item name="colorSecondary">@color/yellow</item>
+    </style>
+
+    <style name="BaseTheme.Amber" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/amber</item>
+        <item name="colorSecondary">@color/amber</item>
+    </style>
+
+    <style name="BaseTheme.Orange" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/orange</item>
+        <item name="colorSecondary">@color/orange</item>
+    </style>
+
+    <style name="BaseTheme.DeepOrange" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/deep_orange</item>
+        <item name="colorSecondary">@color/deep_orange</item>
+    </style>
+
+    <style name="BaseTheme.Brown" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brown</item>
+        <item name="colorSecondary">@color/brown</item>
+    </style>
+
+    <style name="BaseTheme.Grey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/grey</item>
+        <item name="colorSecondary">@color/grey</item>
+    </style>
+
+    <style name="BaseTheme.BlueGrey" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue_grey</item>
+        <item name="colorSecondary">@color/blue_grey</item>
+    </style>
+
+    <style name="BaseTheme.Red300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/red_300</item>
+        <item name="colorSecondary">@color/red_300</item>
+    </style>
+
+    <style name="BaseTheme.Pink300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/pink_300</item>
+        <item name="colorSecondary">@color/pink_300</item>
+    </style>
+
+    <style name="BaseTheme.Purple300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_300</item>
+        <item name="colorSecondary">@color/purple_300</item>
+    </style>
+
+    <style name="BaseTheme.DeepPurple300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/deep_purple_300</item>
+        <item name="colorSecondary">@color/deep_purple_300</item>
+    </style>
+
+    <style name="BaseTheme.Indigo300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/indigo_300</item>
+        <item name="colorSecondary">@color/indigo_300</item>
+    </style>
+
+    <style name="BaseTheme.Blue300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue_300</item>
+        <item name="colorSecondary">@color/blue_300</item>
+    </style>
+
+    <style name="BaseTheme.LightBlue300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/light_blue_300</item>
+        <item name="colorSecondary">@color/light_blue_300</item>
+    </style>
+
+    <style name="BaseTheme.Cyan300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/cyan_300</item>
+        <item name="colorSecondary">@color/cyan_300</item>
+    </style>
+
+    <style name="BaseTheme.Teal300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/teal_300</item>
+        <item name="colorSecondary">@color/teal_300</item>
+    </style>
+
+    <style name="BaseTheme.Green300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green_300</item>
+        <item name="colorSecondary">@color/green_300</item>
+    </style>
+
+    <style name="BaseTheme.LightGreen300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/light_green_300</item>
+        <item name="colorSecondary">@color/light_green_300</item>
+    </style>
+
+    <style name="BaseTheme.Lime300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/lime_300</item>
+        <item name="colorSecondary">@color/lime_300</item>
+    </style>
+
+    <style name="BaseTheme.Amber300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/amber_300</item>
+        <item name="colorSecondary">@color/amber_300</item>
+    </style>
+
+    <style name="BaseTheme.Orange300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/orange_300</item>
+        <item name="colorSecondary">@color/orange_300</item>
+    </style>
+
+    <style name="BaseTheme.DeepOrange300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/deep_orange_300</item>
+        <item name="colorSecondary">@color/deep_orange_300</item>
+    </style>
+
+    <style name="BaseTheme.Brown300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/brown_300</item>
+        <item name="colorSecondary">@color/brown_300</item>
+    </style>
+
+    <style name="BaseTheme.BlueGrey300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/blue_grey_300</item>
+        <item name="colorSecondary">@color/blue_grey_300</item>
+    </style>
+
+    <style name="BaseTheme.Default" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorSecondary">@color/purple_300</item>
+    </style>
 </resources>
