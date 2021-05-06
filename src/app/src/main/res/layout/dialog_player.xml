@@ -18,8 +18,8 @@
             android:layout_height="180dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image"
-            android:src="@drawable/ic_album_art"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_album_art" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -28,21 +28,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/album_art_layout"
-        android:layout_marginTop="20dp"
-        android:padding="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/current_duration"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/roboto"
             android:textAlignment="center"
             android:textColor="@color/material_on_background_emphasis_medium"
-            android:textSize="@dimen/text_medium"
-            android:fontFamily="@font/roboto"/>
+            android:textSize="@dimen/text_medium" />
 
         <SeekBar
             android:id="@+id/song_progress"
@@ -57,10 +57,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/roboto"
             android:textAlignment="center"
             android:textColor="@color/material_on_background_emphasis_medium"
-            android:textSize="@dimen/text_medium"
-            android:fontFamily="@font/roboto"/>
+            android:textSize="@dimen/text_medium" />
 
     </LinearLayout>
 
@@ -68,17 +68,17 @@
         android:id="@+id/songs_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_below="@id/progress_layout"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/song_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:textAlignment="center"
             android:maxLines="1"
+            android:textAlignment="center"
             android:textColor="@color/material_on_background_emphasis_high_type"
             android:textSize="@dimen/text_big" />
 
@@ -86,8 +86,8 @@
             android:id="@+id/song_album"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:fontFamily="@font/roboto"
+            android:textAlignment="center"
             android:textColor="@color/material_on_background_emphasis_medium"
             android:textSize="@dimen/text_big_med" />
 
@@ -163,10 +163,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/controls_layout"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/roboto"
         android:text="@string/music_bitrate_freq"
         android:textAlignment="center"
-        android:fontFamily="@font/roboto"
-        android:textSize="@dimen/text_medium"
-        android:textColor="@color/material_on_background_disabled"/>
+        android:textColor="@color/material_on_background_disabled"
+        android:textSize="@dimen/text_medium" />
 
 </RelativeLayout>

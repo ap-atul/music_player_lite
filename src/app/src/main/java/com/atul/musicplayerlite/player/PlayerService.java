@@ -9,7 +9,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -20,42 +19,6 @@ public class PlayerService extends Service {
     private PlayerManager playerManager;
     private PlayerNotificationManager notificationManager;
     private MediaSessionCompat mediaSessionCompat;
-    private PowerManager.WakeLock wakeLock;
-
-    public PlayerService() {
-    }
-
-    public PlayerManager getPlayerManager () {
-        return playerManager;
-    }
-
-    public PlayerNotificationManager getNotificationManager (){
-        return notificationManager;
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        // prevents the service from closing, when app started from
-        // notification click, this will make sure that a foreground
-        // service exists too.
-        if(playerManager != null && playerManager.isPlaying())
-            playerManager.attachService();
-
-        return START_NOT_STICKY;
-    }
-
-    private void configureMediaSession() {
-        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
-        ComponentName mediaButtonReceiverComponentName = new ComponentName(this, PlayerManager.NotificationReceiver.class);
-        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
-
-        mediaSessionCompat = new MediaSessionCompat(this, MPConstants.MEDIA_SESSION_TAG, mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent);
-        mediaSessionCompat.setActive(true);
-        mediaSessionCompat.setCallback(mediaSessionCallback);
-        mediaSessionCompat.setMediaButtonReceiver(mediaButtonReceiverPendingIntent);
-    }
-
     private final MediaSessionCompat.Callback mediaSessionCallback = new MediaSessionCompat.Callback() {
 
         @Override
@@ -103,14 +66,49 @@ public class PlayerService extends Service {
             return handleMediaButtonEvent(mediaButtonEvent);
         }
     };
+    private PowerManager.WakeLock wakeLock;
+
+    public PlayerService() {
+    }
+
+    public PlayerManager getPlayerManager() {
+        return playerManager;
+    }
+
+    public PlayerNotificationManager getNotificationManager() {
+        return notificationManager;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // prevents the service from closing, when app started from
+        // notification click, this will make sure that a foreground
+        // service exists too.
+        if (playerManager != null && playerManager.isPlaying())
+            playerManager.attachService();
+
+        return START_NOT_STICKY;
+    }
+
+    private void configureMediaSession() {
+        Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
+        ComponentName mediaButtonReceiverComponentName = new ComponentName(this, PlayerManager.NotificationReceiver.class);
+        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
+
+        mediaSessionCompat = new MediaSessionCompat(this, MPConstants.MEDIA_SESSION_TAG, mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent);
+        mediaSessionCompat.setActive(true);
+        mediaSessionCompat.setCallback(mediaSessionCallback);
+        mediaSessionCompat.setMediaButtonReceiver(mediaButtonReceiverPendingIntent);
+    }
 
     private boolean handleMediaButtonEvent(Intent mediaButtonEvent) {
         boolean isSuccess = false;
 
         KeyEvent keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
 
-        if (keyEvent.getAction() == KeyEvent.ACTION_DOWN){
-            switch (keyEvent.getKeyCode()){
+        if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+            switch (keyEvent.getKeyCode()) {
                 case KeyEvent.KEYCODE_MEDIA_PAUSE:
                 case KeyEvent.KEYCODE_MEDIA_PLAY:
                 case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
@@ -147,7 +145,7 @@ public class PlayerService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        if(playerManager == null){
+        if (playerManager == null) {
             playerManager = new PlayerManager(this);
             notificationManager = new PlayerNotificationManager(this);
             playerManager.registerActionsReceiver();
@@ -159,7 +157,7 @@ public class PlayerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        if(wakeLock == null){
+        if (wakeLock == null) {
             PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
             wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
             wakeLock.setReferenceCounted(false);
@@ -181,7 +179,7 @@ public class PlayerService extends Service {
     }
 
     class LocalBinder extends Binder {
-        public PlayerService getInstance (){
+        public PlayerService getInstance() {
             return PlayerService.this;
         }
     }

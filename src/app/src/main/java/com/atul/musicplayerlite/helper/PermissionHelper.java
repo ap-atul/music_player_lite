@@ -12,10 +12,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class PermissionHelper {
 
-    public static boolean manageStoragePermission (Activity context) {
-        if (!hasReadStoragePermission(context)){
+    public static boolean manageStoragePermission(Activity context) {
+        if (!hasReadStoragePermission(context)) {
             // required a dialog?
-            if(ActivityCompat.shouldShowRequestPermissionRationale( context, Manifest.permission.READ_EXTERNAL_STORAGE )){
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 new MaterialAlertDialogBuilder(context)
                         .setTitle("Requesting permission")
                         .setMessage("Enable storage permission for accessing the media files.")
@@ -27,16 +27,16 @@ public class PermissionHelper {
         return hasReadStoragePermission(context);
     }
 
-    public static boolean hasReadStoragePermission (Activity context) {
+    public static boolean hasReadStoragePermission(Activity context) {
         return (
                 ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
         );
     }
 
-    public static void askReadStoragePermission (Activity context) {
+    public static void askReadStoragePermission(Activity context) {
         ActivityCompat.requestPermissions(
                 context,
-                new String[] { Manifest.permission.READ_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MPConstants.PERMISSION_READ_STORAGE
         );
     }

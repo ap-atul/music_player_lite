@@ -11,22 +11,21 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.activities.SelectedAlbumActivity;
+import com.atul.musicplayerlite.adapter.AlbumsAdapter;
 import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
-import com.atul.musicplayerlite.listener.PagerListener;
-import com.atul.musicplayerlite.viewmodel.MainViewModel;
-import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.adapter.AlbumsAdapter;
-import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 import com.atul.musicplayerlite.model.Album;
+import com.atul.musicplayerlite.viewmodel.MainViewModel;
+import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 
 import java.util.List;
 
 public class AlbumsFragment extends Fragment implements AlbumSelectListener {
 
-    private MainViewModel viewModel;
     private static MusicSelectListener musicSelectListener;
+    private MainViewModel viewModel;
 
     public AlbumsFragment() {
     }

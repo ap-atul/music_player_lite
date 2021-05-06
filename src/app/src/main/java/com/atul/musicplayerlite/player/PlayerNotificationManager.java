@@ -51,7 +51,7 @@ public class PlayerNotificationManager {
     }
 
     private int getDominantColor(Bitmap bitmap) {
-        if(bitmap == null) return Color.BLACK;
+        if (bitmap == null) return Color.BLACK;
 
         Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
         final int color = newBitmap.getPixel(0, 0);
@@ -96,7 +96,7 @@ public class PlayerNotificationManager {
     }
 
     @SuppressLint("RestrictedApi")
-    public void updateNotification(){
+    public void updateNotification() {
 
         notificationBuilder.setOngoing(playerService.getPlayerManager().isPlaying());
 
@@ -105,7 +105,7 @@ public class PlayerNotificationManager {
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),
                 song.albumArt);
 
-        if(notificationBuilder.mActions.size() > 0)
+        if (notificationBuilder.mActions.size() > 0)
             notificationBuilder.mActions.set(1, notificationAction(PLAY_PAUSE_ACTION));
 
         notificationBuilder

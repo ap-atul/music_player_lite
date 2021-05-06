@@ -19,7 +19,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
 
     private final List<Artist> artistList;
 
-    public ArtistAdapter(List<Artist> artistList){
+    public ArtistAdapter(List<Artist> artistList) {
         this.artistList = artistList;
     }
 

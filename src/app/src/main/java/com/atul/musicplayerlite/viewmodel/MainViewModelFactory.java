@@ -10,7 +10,7 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
 
     private final Context application;
 
-    public MainViewModelFactory(Context application){
+    public MainViewModelFactory(Context application) {
         this.application = application;
     }
 

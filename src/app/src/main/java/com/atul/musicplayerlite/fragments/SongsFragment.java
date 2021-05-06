@@ -23,8 +23,8 @@ import java.util.List;
 
 public class SongsFragment extends Fragment {
 
-    private MainViewModel viewModel;
     private static MusicSelectListener listener;
+    private MainViewModel viewModel;
 
     public SongsFragment() {
 

@@ -7,10 +7,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Album implements Parcelable {
+    public static final Creator<Album> CREATOR = new Creator<Album>() {
+        @Override
+        public Album createFromParcel(Parcel in) {
+            return new Album(in);
+        }
+
+        @Override
+        public Album[] newArray(int size) {
+            return new Album[size];
+        }
+    };
     public String title;
     public String year;
     public String artist;
-
     public Long duration;
     public List<Music> music;
 
@@ -35,18 +45,6 @@ public class Album implements Parcelable {
             duration = in.readLong();
         }
     }
-
-    public static final Creator<Album> CREATOR = new Creator<Album>() {
-        @Override
-        public Album createFromParcel(Parcel in) {
-            return new Album(in);
-        }
-
-        @Override
-        public Album[] newArray(int size) {
-            return new Album[size];
-        }
-    };
 
     @Override
     public int describeContents() {

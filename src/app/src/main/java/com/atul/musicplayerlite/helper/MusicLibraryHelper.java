@@ -7,27 +7,20 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.Music;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.SimpleTimeZone;
 import java.util.concurrent.TimeUnit;
 
 public class MusicLibraryHelper {

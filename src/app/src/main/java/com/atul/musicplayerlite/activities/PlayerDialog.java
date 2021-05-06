@@ -76,7 +76,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         songAlbum.setText(String.format(Locale.getDefault(), "%s • %s",
                 music.artist, music.album));
 
-        Glide.with(getContext())
+        Glide.with(getContext().getApplicationContext())
                 .load(music.albumArt)
                 .placeholder(R.drawable.ic_album_art)
                 .into(albumArt);
@@ -148,17 +148,17 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         if (id == R.id.control_repeat) setRepeat();
         else if (id == R.id.control_shuffle) setShuffle();
         else if (id == R.id.control_prev) playerManager.playPrev();
-        else if(id == R.id.control_next) playerManager.playNext();
+        else if (id == R.id.control_next) playerManager.playNext();
         else if (id == R.id.control_play_pause) playerManager.playPause();
 
         setUpUi();
     }
 
     private void setRepeat() {
-        playerQueue.setRepeat((! playerQueue.isRepeat()));
+        playerQueue.setRepeat((!playerQueue.isRepeat()));
     }
 
-    private void setShuffle(){
-        playerQueue.setShuffle((! playerQueue.isShuffle()));
+    private void setShuffle() {
+        playerQueue.setShuffle((!playerQueue.isShuffle()));
     }
 }

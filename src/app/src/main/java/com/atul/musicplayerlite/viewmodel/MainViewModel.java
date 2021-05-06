@@ -24,24 +24,24 @@ public class MainViewModel extends ViewModel {
     public List<Artist> artistList;
     public List<Folder> folderList;
 
-    public MainViewModel(Context context){
+    public MainViewModel(Context context) {
         musicList = MusicLibraryHelper.fetchMusicLibrary(context);
         Collections.sort(musicList, new SongComparator());
     }
 
-    public List<Music> getSongs (boolean reverse) {
+    public List<Music> getSongs(boolean reverse) {
         if (reverse)
             Collections.reverse(musicList);
 
         return musicList;
     }
 
-    public List<Album> getAlbums (boolean reverse) {
+    public List<Album> getAlbums(boolean reverse) {
         HashMap<String, Album> map = new HashMap<>();
         albumList = new ArrayList<>();
 
-        for( Music music : musicList){
-            if (map.containsKey(music.album)){
+        for (Music music : musicList) {
+            if (map.containsKey(music.album)) {
                 Album album = map.get(music.album);
                 assert album != null;
                 album.duration += music.duration;
@@ -57,7 +57,7 @@ public class MainViewModel extends ViewModel {
             }
         }
 
-        for ( String k : map.keySet()){
+        for (String k : map.keySet()) {
             albumList.add(map.get(k));
         }
 
@@ -73,8 +73,8 @@ public class MainViewModel extends ViewModel {
         artistList = new ArrayList<>();
         albumList = getAlbums(false);
 
-        for( Album album : albumList){
-            if (map.containsKey(album.artist)){
+        for (Album album : albumList) {
+            if (map.containsKey(album.artist)) {
                 Artist artist = map.get(album.artist);
                 assert artist != null;
 
@@ -92,7 +92,7 @@ public class MainViewModel extends ViewModel {
             }
         }
 
-        for ( String k : map.keySet()){
+        for (String k : map.keySet()) {
             artistList.add(map.get(k));
         }
 
@@ -103,12 +103,12 @@ public class MainViewModel extends ViewModel {
         return artistList;
     }
 
-    public List<Folder> getFolders(boolean reverse){
+    public List<Folder> getFolders(boolean reverse) {
         HashMap<String, Folder> map = new HashMap<>();
 
-        for (Music music: musicList){
+        for (Music music : musicList) {
             Folder folder;
-            if(map.containsKey(music.relativePath)){
+            if (map.containsKey(music.relativePath)) {
                 folder = map.get(music.relativePath);
                 folder.songsCount += 1;
             } else {
@@ -149,7 +149,7 @@ class SongComparator implements Comparator<Music> {
     }
 }
 
-class ArtistComparator implements Comparator<Artist>{
+class ArtistComparator implements Comparator<Artist> {
     @Override
     public int compare(Artist a1, Artist a2) {
         return a1.name.compareTo(a2.name);

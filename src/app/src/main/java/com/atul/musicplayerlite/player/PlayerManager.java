@@ -43,6 +43,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private final PlayerService playerService;
     private final AudioManager audioManager;
     private final List<PlayerListener> playerListeners = new ArrayList<>();
+    private final PlayerQueue playerQueue;
     private int playerState;
     private MediaPlayer mediaPlayer;
     private NotificationReceiver notificationReceiver;
@@ -83,7 +84,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                 }
             };
     private MediaObserver mediaObserver;
-    private final PlayerQueue playerQueue;
 
     public PlayerManager(@NonNull PlayerService playerService) {
         this.playerService = playerService;
@@ -117,7 +117,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
     }
 
-    public void attachListener(PlayerListener playerListener){
+    public void attachListener(PlayerListener playerListener) {
         playerListeners.add(playerListener);
     }
 
@@ -127,7 +127,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     private void setPlayerState(@PlayerListener.State int state) {
         playerState = state;
-        for(PlayerListener listener: playerListeners){
+        for (PlayerListener listener : playerListeners) {
             listener.onStateChanged(state);
         }
 
@@ -152,11 +152,11 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         return playerQueue.getCurrentMusic();
     }
 
-    public int getCurrentPosition(){
+    public int getCurrentPosition() {
         return mediaPlayer.getCurrentPosition();
     }
 
-    public int getPercent(){
+    public int getPercent() {
         return mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
     }
 
@@ -164,7 +164,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         return mediaPlayer.getDuration();
     }
 
-    public PlayerQueue getPlayerQueue(){
+    public PlayerQueue getPlayerQueue() {
         return playerQueue;
     }
 
@@ -178,27 +178,27 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         initMediaPlayer();
     }
 
-    public void detachService(){
+    public void detachService() {
         playerService.stopForeground(false);
     }
 
-    public void attachService(){
+    public void attachService() {
         playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        for(PlayerListener listener: playerListeners)
+        for (PlayerListener listener : playerListeners)
             listener.onPlaybackCompleted();
         playNext();
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        for(PlayerListener listener: playerListeners)
+        for (PlayerListener listener : playerListeners)
             listener.onMusicSet(playerQueue.getCurrentMusic());
 
-        if (mediaObserver == null){
+        if (mediaObserver == null) {
             EventBus.getDefault().register(this);
             mediaObserver = new MediaObserver();
             new Thread(mediaObserver).start();
@@ -256,7 +256,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public void release() {
         mediaPlayer.release();
 
-        for(PlayerListener playerListener: playerListeners)
+        for (PlayerListener playerListener : playerListeners)
             playerListener.onRelease();
 
         mediaObserver.stop();
@@ -340,13 +340,14 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onProgressEvent(PlayerProgressEvent event){
-        for(PlayerListener playerListener: playerListeners)
+    public void onProgressEvent(PlayerProgressEvent event) {
+        for (PlayerListener playerListener : playerListeners)
             playerListener.onPositionChanged(event.percent);
     }
 
     @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) { }
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+    }
 
     public class NotificationReceiver extends BroadcastReceiver {
 
@@ -411,7 +412,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
     }
 
-    private class MediaObserver implements Runnable{
+    private class MediaObserver implements Runnable {
         private final AtomicBoolean stop = new AtomicBoolean(false);
 
         public void stop() {
@@ -420,17 +421,17 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
         @Override
         public void run() {
-            while(!stop.get()){
-                try{
+            while (!stop.get()) {
+                try {
 
-                    if(isPlaying()){
+                    if (isPlaying()) {
                         int percent = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
                         EventBus.getDefault().post(new PlayerProgressEvent(percent));
                     }
 
                     Thread.sleep(100);
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

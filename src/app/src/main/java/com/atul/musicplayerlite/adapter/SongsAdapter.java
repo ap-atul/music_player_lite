@@ -21,7 +21,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
     private final List<Music> musicList;
     public MusicSelectListener listener;
 
-    public SongsAdapter(MusicSelectListener listener, List<Music> musics){
+    public SongsAdapter(MusicSelectListener listener, List<Music> musics) {
         this.listener = listener;
         this.musicList = musics;
     }

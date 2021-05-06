@@ -22,23 +22,14 @@ import java.util.List;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
-    private MusicSelectListener selectListener;
-    private FragmentManager fragmentManager;
-
     @StringRes
     private static final int[] TAB_TITLES = new int[]{
             R.string.tab_one, R.string.tab_two, R.string.tab_three, R.string.tab_five
     };
-    List<Fragment> fragments = new ArrayList<>();
-
     private final Context mContext;
-
-    public void setFragments() {
-        fragments.add(SongsFragment.newInstance(selectListener));
-        fragments.add(ArtistsFragment.newInstance());
-        fragments.add(AlbumsFragment.newInstance(selectListener));
-        fragments.add(SettingsFragment.newInstance());
-    }
+    List<Fragment> fragments = new ArrayList<>();
+    private MusicSelectListener selectListener;
+    private FragmentManager fragmentManager;
 
     public MainPagerAdapter(Context context, FragmentManager fm, MusicSelectListener selectListener) {
         super(fm);
@@ -47,6 +38,13 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         this.selectListener = selectListener;
 
         setFragments();
+    }
+
+    public void setFragments() {
+        fragments.add(SongsFragment.newInstance(selectListener));
+        fragments.add(ArtistsFragment.newInstance());
+        fragments.add(AlbumsFragment.newInstance(selectListener));
+        fragments.add(SettingsFragment.newInstance());
     }
 
     @NotNull

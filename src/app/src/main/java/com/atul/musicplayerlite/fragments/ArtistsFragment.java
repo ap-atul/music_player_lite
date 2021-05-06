@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.ArtistAdapter;
 import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
-import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 
 import java.util.List;

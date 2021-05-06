@@ -7,18 +7,27 @@ import android.os.Parcelable;
 import org.jetbrains.annotations.NotNull;
 
 public class Music implements Parcelable {
+    public static final Creator<Music> CREATOR = new Creator<Music>() {
+        @Override
+        public Music createFromParcel(Parcel in) {
+            return new Music(in);
+        }
+
+        @Override
+        public Music[] newArray(int size) {
+            return new Music[size];
+        }
+    };
     public String artist;
     public String title;
     public String displayName;
     public String album;
     public String relativePath;
     public Uri albumArt;
-
     public int year;
     public int track;
     public int startFrom;
     public int dateAdded;
-
     public long id;
     public long duration;
     public long albumId;
@@ -57,18 +66,6 @@ public class Music implements Parcelable {
         duration = in.readLong();
         albumId = in.readLong();
     }
-
-    public static final Creator<Music> CREATOR = new Creator<Music>() {
-        @Override
-        public Music createFromParcel(Parcel in) {
-            return new Music(in);
-        }
-
-        @Override
-        public Music[] newArray(int size) {
-            return new Music[size];
-        }
-    };
 
     @NotNull
     @Override

@@ -13,17 +13,17 @@
         android:id="@+id/album_art_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
         android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
         app:cardCornerRadius="5dp">
 
         <ImageView
             android:id="@+id/albumArt"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:contentDescription="@string/image" />
+            android:contentDescription="@string/image"
+            android:scaleType="centerCrop" />
 
     </com.google.android.material.card.MaterialCardView>
 

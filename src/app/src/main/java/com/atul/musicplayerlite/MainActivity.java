@@ -38,16 +38,17 @@ public class MainActivity extends AppCompatActivity
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
     private TabLayout tabs;
+    private PlayerDialog playerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(PermissionHelper.manageStoragePermission(MainActivity.this))
+        if (PermissionHelper.manageStoragePermission(MainActivity.this))
             setUpUiElements();
 
-        if(savedInstanceState != null && savedInstanceState.getString(MPConstants.SAVE_INSTANCE_KEY_PLAYER) != null)
+        if (savedInstanceState != null && savedInstanceState.getString(MPConstants.SAVE_INSTANCE_KEY_PLAYER) != null)
             setPlayerView();
 
         playerBuilder = new PlayerBuilder(this, this);
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void setUpUiElements(){
+    public void setUpUiElements() {
         MainPagerAdapter sectionsPagerAdapter = new MainPagerAdapter(
                 this, getSupportFragmentManager(), this);
 
@@ -97,13 +98,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             setUpUiElements();
         }
     }
 
-    private void setUpTabIcons(){
-        for (int i = 0; i < tabs.getTabCount(); i++){
+    private void setUpTabIcons() {
+        for (int i = 0; i < tabs.getTabCount(); i++) {
             tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
         }
     }
@@ -112,6 +113,9 @@ public class MainActivity extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
         playerManager.detachService();
+
+        if (playerDialog != null)
+            playerDialog.dismiss();
     }
 
     @Override
@@ -144,7 +148,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onStateChanged(int state) {
-        if(state == State.PLAYING)
+        if (state == State.PLAYING)
             play_pause.setImageResource(R.drawable.ic_controls_pause);
         else
             play_pause.setImageResource(R.drawable.ic_controls_play);
@@ -160,13 +164,13 @@ public class MainActivity extends AppCompatActivity
         songName.setText(music.title);
         playerView.setVisibility(View.VISIBLE);
 
-        Glide.with(playerView)
+        Glide.with(getApplicationContext())
                 .load(music.albumArt)
                 .placeholder(R.drawable.ic_album_art)
                 .centerCrop()
                 .into(albumArt);
 
-        if(playerManager != null && playerManager.isPlaying())
+        if (playerManager != null && playerManager.isPlaying())
             play_pause.setImageResource(R.drawable.ic_controls_pause);
         else
             play_pause.setImageResource(R.drawable.ic_controls_play);
@@ -186,7 +190,7 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
 
-        if(id == R.id.control_prev)
+        if (id == R.id.control_prev)
             playerManager.playPrev();
 
         else if (id == R.id.control_next)
@@ -200,7 +204,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpPlayerDialog() {
-        PlayerDialog playerDialog = new PlayerDialog(this, playerManager);
+        playerDialog = new PlayerDialog(this, playerManager);
         playerDialog.show();
     }
 }
