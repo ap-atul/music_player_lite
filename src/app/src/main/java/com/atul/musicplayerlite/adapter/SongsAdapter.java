@@ -37,12 +37,12 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.songName.setText(musicList.get(position).title);
         holder.albumName.setText(
-                String.format(Locale.getDefault(), "%s . %s",
+                String.format(Locale.getDefault(), "%s • %s",
                         musicList.get(position).artist,
                         musicList.get(position).album)
         );
         holder.songHistory.setText(
-                String.format(Locale.getDefault(), "%s . %s",
+                String.format(Locale.getDefault(), "%s • %s",
                         MusicLibraryHelper.formatDuration(musicList.get(position).duration),
                         MusicLibraryHelper.formatDate(musicList.get(position).dateAdded))
         );

@@ -30,14 +30,20 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/song_progress"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
 
         <TextView
             android:id="@+id/song_title"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:fontFamily="@font/roboto"
             android:gravity="center_vertical"
             android:textColor="@color/material_on_background_emphasis_high_type"
@@ -49,7 +55,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:layout_weight="1"
-            android:gravity="end">
+            android:gravity="end|center_vertical">
 
             <ImageView
                 android:id="@+id/control_prev"

@@ -183,6 +183,6 @@
 
     <style name="BaseTheme.Default" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/purple</item>
-        <item name="colorSecondary">@color/purple_300</item>
+        <item name="colorSecondary">@color/purple</item>
     </style>
 </resources>

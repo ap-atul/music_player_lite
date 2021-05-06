@@ -22,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -41,7 +42,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private final Context context;
     private final PlayerService playerService;
     private final AudioManager audioManager;
-    private PlayerListener playerListener;
+    private final List<PlayerListener> playerListeners = new ArrayList<>();
     private int playerState;
     private MediaPlayer mediaPlayer;
     private NotificationReceiver notificationReceiver;
@@ -116,13 +117,20 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
     }
 
+    public void attachListener(PlayerListener playerListener){
+        playerListeners.add(playerListener);
+    }
+
     public int getPlayerState() {
         return playerState;
     }
 
     private void setPlayerState(@PlayerListener.State int state) {
         playerState = state;
-        playerListener.onStateChanged(state);
+        for(PlayerListener listener: playerListeners){
+            listener.onStateChanged(state);
+        }
+
         playerService.getNotificationManager().updateNotification();
 
         int playbackState = isPlaying() ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
@@ -148,6 +156,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         return mediaPlayer.getCurrentPosition();
     }
 
+    public int getPercent(){
+        return mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
+    }
+
     public int getDuration() {
         return mediaPlayer.getDuration();
     }
@@ -157,8 +169,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void setPlayerListener(PlayerListener listener) {
-        playerListener = listener;
-        playerListener.onPrepared();
+        playerListeners.add(listener);
+        listener.onPrepared();
     }
 
     public void setMusicList(List<Music> musicList) {
@@ -176,13 +188,15 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        playerListener.onPlaybackCompleted();
+        for(PlayerListener listener: playerListeners)
+            listener.onPlaybackCompleted();
         playNext();
     }
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        playerListener.onMusicSet(playerQueue.getCurrentMusic());
+        for(PlayerListener listener: playerListeners)
+            listener.onMusicSet(playerQueue.getCurrentMusic());
 
         if (mediaObserver == null){
             EventBus.getDefault().register(this);
@@ -241,7 +255,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     public void release() {
         mediaPlayer.release();
-        playerListener.onRelease();
+
+        for(PlayerListener playerListener: playerListeners)
+            playerListener.onRelease();
+
         mediaObserver.stop();
         EventBus.getDefault().unregister(this);
 
@@ -324,7 +341,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgressEvent(PlayerProgressEvent event){
-        playerListener.onPositionChanged(event.percent);
+        for(PlayerListener playerListener: playerListeners)
+            playerListener.onPositionChanged(event.percent);
     }
 
     @Override

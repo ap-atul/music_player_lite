@@ -9,6 +9,7 @@
     <string name="tab_five">Settings</string>
     <string name="image">image</string>
     <string name="album_art_dir">content://media/external/audio/albumart</string>
+    <string name="music_bitrate_freq">44100 kHz • 320 kbps</string>
 
 
 </resources>

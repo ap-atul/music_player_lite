@@ -23,7 +23,6 @@
             android:layout_height="50dp"
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_controls_play"
             android:contentDescription="@string/image" />
 
     </com.google.android.material.card.MaterialCardView>

@@ -34,7 +34,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.artistName.setText(artistList.get(position).name);
-        holder.artistHistory.setText(String.format(Locale.getDefault(), "%d Albums, %d Songs",
+        holder.artistHistory.setText(String.format(Locale.getDefault(), "%d Albums • %d Songs",
                 artistList.get(position).albumCount,
                 artistList.get(position).songCount));
     }

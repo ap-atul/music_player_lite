@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 public class PlayerQueue {
+    private final Random random = new Random();
     private List<Music> currentQueue;
     private boolean shuffle = false;
     private boolean repeat = false;
-    private boolean round = false;
     private int currentPosition = 0;
-    private final Random random = new Random();
 
     private boolean isCurrentPositionOutOfBound(int pos) {
         return pos >= currentQueue.size() || pos <= 0;
@@ -21,16 +20,26 @@ public class PlayerQueue {
         return shuffle;
     }
 
+    public void setShuffle(boolean shuffle) {
+        this.shuffle = shuffle;
+    }
+
     public boolean isRepeat() {
         return repeat;
     }
 
-    public boolean isRound() {
-        return round;
+    public void setRepeat(boolean repeat) {
+        this.repeat = repeat;
     }
 
     public List<Music> getCurrentQueue() {
         return currentQueue;
+    }
+
+    public void setCurrentQueue(List<Music> currentQueue) {
+        this.currentQueue = currentQueue;
+        if (shuffle)
+            this.currentPosition = random.nextInt(currentQueue.size());
     }
 
     public int getQueueSize() {
@@ -39,22 +48,6 @@ public class PlayerQueue {
 
     public Music getCurrentMusic() {
         return currentQueue.get(currentPosition);
-    }
-
-    public void setCurrentQueue(List<Music> currentQueue) {
-        this.currentQueue = currentQueue;
-    }
-
-    public void setShuffle(boolean shuffle) {
-        this.shuffle = shuffle;
-    }
-
-    public void setRepeat(boolean repeat) {
-        this.repeat = repeat;
-    }
-
-    public void setRound(boolean round) {
-        this.round = round;
     }
 
     public void addMusicToQueue(Music music) {
@@ -75,24 +68,17 @@ public class PlayerQueue {
     }
 
     public void next() {
-        if (round)
-            currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
-
-        else if (shuffle)
+        if (shuffle) {
             currentPosition = random.nextInt(currentQueue.size());
-
-        else
-            currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? currentPosition : ++currentPosition;
+        } else if (!repeat)
+            currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
     }
 
     public void prev() {
-        if (round)
-            currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
-
-        else if (shuffle)
+        if (shuffle)
             currentPosition = random.nextInt(currentQueue.size());
 
-        else
-            currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentPosition : --currentPosition;
+        else if (!repeat)
+            currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
     }
 }

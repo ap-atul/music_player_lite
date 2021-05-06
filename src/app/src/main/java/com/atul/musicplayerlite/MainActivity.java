@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
         ImageView prev = findViewById(R.id.control_prev);
         play_pause = findViewById(R.id.control_play_pause);
 
+        songName.setOnClickListener(this);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         play_pause.setOnClickListener(this);
@@ -194,12 +195,12 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.control_play_pause)
             playerManager.playPause();
 
-        else if (id == R.id.player_view)
+        else if (id == R.id.song_title)
             setUpPlayerDialog();
     }
 
     private void setUpPlayerDialog() {
-        PlayerDialog playerDialog = new PlayerDialog(this);
+        PlayerDialog playerDialog = new PlayerDialog(this, playerManager);
         playerDialog.show();
     }
 }

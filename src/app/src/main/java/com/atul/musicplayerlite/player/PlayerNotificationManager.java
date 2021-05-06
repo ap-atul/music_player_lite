@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -50,6 +51,8 @@ public class PlayerNotificationManager {
     }
 
     private int getDominantColor(Bitmap bitmap) {
+        if(bitmap == null) return Color.BLACK;
+
         Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
         final int color = newBitmap.getPixel(0, 0);
         newBitmap.recycle();
@@ -102,7 +105,8 @@ public class PlayerNotificationManager {
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),
                 song.albumArt);
 
-        notificationBuilder.mActions.set(1, notificationAction(PLAY_PAUSE_ACTION));
+        if(notificationBuilder.mActions.size() > 0)
+            notificationBuilder.mActions.set(1, notificationAction(PLAY_PAUSE_ACTION));
 
         notificationBuilder
                 .setLargeIcon(albumArt)
