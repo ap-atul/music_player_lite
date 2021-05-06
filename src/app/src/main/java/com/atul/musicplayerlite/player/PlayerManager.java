@@ -170,6 +170,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         playerService.stopForeground(false);
     }
 
+    public void attachService(){
+        playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+    }
+
     @Override
     public void onCompletion(MediaPlayer mp) {
         playerListener.onPlaybackCompleted();

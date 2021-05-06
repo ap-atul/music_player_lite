@@ -42,25 +42,22 @@ public class PlayerBuilder {
             playerService = ((PlayerService.LocalBinder) iBinder).getInstance();
             playerManager = playerService.getPlayerManager();
             notificationManager = playerService.getNotificationManager();
+            serviceBound = true;
 
             if (playerListener != null) {
                 playerManager.setPlayerListener(playerListener);
             }
-
-            Log.d(MPConstants.DEBUG_TAG, "Service created in builder");
-
         }
 
         @Override
         public void onServiceDisconnected(@NonNull final ComponentName componentName) {
             playerService = null;
+            serviceBound = false;
         }
     };
 
     private void bindService() {
         context.bindService(new Intent(context, PlayerService.class), serviceConnection, Context.BIND_AUTO_CREATE);
-        serviceBound = true;
-
         context.startService(new Intent(context, PlayerService.class));
     }
 

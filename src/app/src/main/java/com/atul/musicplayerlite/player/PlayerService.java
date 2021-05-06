@@ -35,6 +35,13 @@ public class PlayerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // prevents the service from closing, when app started from
+        // notification click, this will make sure that a foreground
+        // service exists too.
+        if(playerManager != null && playerManager.isPlaying())
+            playerManager.attachService();
+
         return START_NOT_STICKY;
     }
 
@@ -146,9 +153,6 @@ public class PlayerService extends Service {
             playerManager.registerActionsReceiver();
         }
 
-        if(playerManager != null)
-            Log.d(MPConstants.DEBUG_TAG, "player manager is not null");
-        Log.d(MPConstants.DEBUG_TAG, "Service binded");
         return iBinder;
     }
 

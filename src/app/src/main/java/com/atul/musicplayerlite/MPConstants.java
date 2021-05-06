@@ -33,4 +33,11 @@ public class MPConstants {
     public static final String SAVE_INSTANCE_VAL_PLAYER = "player playing";
 
     public static MusicSelectListener musicSelectListener;
+
+    public static final boolean PLAYER_QUEUE_MODE_SHUFFLE_ON = true;
+    public static final boolean PLAYER_QUEUE_MODE_SHUFFLE_OFF = false;
+    public static final boolean PLAYER_QUEUE_MODE_REPEAT_ON = true;
+    public static final boolean PLAYER_QUEUE_MODE_REPEAT_OFF = false;
+    public static final boolean PLAYER_QUEUE_MODE_ROUND_ON = true;
+    public static final boolean PLAYER_QUEUE_MODE_ROUND_OFF = false;
 }

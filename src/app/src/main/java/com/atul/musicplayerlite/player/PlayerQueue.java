@@ -1,8 +1,5 @@
 package com.atul.musicplayerlite.player;
 
-import android.util.Log;
-
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
 import java.util.List;
@@ -81,36 +78,21 @@ public class PlayerQueue {
         if (round)
             currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
 
-        else if (repeat)
-            currentPosition += 1;
-
         else if (shuffle)
             currentPosition = random.nextInt(currentQueue.size());
 
         else
             currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? currentPosition : ++currentPosition;
-
-        Log.d(MPConstants.DEBUG_TAG, "Player queue size " + currentQueue.size());
-        Log.d(MPConstants.DEBUG_TAG, "Setting to next music " + currentPosition);
-//
-//        // repeat works
-//        return currentQueue.get(currentPosition);
     }
 
     public void prev() {
         if (round)
             currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
 
-        else if (repeat)
-            currentPosition -= 1;
-
         else if (shuffle)
             currentPosition = random.nextInt(currentQueue.size());
 
         else
             currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentPosition : --currentPosition;
-
-//        // repeat works
-//        return currentQueue.get(currentPosition);
     }
 }

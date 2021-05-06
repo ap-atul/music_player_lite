@@ -1,7 +1,6 @@
 package com.atul.musicplayerlite;
 
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
-import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.helper.PermissionHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
-import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.player.PlayerBuilder;
 import com.atul.musicplayerlite.player.PlayerListener;
@@ -66,6 +64,7 @@ public class MainActivity extends AppCompatActivity
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         play_pause.setOnClickListener(this);
+        playerView.setOnClickListener(this);
     }
 
     private void setPlayerView() {
@@ -127,13 +126,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void playAlbum(Album album) {
-        playerManager.setMusicList(album.music);
+    public void playQueue(List<Music> musicList) {
+        playerManager.setMusicList(musicList);
     }
 
     @Override
-    public void playQueue(List<Music> musicList) {
-        playerManager.setMusicList(musicList);
+    public void setShuffleMode(boolean mode) {
+        playerManager.getPlayerQueue().setShuffle(mode);
     }
 
     @Override
@@ -160,9 +159,9 @@ public class MainActivity extends AppCompatActivity
         songName.setText(music.title);
         playerView.setVisibility(View.VISIBLE);
 
-        Bitmap art = MusicLibraryHelper.getThumbnail(getApplicationContext(), music.albumArt);
         Glide.with(playerView)
-                .load(art)
+                .load(music.albumArt)
+                .placeholder(R.drawable.ic_album_art)
                 .centerCrop()
                 .into(albumArt);
 
@@ -194,5 +193,13 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.control_play_pause)
             playerManager.playPause();
+
+        else if (id == R.id.player_view)
+            setUpPlayerDialog();
+    }
+
+    private void setUpPlayerDialog() {
+        PlayerDialog playerDialog = new PlayerDialog(this);
+        playerDialog.show();
     }
 }
