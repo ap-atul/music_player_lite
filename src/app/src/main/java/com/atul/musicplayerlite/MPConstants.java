@@ -1,5 +1,7 @@
 package com.atul.musicplayerlite;
 
+import com.atul.musicplayerlite.listener.MusicSelectListener;
+
 public class MPConstants {
     public static final String DEBUG_TAG = "MPLite_debug";
 
@@ -30,4 +32,6 @@ public class MPConstants {
 
     public static final String SAVE_INSTANCE_KEY_PLAYER = "save_player";
     public static final String SAVE_INSTANCE_VAL_PLAYER = "player playing";
+
+    public static MusicSelectListener musicSelectListener;
 }

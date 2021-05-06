@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
             setPlayerView();
 
         playerBuilder = new PlayerBuilder(this, this);
+        MPConstants.musicSelectListener = this;
 
         albumArt = findViewById(R.id.albumArt);
         progressIndicator = findViewById(R.id.song_progress);

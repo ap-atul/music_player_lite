@@ -1,10 +1,12 @@
 package com.atul.musicplayerlite.model;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.jetbrains.annotations.NotNull;
 
-public class Music {
+public class Music implements Parcelable {
     public String artist;
     public String title;
     public String displayName;
@@ -40,6 +42,34 @@ public class Music {
         this.albumArt = albumArt;
     }
 
+    protected Music(Parcel in) {
+        artist = in.readString();
+        title = in.readString();
+        displayName = in.readString();
+        album = in.readString();
+        relativePath = in.readString();
+        albumArt = in.readParcelable(Uri.class.getClassLoader());
+        year = in.readInt();
+        track = in.readInt();
+        startFrom = in.readInt();
+        dateAdded = in.readInt();
+        id = in.readLong();
+        duration = in.readLong();
+        albumId = in.readLong();
+    }
+
+    public static final Creator<Music> CREATOR = new Creator<Music>() {
+        @Override
+        public Music createFromParcel(Parcel in) {
+            return new Music(in);
+        }
+
+        @Override
+        public Music[] newArray(int size) {
+            return new Music[size];
+        }
+    };
+
     @NotNull
     @Override
     public String toString() {
@@ -57,5 +87,27 @@ public class Music {
                 ", duration=" + duration +
                 ", albumId=" + albumId +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(artist);
+        dest.writeString(title);
+        dest.writeString(displayName);
+        dest.writeString(album);
+        dest.writeString(relativePath);
+        dest.writeParcelable(albumArt, flags);
+        dest.writeInt(year);
+        dest.writeInt(track);
+        dest.writeInt(startFrom);
+        dest.writeInt(dateAdded);
+        dest.writeLong(id);
+        dest.writeLong(duration);
+        dest.writeLong(albumId);
     }
 }

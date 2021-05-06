@@ -25,7 +25,7 @@ public class FoldersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_songs, container, false);
+        View view = inflater.inflate(R.layout.fragment_folders, container, false);
 
 //        PlayerManager playerManager = new PlayerManager(getContext(), musicList);
 //        playerManager.start(); // start from first song

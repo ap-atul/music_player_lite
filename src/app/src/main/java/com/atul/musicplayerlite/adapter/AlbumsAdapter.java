@@ -2,6 +2,7 @@ package com.atul.musicplayerlite.adapter;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,19 +12,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
+import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.model.Album;
-import com.atul.musicplayerlite.model.Music;
 
 import java.util.List;
+import java.util.Locale;
 
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
 
-    private final List<Album> albumList;
+    public final List<Album> albumList;
+    public final AlbumSelectListener listener;
 
-    public AlbumsAdapter(List<Album> albums){
+    public AlbumsAdapter(List<Album> albums, AlbumSelectListener listener) {
         this.albumList = albums;
+        this.listener = listener;
     }
 
     @NonNull
@@ -36,8 +41,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.songName.setText(albumList.get(position).title);
-        holder.albumName.setText(String.format("%s . %s . %d songs",
+        holder.albumName.setText(albumList.get(position).title);
+        holder.albumDetails.setText(String.format(Locale.getDefault(), "%s . %s . %d songs",
                 albumList.get(position).music.get(0).artist,
                 albumList.get(position).year,
                 albumList.get(position).music.size()));
@@ -47,8 +52,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         if(art == null)
             holder.albumArt.setImageResource(R.drawable.ic_album_art);
-        else
-            holder.albumArt.setImageBitmap(art);
+
+        holder.albumArt.setImageBitmap(art);
     }
 
     @Override
@@ -56,9 +61,9 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         return albumList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView songName;
+        private final TextView albumDetails;
         private final TextView albumName;
         private final ImageView albumArt;
 
@@ -66,8 +71,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             super(itemView);
 
             albumArt = itemView.findViewById(R.id.albumArt);
-            songName = itemView.findViewById(R.id.song_name);
-            albumName = itemView.findViewById(R.id.song_album);
+            albumDetails = itemView.findViewById(R.id.album_details);
+            albumName = itemView.findViewById(R.id.album_name);
+
+            itemView.findViewById(R.id.root_layout).setOnClickListener(v ->
+                    listener.playAlbum(albumList.get(getAdapterPosition())));
         }
     }
 }

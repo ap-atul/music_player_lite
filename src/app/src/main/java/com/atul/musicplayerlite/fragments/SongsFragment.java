@@ -16,12 +16,16 @@ import com.atul.musicplayerlite.adapter.SongsAdapter;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 
 public class SongsFragment extends Fragment {
 
     private MainViewModel viewModel;
     private static MusicSelectListener listener;
+    private ExtendedFloatingActionButton shuffleControl;
 
     public SongsFragment() {
 
@@ -50,6 +54,9 @@ public class SongsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
         List<Music> musicList = viewModel.getSongs(false);
+
+        shuffleControl = view.findViewById(R.id.shuffle_button);
+        shuffleControl.setText(String.valueOf(musicList.size()));
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

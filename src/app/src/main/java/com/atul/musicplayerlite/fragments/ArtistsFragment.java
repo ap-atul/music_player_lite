@@ -44,11 +44,11 @@ public class ArtistsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_songs, container, false);
+        View view = inflater.inflate(R.layout.fragment_artists, container, false);
 
         List<Artist> artistList = viewModel.getArtist(false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
+        RecyclerView recyclerView = view.findViewById(R.id.artist_layout);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new ArtistAdapter(artistList));

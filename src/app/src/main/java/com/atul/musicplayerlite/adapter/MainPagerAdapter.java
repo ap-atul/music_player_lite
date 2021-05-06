@@ -1,6 +1,7 @@
 package com.atul.musicplayerlite.adapter;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.fragments.AlbumsFragment;
 import com.atul.musicplayerlite.fragments.ArtistsFragment;
@@ -15,6 +17,7 @@ import com.atul.musicplayerlite.fragments.FoldersFragment;
 import com.atul.musicplayerlite.fragments.SettingsFragment;
 import com.atul.musicplayerlite.fragments.SongsFragment;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
+import com.atul.musicplayerlite.listener.PagerListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +27,7 @@ import java.util.List;
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
     private MusicSelectListener selectListener;
+    private FragmentManager fragmentManager;
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{
@@ -32,18 +36,19 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     };
     List<Fragment> fragments = new ArrayList<>();
 
+    private final Context mContext;
+
     public void setFragments() {
         fragments.add(SongsFragment.newInstance(selectListener));
         fragments.add(ArtistsFragment.newInstance());
-        fragments.add(AlbumsFragment.newInstance());
+        fragments.add(AlbumsFragment.newInstance(selectListener));
         fragments.add(FoldersFragment.newInstance());
         fragments.add(SettingsFragment.newInstance());
     }
 
-    private final Context mContext;
-
     public MainPagerAdapter(Context context, FragmentManager fm, MusicSelectListener selectListener) {
         super(fm);
+        this.fragmentManager = fm;
         this.mContext = context;
         this.selectListener = selectListener;
 
