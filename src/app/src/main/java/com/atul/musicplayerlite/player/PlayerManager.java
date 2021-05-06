@@ -22,10 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.atul.musicplayerlite.MPConstants.AUDIO_FOCUSED;
@@ -46,16 +43,12 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private final AudioManager audioManager;
     private PlayerListener playerListener;
     private int playerState;
-    private Music currentSong;
-    private List<Music> musicList;
     private MediaPlayer mediaPlayer;
     private NotificationReceiver notificationReceiver;
     private PlayerNotificationManager notificationManager;
     private int currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private boolean playOnFocusGain;
-    private MediaObserver mediaObserver;
-
-    private final AudioManager.OnAudioFocusChangeListener mOnAudioFocusChangeListener =
+    private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
 
                 @Override
@@ -88,11 +81,14 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
                 }
             };
+    private MediaObserver mediaObserver;
+    private final PlayerQueue playerQueue;
 
     public PlayerManager(@NonNull PlayerService playerService) {
         this.playerService = playerService;
         this.context = playerService.getApplicationContext();
-        audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        this.playerQueue = new PlayerQueue();
+        this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
     }
 
     public void registerActionsReceiver() {
@@ -144,8 +140,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                         .build());
     }
 
-    public Music getCurrentSong() {
-        return currentSong;
+    public Music getCurrentMusic() {
+        return playerQueue.getCurrentMusic();
     }
 
     public int getCurrentPosition(){
@@ -156,15 +152,17 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         return mediaPlayer.getDuration();
     }
 
+    public PlayerQueue getPlayerQueue(){
+        return playerQueue;
+    }
+
     public void setPlayerListener(PlayerListener listener) {
         playerListener = listener;
         playerListener.onPrepared();
     }
 
     public void setMusicList(List<Music> musicList) {
-        this.musicList = musicList;
-        this.currentSong = musicList.get(0);
-
+        playerQueue.setCurrentQueue(musicList);
         initMediaPlayer();
     }
 
@@ -180,7 +178,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     @Override
     public void onPrepared(MediaPlayer mp) {
-        playerListener.onMusicSet(currentSong);
+        playerListener.onMusicSet(playerQueue.getCurrentMusic());
 
         if (mediaObserver == null){
             EventBus.getDefault().register(this);
@@ -212,28 +210,18 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
 
             if (notificationManager != null) {
-                Log.d(DEBUG_TAG, "Notification updated");
                 notificationManager.updateNotification();
             }
         }
     }
 
     public void playPrev() {
-        int currentIndex = musicList.indexOf(currentSong) - 1;
-        if (currentIndex <= -1)
-            currentSong = musicList.get(0);
-
-        currentSong = musicList.get(currentIndex);
+        playerQueue.prev();
         initMediaPlayer();
-        playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
     }
 
     public void playNext() {
-        int currentIndex = musicList.indexOf(currentSong) + 1;
-        if (currentIndex > musicList.size())
-            currentSong = musicList.get(0);
-
-        currentSong = musicList.get(currentIndex);
+        playerQueue.next();
         initMediaPlayer();
     }
 
@@ -253,7 +241,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         mediaObserver.stop();
         EventBus.getDefault().unregister(this);
 
-        Log.d(DEBUG_TAG, "Released");
+        Log.d(DEBUG_TAG, "Player services released");
     }
 
     public void seekTo(int position) {
@@ -283,9 +271,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     private void tryToGetAudioFocus() {
-
         final int result = audioManager.requestAudioFocus(
-                mOnAudioFocusChangeListener,
+                audioFocusChangeListener,
                 AudioManager.STREAM_MUSIC,
                 AudioManager.AUDIOFOCUS_GAIN);
         if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
@@ -316,7 +303,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
         Uri trackUri = ContentUris.withAppendedId(
                 android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                currentSong.id);
+                playerQueue.getCurrentMusic().id);
 
         try {
             mediaPlayer.setDataSource(context, trackUri);
@@ -344,6 +331,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         @Override
         public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
             final String action = intent.getAction();
+            Music currentSong = playerQueue.getCurrentMusic();
 
             if (action != null) {
 
@@ -402,7 +390,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     private class MediaObserver implements Runnable{
-        private AtomicBoolean stop = new AtomicBoolean(false);
+        private final AtomicBoolean stop = new AtomicBoolean(false);
 
         public void stop() {
             stop.set(true);

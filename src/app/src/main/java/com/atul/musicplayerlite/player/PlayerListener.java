@@ -10,7 +10,6 @@ import java.lang.annotation.RetentionPolicy;
 public interface PlayerListener {
 
     void onPrepared();
-    void onContentUpdate();
     void onStateChanged(@State int state);
     void onPositionChanged(int position);
     void onMusicSet(Music music);
@@ -23,7 +22,7 @@ public interface PlayerListener {
             PlayerListener.State.COMPLETED,
             PlayerListener.State.RESUMED})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface State {
+    @interface State {
         int INVALID = -1;
         int PLAYING = 0;
         int PAUSED = 1;

@@ -57,7 +57,7 @@ public class PlayerNotificationManager {
     }
 
     public Notification createNotification() {
-        final Music song = playerService.getPlayerManager().getCurrentSong();
+        final Music song = playerService.getPlayerManager().getCurrentMusic();
         notificationBuilder = new NotificationCompat.Builder(playerService, CHANNEL_ID);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -98,7 +98,7 @@ public class PlayerNotificationManager {
         notificationBuilder.setOngoing(playerService.getPlayerManager().isPlaying());
 
         PlayerManager playerManager = playerService.getPlayerManager();
-        Music song = playerManager.getCurrentSong();
+        Music song = playerManager.getCurrentMusic();
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),
                 song.albumArt);
 

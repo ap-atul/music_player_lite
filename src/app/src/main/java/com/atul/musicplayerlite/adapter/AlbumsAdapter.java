@@ -17,6 +17,7 @@ import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.model.Album;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 import java.util.Locale;
@@ -47,13 +48,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 albumList.get(position).year,
                 albumList.get(position).music.size()));
 
-        Bitmap art = MusicLibraryHelper.getThumbnail(holder.albumArt.getContext(),
-                albumList.get(position).music.get(0).albumArt);
-
-        if(art == null)
-            holder.albumArt.setImageResource(R.drawable.ic_album_art);
-
-        holder.albumArt.setImageBitmap(art);
+        Glide.with(holder.albumArt.getContext())
+                .load(albumList.get(position).music.get(0).albumArt)
+                .placeholder(R.drawable.ic_album_art)
+                .into(holder.albumArt);
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.atul.musicplayerlite.adapter.SongsAdapter;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -55,10 +56,9 @@ public class SelectedAlbumActivity extends AppCompatActivity {
                 album.year,
                 album.music.size()));
 
-        Bitmap art = MusicLibraryHelper.getThumbnail(this,
-                album.music.get(0).albumArt);
-        if (art == null)
-            albumArt.setImageResource(R.drawable.ic_album_art);
-        albumArt.setImageBitmap(art);
+        Glide.with(this)
+                .load(album.music.get(0).albumArt)
+                .placeholder(R.drawable.ic_album_art)
+                .into(albumArt);
     }
 }

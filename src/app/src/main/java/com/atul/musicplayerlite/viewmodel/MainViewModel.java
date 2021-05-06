@@ -74,7 +74,7 @@ public class MainViewModel extends ViewModel {
         albumList = getAlbums(false);
 
         for( Album album : albumList){
-            if (map.containsKey(album.title)){
+            if (map.containsKey(album.artist)){
                 Artist artist = map.get(album.artist);
                 assert artist != null;
 
@@ -107,15 +107,15 @@ public class MainViewModel extends ViewModel {
         HashMap<String, Folder> map = new HashMap<>();
 
         for (Music music: musicList){
+            Folder folder;
             if(map.containsKey(music.relativePath)){
-                Folder folder = map.get(music.relativePath);
+                folder = map.get(music.relativePath);
                 folder.songsCount += 1;
-                map.put(music.relativePath, folder);
             } else {
-                Folder folder = new Folder(1, music.relativePath);
+                folder = new Folder(1, music.relativePath);
                 folderList.add(folder);
-                map.put(music.relativePath, folder);
             }
+            map.put(music.relativePath, folder);
         }
 
         Collections.sort(folderList, new FolderComparator());

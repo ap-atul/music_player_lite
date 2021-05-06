@@ -1,6 +1,5 @@
 package com.atul.musicplayerlite.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
@@ -39,12 +37,12 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.songName.setText(musicList.get(position).title);
         holder.albumName.setText(
-                String.format(Locale.getDefault(), "%s/ %s",
+                String.format(Locale.getDefault(), "%s . %s",
                         musicList.get(position).artist,
                         musicList.get(position).album)
         );
         holder.songHistory.setText(
-                String.format(Locale.getDefault(), "%s, %s",
+                String.format(Locale.getDefault(), "%s . %s",
                         MusicLibraryHelper.formatDuration(musicList.get(position).duration),
                         MusicLibraryHelper.formatDate(musicList.get(position).dateAdded))
         );

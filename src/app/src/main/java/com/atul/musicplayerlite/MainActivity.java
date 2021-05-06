@@ -27,8 +27,6 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         Log.d(MPConstants.DEBUG_TAG, "Trying to revive the player " + (playerManager != null));
         if (playerManager != null && playerManager.isPlaying()) {
             playerView.setVisibility(View.VISIBLE);
-            onMusicSet(playerManager.getCurrentSong());
+            onMusicSet(playerManager.getCurrentMusic());
         }
     }
 
@@ -142,10 +140,6 @@ public class MainActivity extends AppCompatActivity
     public void onPrepared() {
         playerManager = playerBuilder.getPlayerManager();
         setPlayerView();
-    }
-
-    @Override
-    public void onContentUpdate() {
     }
 
     @Override

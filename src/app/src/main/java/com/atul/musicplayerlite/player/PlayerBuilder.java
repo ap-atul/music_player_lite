@@ -58,8 +58,6 @@ public class PlayerBuilder {
     };
 
     private void bindService() {
-        Log.d(MPConstants.DEBUG_TAG, "Binding the service");
-
         context.bindService(new Intent(context, PlayerService.class), serviceConnection, Context.BIND_AUTO_CREATE);
         serviceBound = true;
 
