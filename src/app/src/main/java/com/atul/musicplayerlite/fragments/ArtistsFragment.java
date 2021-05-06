@@ -14,9 +14,7 @@ import com.atul.musicplayerlite.adapter.ArtistAdapter;
 import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.adapter.AlbumsAdapter;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
-import com.atul.musicplayerlite.model.Album;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class ArtistsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_artists, container, false);
 
-        List<Artist> artistList = viewModel.getArtist(false);
+        List<Artist> artistList = viewModel.getArtists(false);
 
         RecyclerView recyclerView = view.findViewById(R.id.artist_layout);
         recyclerView.setHasFixedSize(true);

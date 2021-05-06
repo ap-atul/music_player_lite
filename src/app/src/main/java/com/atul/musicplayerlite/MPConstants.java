@@ -26,7 +26,6 @@ public class MPConstants {
             R.drawable.ic_music_note,
             R.drawable.ic_artist,
             R.drawable.ic_library_music,
-            R.drawable.ic_folder_music,
             R.drawable.ic_settings
     };
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Artist;
+import com.atul.musicplayerlite.model.Folder;
 import com.atul.musicplayerlite.model.Music;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MainViewModel extends ViewModel {
     public List<Music> musicList;
     public List<Album> albumList;
     public List<Artist> artistList;
+    public List<Folder> folderList;
 
     public MainViewModel(Context context){
         musicList = MusicLibraryHelper.fetchMusicLibrary(context);
@@ -66,7 +68,7 @@ public class MainViewModel extends ViewModel {
         return albumList;
     }
 
-    public List<Artist> getArtist (boolean reverse) {
+    public List<Artist> getArtists(boolean reverse) {
         HashMap<String, Artist> map = new HashMap<>();
         artistList = new ArrayList<>();
         albumList = getAlbums(false);
@@ -101,10 +103,35 @@ public class MainViewModel extends ViewModel {
         return artistList;
     }
 
+    public List<Folder> getFolders(boolean reverse){
+        HashMap<String, Folder> map = new HashMap<>();
+
+        for (Music music: musicList){
+            if(map.containsKey(music.relativePath)){
+                Folder folder = map.get(music.relativePath);
+                folder.songsCount += 1;
+                map.put(music.relativePath, folder);
+            } else {
+                Folder folder = new Folder(1, music.relativePath);
+                folderList.add(folder);
+                map.put(music.relativePath, folder);
+            }
+        }
+
+        Collections.sort(folderList, new FolderComparator());
+        if (reverse)
+            Collections.reverse(folderList);
+
+        return folderList;
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();
         musicList = null;
+        albumList = null;
+        artistList = null;
+        folderList = null;
     }
 }
 
@@ -126,5 +153,13 @@ class ArtistComparator implements Comparator<Artist>{
     @Override
     public int compare(Artist a1, Artist a2) {
         return a1.name.compareTo(a2.name);
+    }
+}
+
+class FolderComparator implements Comparator<Folder> {
+
+    @Override
+    public int compare(Folder f1, Folder f2) {
+        return f1.name.compareTo(f2.name);
     }
 }
