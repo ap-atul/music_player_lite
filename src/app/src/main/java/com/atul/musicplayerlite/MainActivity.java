@@ -1,5 +1,6 @@
 package com.atul.musicplayerlite;
 
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -25,6 +27,8 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
@@ -32,8 +36,6 @@ public class MainActivity extends AppCompatActivity
     private RelativeLayout playerView;
     private ImageView albumArt;
     private TextView songName;
-    private ImageView next;
-    private ImageView prev;
     private ImageView play_pause;
     private LinearProgressIndicator progressIndicator;
 
@@ -46,16 +48,36 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(PermissionHelper.manageStoragePermission(MainActivity.this))
+            setUpUiElements();
+
+        if(savedInstanceState != null && savedInstanceState.getString(MPConstants.SAVE_INSTANCE_KEY_PLAYER) != null)
+            setPlayerView();
+
         playerBuilder = new PlayerBuilder(this, this);
 
         albumArt = findViewById(R.id.albumArt);
         progressIndicator = findViewById(R.id.song_progress);
         playerView = findViewById(R.id.player_view);
         songName = findViewById(R.id.song_title);
-        next = findViewById(R.id.control_next);
-        prev = findViewById(R.id.control_prev);
+        ImageView next = findViewById(R.id.control_next);
+        ImageView prev = findViewById(R.id.control_prev);
         play_pause = findViewById(R.id.control_play_pause);
 
+        next.setOnClickListener(this);
+        prev.setOnClickListener(this);
+        play_pause.setOnClickListener(this);
+    }
+
+    private void setPlayerView() {
+        Log.d(MPConstants.DEBUG_TAG, "Trying to revive the player " + (playerManager != null));
+        if (playerManager != null && playerManager.isPlaying()) {
+            playerView.setVisibility(View.VISIBLE);
+            onMusicSet(playerManager.getCurrentSong());
+        }
+    }
+
+    public void setUpUiElements(){
         MainPagerAdapter sectionsPagerAdapter = new MainPagerAdapter(
                 this, getSupportFragmentManager(), this);
 
@@ -65,12 +87,20 @@ public class MainActivity extends AppCompatActivity
         tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         setUpTabIcons();
+    }
 
-        PermissionHelper.manageStoragePermission(MainActivity.this);
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(MPConstants.SAVE_INSTANCE_KEY_PLAYER, MPConstants.SAVE_INSTANCE_VAL_PLAYER);
+    }
 
-        next.setOnClickListener(this);
-        prev.setOnClickListener(this);
-        play_pause.setOnClickListener(this);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            setUpUiElements();
+        }
     }
 
     private void setUpTabIcons(){
@@ -80,17 +110,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        playerManager.detachService();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        if (playerManager != null && playerManager.isPlaying())
-            playerView.setVisibility(View.VISIBLE);
+        setPlayerView();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (playerManager != null && playerManager.isPlaying())
-            playerView.setVisibility(View.VISIBLE);
+        setPlayerView();
     }
 
     @Override
@@ -100,15 +134,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
-        Log.d(MPConstants.DEBUG_TAG, "Trying to play the list");
         playerManager.setMusicList(musicList);
     }
 
     @Override
     public void onPrepared() {
         playerManager = playerBuilder.getPlayerManager();
-        if(playerManager != null)
-            Log.d(MPConstants.DEBUG_TAG, "Successfully got the player manager");
+        setPlayerView();
     }
 
     @Override
@@ -117,8 +149,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onStateChanged(int state) {
-        Log.i(MPConstants.DEBUG_TAG, String.valueOf(state));
-
         if(state == State.PLAYING)
             play_pause.setImageResource(R.drawable.ic_controls_pause);
         else
@@ -140,6 +170,11 @@ public class MainActivity extends AppCompatActivity
                 .load(art)
                 .centerCrop()
                 .into(albumArt);
+
+        if(playerManager != null && playerManager.isPlaying())
+            play_pause.setImageResource(R.drawable.ic_controls_pause);
+        else
+            play_pause.setImageResource(R.drawable.ic_controls_play);
     }
 
     @Override
@@ -164,11 +199,5 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.control_play_pause)
             playerManager.playPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        playerManager.detachService();
     }
 }

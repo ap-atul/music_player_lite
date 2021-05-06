@@ -9,8 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.text.Html;
-import android.text.Spanned;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -21,8 +19,6 @@ import com.atul.musicplayerlite.MainActivity;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.model.Music;
-
-import java.util.Locale;
 
 import static com.atul.musicplayerlite.MPConstants.CHANNEL_ID;
 import static com.atul.musicplayerlite.MPConstants.NEXT_ACTION;

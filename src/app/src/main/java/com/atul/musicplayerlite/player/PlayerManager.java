@@ -18,7 +18,14 @@ import androidx.annotation.NonNull;
 
 import com.atul.musicplayerlite.model.Music;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.Serializable;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static com.atul.musicplayerlite.MPConstants.AUDIO_FOCUSED;
@@ -176,6 +183,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         playerListener.onMusicSet(currentSong);
 
         if (mediaObserver == null){
+            EventBus.getDefault().register(this);
             mediaObserver = new MediaObserver();
             new Thread(mediaObserver).start();
         }
@@ -243,6 +251,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         mediaPlayer.release();
         playerListener.onRelease();
         mediaObserver.stop();
+        EventBus.getDefault().unregister(this);
 
         Log.d(DEBUG_TAG, "Released");
     }
@@ -322,10 +331,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
     }
 
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
-        playerListener.onPositionChanged(percent);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onProgressEvent(PlayerProgressEvent event){
+        playerListener.onPositionChanged(event.percent);
     }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) { }
 
     public class NotificationReceiver extends BroadcastReceiver {
 
@@ -403,7 +415,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
                     if(isPlaying()){
                         int percent = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
-                        playerListener.onPositionChanged(percent);
+                        EventBus.getDefault().post(new PlayerProgressEvent(percent));
                     }
 
                     Thread.sleep(100);
