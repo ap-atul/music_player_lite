@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.MPConstants;
+import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
 import com.bumptech.glide.Glide;
@@ -30,6 +32,7 @@ public class SelectedAlbumActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
         setContentView(R.layout.activity_selected_album);
 
         Album album = getIntent().getParcelableExtra("album");

@@ -2,7 +2,11 @@ package com.atul.musicplayerlite;
 
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MPConstants {
+    public static final String PACKAGE_NAME = "com.atul.musicplayerlite";
     public static final String DEBUG_TAG = "MPLite_debug";
 
     public static final int PERMISSION_READ_STORAGE = 1009;
@@ -38,4 +42,51 @@ public class MPConstants {
     public static final boolean PLAYER_QUEUE_MODE_ROUND_ON = true;
     public static final boolean PLAYER_QUEUE_MODE_ROUND_OFF = false;
     public static MusicSelectListener musicSelectListener;
+
+    public static final String SETTINGS_THEME = "shared_pref_theme";
+    public static final String SETTINGS_PLAYER_STATE = "shared_pref_player_state";
+
+    public static final List<Integer> ACCENT_LIST = Arrays.asList(
+            R.color.red,
+            R.color.pink,
+            R.color.purple,
+            R.color.deep_purple,
+            R.color.red,
+            R.color.indigo,
+            R.color.blue,
+            R.color.light_blue,
+            R.color.cyan,
+            R.color.teal,
+            R.color.green,
+            R.color.light_green,
+            R.color.lime,
+            R.color.yellow,
+            R.color.amber,
+            R.color.orange,
+            R.color.deep_orange,
+            R.color.brown,
+            R.color.grey,
+            R.color.blue_grey,
+
+            R.color.red_300,
+            R.color.pink_300,
+            R.color.purple_300,
+            R.color.deep_purple_300,
+            R.color.red_300,
+            R.color.indigo_300,
+            R.color.blue_300,
+            R.color.light_blue_300,
+            R.color.cyan_300,
+            R.color.teal_300,
+            R.color.green_300,
+            R.color.light_green_300,
+            R.color.lime_300,
+            R.color.yellow_300,
+            R.color.amber_300,
+            R.color.orange_300,
+            R.color.deep_orange_300,
+            R.color.brown_300,
+            R.color.grey_300,
+            R.color.blue_grey_300
+    );
 }

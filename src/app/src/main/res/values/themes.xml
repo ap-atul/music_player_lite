@@ -156,6 +156,11 @@
         <item name="colorSecondary">@color/lime_300</item>
     </style>
 
+    <style name="BaseTheme.Yellow300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/yellow_300</item>
+        <item name="colorSecondary">@color/yellow_300</item>
+    </style>
+
     <style name="BaseTheme.Amber300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/amber_300</item>
         <item name="colorSecondary">@color/amber_300</item>
@@ -176,13 +181,18 @@
         <item name="colorSecondary">@color/brown_300</item>
     </style>
 
+    <style name="BaseTheme.Grey300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/grey_300</item>
+        <item name="colorSecondary">@color/grey_300</item>
+    </style>
+
     <style name="BaseTheme.BlueGrey300" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/blue_grey_300</item>
         <item name="colorSecondary">@color/blue_grey_300</item>
     </style>
 
     <style name="BaseTheme.Default" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple</item>
-        <item name="colorSecondary">@color/purple</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorSecondary">@color/blue</item>
     </style>
 </resources>

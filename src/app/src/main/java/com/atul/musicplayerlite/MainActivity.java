@@ -2,7 +2,7 @@ package com.atul.musicplayerlite;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,6 +16,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
 import com.atul.musicplayerlite.helper.PermissionHelper;
+import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.player.PlayerBuilder;
@@ -34,7 +35,6 @@ public class MainActivity extends AppCompatActivity
 
 
     private RelativeLayout playerView;
-    private MaterialCardView playerLayout;
     private ImageView albumArt;
     private TextView songName;
     private TextView songDetails;
@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
         setContentView(R.layout.activity_main);
 
         if (PermissionHelper.manageStoragePermission(MainActivity.this))
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         playerBuilder = new PlayerBuilder(this, this);
         MPConstants.musicSelectListener = this;
 
-        playerLayout = findViewById(R.id.player_layout);
+        MaterialCardView playerLayout = findViewById(R.id.player_layout);
         albumArt = findViewById(R.id.albumArt);
         progressIndicator = findViewById(R.id.song_progress);
         playerView = findViewById(R.id.player_view);
@@ -78,7 +79,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setPlayerView() {
-        Log.d(MPConstants.DEBUG_TAG, "Trying to revive the player " + (playerManager != null));
         if (playerManager != null && playerManager.isPlaying()) {
             playerView.setVisibility(View.VISIBLE);
             onMusicSet(playerManager.getCurrentMusic());

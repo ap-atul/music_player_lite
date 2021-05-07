@@ -3,11 +3,79 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SettingsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/settings_layout"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UI"
+            android:fontFamily="@font/roboto_mono_medium"
+            android:textColor="?colorPrimary"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_medium"/>
+
+        <LinearLayout
+            android:id="@+id/accent_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
+            android:padding="10dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_theme_option"
+                android:layout_gravity="center_vertical"
+                app:tint="?colorPrimary"
+                android:contentDescription="@string/image" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Select accent color"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="@dimen/text_big_med"
+                    android:textColor="@color/material_on_background_emphasis_high_type"/>
+
+                <TextView
+                    android:id="@+id/current_accent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="choose your favorite color of choice"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/material_on_background_emphasis_medium"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/accent_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:visibility="gone"
+            android:orientation="horizontal"/>
+
+    </LinearLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
