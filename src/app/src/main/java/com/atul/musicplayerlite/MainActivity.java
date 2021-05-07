@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,18 +22,23 @@ import com.atul.musicplayerlite.player.PlayerBuilder;
 import com.atul.musicplayerlite.player.PlayerListener;
 import com.atul.musicplayerlite.player.PlayerManager;
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
 
+
     private RelativeLayout playerView;
+    private MaterialCardView playerLayout;
     private ImageView albumArt;
     private TextView songName;
-    private ImageView play_pause;
+    private TextView songDetails;
+    private ImageButton play_pause;
     private LinearProgressIndicator progressIndicator;
 
     private PlayerBuilder playerBuilder;
@@ -54,19 +60,21 @@ public class MainActivity extends AppCompatActivity
         playerBuilder = new PlayerBuilder(this, this);
         MPConstants.musicSelectListener = this;
 
+        playerLayout = findViewById(R.id.player_layout);
         albumArt = findViewById(R.id.albumArt);
         progressIndicator = findViewById(R.id.song_progress);
         playerView = findViewById(R.id.player_view);
         songName = findViewById(R.id.song_title);
-        ImageView next = findViewById(R.id.control_next);
-        ImageView prev = findViewById(R.id.control_prev);
+        songDetails = findViewById(R.id.song_details);
+        ImageButton next = findViewById(R.id.control_next);
+        ImageButton prev = findViewById(R.id.control_prev);
         play_pause = findViewById(R.id.control_play_pause);
 
         songName.setOnClickListener(this);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         play_pause.setOnClickListener(this);
-        playerView.setOnClickListener(this);
+        playerLayout.setOnClickListener(this);
     }
 
     private void setPlayerView() {
@@ -162,11 +170,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMusicSet(Music music) {
         songName.setText(music.title);
+        songDetails.setText(
+                String.format(Locale.getDefault(), "%s • %s",  music.artist,  music.album));
         playerView.setVisibility(View.VISIBLE);
 
         Glide.with(getApplicationContext())
                 .load(music.albumArt)
-                .placeholder(R.drawable.ic_album_art)
                 .centerCrop()
                 .into(albumArt);
 
@@ -199,7 +208,7 @@ public class MainActivity extends AppCompatActivity
         else if (id == R.id.control_play_pause)
             playerManager.playPause();
 
-        else if (id == R.id.song_title)
+        else if (id == R.id.player_layout)
             setUpPlayerDialog();
     }
 

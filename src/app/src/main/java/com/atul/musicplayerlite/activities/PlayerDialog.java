@@ -2,6 +2,7 @@ package com.atul.musicplayerlite.activities;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -25,11 +26,11 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private final PlayerQueue playerQueue;
 
     private final ImageView albumArt;
-    private final ImageView repeatControl;
-    private final ImageView shuffleControl;
-    private final ImageView prevControl;
-    private final ImageView nextControl;
-    private final ImageView playPauseControl;
+    private final ImageButton repeatControl;
+    private final ImageButton shuffleControl;
+    private final ImageButton prevControl;
+    private final ImageButton nextControl;
+    private final ImageButton playPauseControl;
     private final TextView songName;
     private final TextView songAlbum;
     private final TextView currentDuration;
@@ -72,7 +73,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private void setUpUi() {
         Music music = playerManager.getCurrentMusic();
 
-        songName.setText(music.displayName);
+        songName.setText(music.title);
         songAlbum.setText(String.format(Locale.getDefault(), "%s • %s",
                 music.artist, music.album));
 
@@ -90,7 +91,9 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         int repeat = playerQueue.isRepeat() ? R.drawable.ic_controls_repeat_one : R.drawable.ic_controls_repeat;
         repeatControl.setImageResource(repeat);
 
-        totalDuration.setText(MusicLibraryHelper.formatDuration(music.duration));
+        totalDuration.setText(MusicLibraryHelper.formatDurationTimeStyle(music.duration));
+        currentDuration.setText(MusicLibraryHelper
+                .formatDurationTimeStyle(percentToPosition(playerManager.getCurrentPosition())));
     }
 
     private int percentToPosition(int percent) {
@@ -99,7 +102,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        currentDuration.setText(MusicLibraryHelper.formatDuration(percentToPosition(progress)));
+        currentDuration.setText(MusicLibraryHelper.formatDurationTimeStyle(percentToPosition(progress)));
     }
 
     @Override

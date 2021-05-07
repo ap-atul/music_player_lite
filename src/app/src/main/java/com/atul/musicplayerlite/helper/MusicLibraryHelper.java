@@ -130,6 +130,21 @@ public class MusicLibraryHelper {
         );
     }
 
+    public static String formatDurationTimeStyle(long duration) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(duration);
+        String second = String.valueOf(seconds);
+
+        if (second.length() == 1)
+            second = "0" + second;
+        else
+            second = second.substring(0, 2);
+
+        return String.format(Locale.getDefault(), "%02d:%s",
+                TimeUnit.MILLISECONDS.toMinutes(duration),
+                second
+        );
+    }
+
     public static String formatDate(int dateAdded) {
         SimpleDateFormat fromFormat = new SimpleDateFormat("s", Locale.getDefault());
         SimpleDateFormat toFormat = new SimpleDateFormat("d MMM yyyy", Locale.getDefault());
