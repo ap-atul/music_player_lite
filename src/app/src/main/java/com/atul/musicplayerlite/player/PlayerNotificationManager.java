@@ -22,6 +22,7 @@ import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.model.Music;
 
 import static com.atul.musicplayerlite.MPConstants.CHANNEL_ID;
+import static com.atul.musicplayerlite.MPConstants.CLOSE_ACTION;
 import static com.atul.musicplayerlite.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayerlite.MPConstants.NOTIFICATION_ID;
 import static com.atul.musicplayerlite.MPConstants.PLAY_PAUSE_ACTION;
@@ -89,6 +90,7 @@ public class PlayerNotificationManager {
                 .addAction(notificationAction(PREV_ACTION))
                 .addAction(notificationAction(PLAY_PAUSE_ACTION))
                 .addAction(notificationAction(NEXT_ACTION))
+                .addAction(notificationAction(CLOSE_ACTION))
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
 
         notificationBuilder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2));
@@ -135,6 +137,9 @@ public class PlayerNotificationManager {
                 break;
             case NEXT_ACTION:
                 icon = R.drawable.ic_controls_next;
+                break;
+            case CLOSE_ACTION:
+                icon = R.drawable.ic_close;
                 break;
         }
         return new NotificationCompat.Action.Builder(icon, action, playerAction(action)).build();

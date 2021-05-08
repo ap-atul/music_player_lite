@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
     private TextView songDetails;
     private ImageButton play_pause;
     private LinearProgressIndicator progressIndicator;
+    private PlayerDialog playerDialog;
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
@@ -115,6 +116,9 @@ public class MainActivity extends AppCompatActivity
         //      the service dies too, sometimes it dies also by clicking on the
         //      notification.
 //        playerBuilder.unBindService();
+
+        if(playerDialog != null)
+            playerDialog.dismiss();
     }
 
     @Override
@@ -191,7 +195,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpPlayerDialog() {
-        PlayerDialog playerDialog = new PlayerDialog(this, playerManager);
+        playerDialog = new PlayerDialog(this, playerManager);
         playerDialog.show();
     }
 }

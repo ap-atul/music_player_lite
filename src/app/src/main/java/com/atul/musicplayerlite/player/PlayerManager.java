@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static com.atul.musicplayerlite.MPConstants.AUDIO_FOCUSED;
 import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
 import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
+import static com.atul.musicplayerlite.MPConstants.CLOSE_ACTION;
 import static com.atul.musicplayerlite.MPConstants.DEBUG_TAG;
 import static com.atul.musicplayerlite.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayerlite.MPConstants.NOTIFICATION_ID;
@@ -99,6 +100,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         intentFilter.addAction(PREV_ACTION);
         intentFilter.addAction(PLAY_PAUSE_ACTION);
         intentFilter.addAction(NEXT_ACTION);
+        intentFilter.addAction(CLOSE_ACTION);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
@@ -248,15 +250,16 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void release() {
+        mediaObserver.stop();
+        playerService.stopForeground(true);
+        playerService.stopSelf();
         mediaPlayer.release();
+        mediaPlayer = null;
 
         for (PlayerListener playerListener : playerListeners)
             playerListener.onRelease();
 
-        mediaObserver.stop();
         EventBus.getDefault().unregister(this);
-
-        Log.d(DEBUG_TAG, "Player services released");
     }
 
     public void seekTo(int position) {
@@ -366,6 +369,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                         playNext();
                         break;
 
+                    case CLOSE_ACTION:
+                        playerService.stopSelf();
+                        break;
+
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                         if (currentSong != null) {
                             pauseMediaPlayer();
@@ -416,7 +423,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             while (!stop.get()) {
                 try {
 
-                    if (isPlaying()) {
+                    if (mediaPlayer != null && isPlaying()) {
                         int percent = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
                         EventBus.getDefault().post(new PlayerProgressEvent(percent));
                     }
