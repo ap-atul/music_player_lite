@@ -9,13 +9,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
+        app:cardElevation="10dp"
         app:cardCornerRadius="10dp">
 
         <ImageView
             android:id="@+id/album_art"
             android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image"
             android:scaleType="centerCrop"

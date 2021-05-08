@@ -14,11 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Default">
-        <activity android:name=".activities.SelectedAlbumActivity"></activity>
+
+        <activity android:name=".activities.SelectedAlbumActivity"/>
 
         <service
             android:name=".player.PlayerService"
-            android:enabled="true" />
+            android:exported="false"/>
 
         <activity
             android:name=".MainActivity"

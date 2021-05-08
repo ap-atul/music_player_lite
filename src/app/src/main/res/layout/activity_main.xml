@@ -25,7 +25,10 @@
             style="?attr/tabStyle"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:background="@color/windowBackground"
             android:layout_weight="0"
+            app:tabIconTint="@color/tab_color"
+            app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorAnimationMode="linear"
             app:tabIndicatorFullWidth="true"
             app:tabRippleColor="?colorPrimary" />
