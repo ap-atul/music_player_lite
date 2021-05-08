@@ -33,8 +33,6 @@ public class MPConstants {
             R.drawable.ic_settings
     };
 
-    public static final String SAVE_INSTANCE_KEY_PLAYER = "save_player";
-
     public static final boolean PLAYER_QUEUE_MODE_SHUFFLE_ON = true;
     public static MusicSelectListener musicSelectListener;
 
@@ -93,6 +91,6 @@ public class MPConstants {
     public static final int SORT_ARTIST_BY_SONGS = 2;
 
     public static final int SORT_ALBUM_BY_TITLE = 0;
-    public static final int SORT_ALBUM_BY_DURATION = 0;
-    public static final int SORT_ALBUM_BY_SONGS = 0;
+    public static final int SORT_ALBUM_BY_DURATION = 1;
+    public static final int SORT_ALBUM_BY_SONGS = 2;
 }

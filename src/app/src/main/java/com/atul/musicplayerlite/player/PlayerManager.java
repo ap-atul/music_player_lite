@@ -16,7 +16,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
 import org.greenrobot.eventbus.EventBus;
@@ -120,10 +119,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     public void attachListener(PlayerListener playerListener) {
         playerListeners.add(playerListener);
-    }
-
-    public int getPlayerState() {
-        return playerState;
     }
 
     private void setPlayerState(@PlayerListener.State int state) {
@@ -338,6 +333,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
     }
 
+    // do not remove this
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onProgressEvent(PlayerProgressEvent event) {
         for (PlayerListener playerListener : playerListeners)
@@ -359,17 +355,14 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
                 switch (action) {
                     case PREV_ACTION:
-                        Log.i(DEBUG_TAG, "Previous song action");
                         playPrev();
                         break;
 
                     case PLAY_PAUSE_ACTION:
-                        Log.i(DEBUG_TAG, "Pause play song action");
                         playPause();
                         break;
 
                     case NEXT_ACTION:
-                        Log.i(DEBUG_TAG, "Next song action");
                         playNext();
                         break;
 

@@ -10,14 +10,11 @@ import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.model.Folder;
 import com.atul.musicplayerlite.model.Music;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
-import kotlin.collections.CollectionsKt;
 
 
 public class MainViewModel extends ViewModel {
@@ -40,30 +37,32 @@ public class MainViewModel extends ViewModel {
     }
 
     public List<Album> getAlbums(boolean reverse) {
-        HashMap<String, Album> map = new HashMap<>();
-        albumList = new ArrayList<>();
+        if (albumList.size() == 0) {
 
-        for (Music music : songsList) {
-            if (map.containsKey(music.album)) {
-                Album album = map.get(music.album);
-                assert album != null;
-                album.duration += music.duration;
-                album.music.add(music);
+            HashMap<String, Album> map = new HashMap<>();
+            albumList = new ArrayList<>();
 
-                map.put(music.album, album);
+            for (Music music : songsList) {
+                if (map.containsKey(music.album)) {
+                    Album album = map.get(music.album);
+                    assert album != null;
+                    album.duration += music.duration;
+                    album.music.add(music);
 
-            } else {
-                List<Music> list = new ArrayList<>();
-                list.add(music);
-                Album album = new Album(music.artist, music.album, String.valueOf(music.year), music.duration, list);
-                map.put(music.album, album);
+                    map.put(music.album, album);
+
+                } else {
+                    List<Music> list = new ArrayList<>();
+                    list.add(music);
+                    Album album = new Album(music.artist, music.album, String.valueOf(music.year), music.duration, list);
+                    map.put(music.album, album);
+                }
+            }
+
+            for (String k : map.keySet()) {
+                albumList.add(map.get(k));
             }
         }
-
-        for (String k : map.keySet()) {
-            albumList.add(map.get(k));
-        }
-
         Collections.sort(albumList, new AlbumComparator());
         if (reverse)
             Collections.reverse(albumList);
@@ -72,31 +71,34 @@ public class MainViewModel extends ViewModel {
     }
 
     public List<Artist> getArtists(boolean reverse) {
-        HashMap<String, Artist> map = new HashMap<>();
-        artistList = new ArrayList<>();
-        albumList = getAlbums(false);
+        if (artistList.size() == 0) {
 
-        for (Album album : albumList) {
-            if (map.containsKey(album.artist)) {
-                Artist artist = map.get(album.artist);
-                assert artist != null;
+            HashMap<String, Artist> map = new HashMap<>();
+            artistList = new ArrayList<>();
+            albumList = getAlbums(false);
 
-                artist.albums.add(album);
-                artist.songCount += album.music.size();
-                artist.albumCount += 1;
-                map.put(album.artist, artist);
+            for (Album album : albumList) {
+                if (map.containsKey(album.artist)) {
+                    Artist artist = map.get(album.artist);
+                    assert artist != null;
 
-            } else {
-                List<Album> list = new ArrayList<>();
-                list.add(album);
+                    artist.albums.add(album);
+                    artist.songCount += album.music.size();
+                    artist.albumCount += 1;
+                    map.put(album.artist, artist);
 
-                Artist artist = new Artist(album.artist, list, album.music.size(), list.size());
-                map.put(album.artist, artist);
+                } else {
+                    List<Album> list = new ArrayList<>();
+                    list.add(album);
+
+                    Artist artist = new Artist(album.artist, list, album.music.size(), list.size());
+                    map.put(album.artist, artist);
+                }
             }
-        }
 
-        for (String k : map.keySet()) {
-            artistList.add(map.get(k));
+            for (String k : map.keySet()) {
+                artistList.add(map.get(k));
+            }
         }
 
         Collections.sort(artistList, new ArtistComparator());

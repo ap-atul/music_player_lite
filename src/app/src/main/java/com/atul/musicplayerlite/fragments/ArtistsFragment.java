@@ -69,7 +69,6 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         return view;
     }
 
-
     private void setUpOptions() {
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
@@ -101,12 +100,12 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
             }
 
             else if(id == R.id.menu_most_albums){
-                updateAdapter(ListHelper.sortArtistsByAlbums(artistList, false));
+                updateAdapter(ListHelper.sortArtistByAlbums(artistList, false));
                 return true;
             }
 
             else if(id == R.id.menu_least_albums){
-                updateAdapter(ListHelper.sortArtistsByAlbums(artistList, true));
+                updateAdapter(ListHelper.sortArtistByAlbums(artistList, true));
                 return true;
             }
 

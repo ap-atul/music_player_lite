@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
-    private PlayerDialog playerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,10 +104,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        playerBuilder.unBindService();
 
-        if (playerDialog != null)
-            playerDialog.dismiss();
+        // TODO:: Fix this, the ideal behaviour is that when the app closes
+        //      the service is stopped from the foreground, but still lives
+        //      and on coming back to app, it works.
+
+        // TODO:: Current error is that the service unbinds, when we start the app
+        //       from notification or by launcher it works ok, but after selecting the
+        //      theme(changing the theme) or clicking the navigation button on toolbar
+        //      the service dies too, sometimes it dies also by clicking on the
+        //      notification.
+//        playerBuilder.unBindService();
     }
 
     @Override
@@ -185,7 +191,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpPlayerDialog() {
-        playerDialog = new PlayerDialog(this, playerManager);
+        PlayerDialog playerDialog = new PlayerDialog(this, playerManager);
         playerDialog.show();
     }
 }

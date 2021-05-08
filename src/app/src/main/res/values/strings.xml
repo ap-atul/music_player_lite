@@ -20,6 +20,8 @@
     <string name="least_songs">Least songs</string>
     <string name="most_albums">Most albums</string>
     <string name="least_albums">Least albums</string>
+    <string name="longest_dur">Longest duration</string>
+    <string name="shortest_duration">Shortest duration</string>
 
 
 </resources>

@@ -9,7 +9,6 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 import android.view.KeyEvent;
 
 import com.atul.musicplayerlite.MPConstants;

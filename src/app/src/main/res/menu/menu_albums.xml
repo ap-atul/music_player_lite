@@ -31,15 +31,28 @@
                 app:showAsAction="never" />
 
             <item
-                android:id="@+id/menu_newest_first"
+                android:id="@+id/menu_most_songs"
                 android:orderInCategory="1"
-                android:title="@string/newest_first"
+                android:title="@string/most_songs"
                 app:showAsAction="never"/>
 
             <item
-                android:id="@+id/menu_oldest_first"
+                android:id="@+id/menu_least_songs"
                 android:orderInCategory="1"
-                android:title="@string/oldest_first"
+                android:title="@string/least_songs"
+                app:showAsAction="never"/>
+
+
+            <item
+                android:id="@+id/menu_longest_dur"
+                android:orderInCategory="1"
+                android:title="@string/longest_dur"
+                app:showAsAction="never"/>
+
+            <item
+                android:id="@+id/menu_shortest_dur"
+                android:orderInCategory="1"
+                android:title="@string/shortest_duration"
                 app:showAsAction="never"/>
 
         </menu>

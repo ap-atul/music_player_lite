@@ -3,21 +3,12 @@ package com.atul.musicplayerlite.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Album implements Parcelable {
-    public static final Creator<Album> CREATOR = new Creator<Album>() {
-        @Override
-        public Album createFromParcel(Parcel in) {
-            return new Album(in);
-        }
-
-        @Override
-        public Album[] newArray(int size) {
-            return new Album[size];
-        }
-    };
     public String title;
     public String year;
     public String artist;
@@ -46,6 +37,18 @@ public class Album implements Parcelable {
         }
     }
 
+    public static final Creator<Album> CREATOR = new Creator<Album>() {
+        @Override
+        public Album createFromParcel(Parcel in) {
+            return new Album(in);
+        }
+
+        @Override
+        public Album[] newArray(int size) {
+            return new Album[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,6 +69,7 @@ public class Album implements Parcelable {
         }
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "Album{" +
