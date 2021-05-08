@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragments.SongsFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/search_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/windowBackground"
+        app:collapseIcon="@drawable/ic_close"
+        app:navigationIcon="@drawable/ic_close"
+        app:title="Songs"
+        app:titleTextColor="?android:attr/textColorPrimary"
+        app:menu="@menu/menu_songs"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/songs_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_toolbar"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/shuffle_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:contentDescription="@string/image"
         android:textColor="@color/widgetsColor"
@@ -24,4 +40,4 @@
         app:iconTint="@color/widgetsColor"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

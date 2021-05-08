@@ -1,10 +1,13 @@
 package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,17 +20,23 @@ import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class SongsFragment extends Fragment {
+public class SongsFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnMenuItemClickListener {
 
     private static MusicSelectListener listener;
     private MainViewModel viewModel;
 
-    public SongsFragment() {
+    private MaterialToolbar toolbar;
+    private SearchView searchView;
+    private List<Music> musicList = new ArrayList<>();
+    private RecyclerView recyclerView;
 
+    public SongsFragment() {
     }
 
     public static SongsFragment newInstance(MusicSelectListener selectListener) {
@@ -51,20 +60,83 @@ public class SongsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
-        List<Music> musicList = viewModel.getSongs(false);
+        musicList = viewModel.getSongs(false);
+
+        toolbar = view.findViewById(R.id.search_toolbar);
 
         ExtendedFloatingActionButton shuffleControl = view.findViewById(R.id.shuffle_button);
         shuffleControl.setText(String.valueOf(musicList.size()));
 
-        RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
+        recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new SongsAdapter(listener, musicList));
+        SongsAdapter songsAdapter = new SongsAdapter(listener, musicList);
+        recyclerView.setAdapter(songsAdapter);
 
         shuffleControl.setOnClickListener(v -> {
             listener.setShuffleMode(MPConstants.PLAYER_QUEUE_MODE_SHUFFLE_ON);
             listener.playQueue(musicList);
         });
 
+        setUpOptions();
         return view;
+    }
+
+    private void setUpOptions() {
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+
+            if(id == R.id.search){
+                searchView = (SearchView) item.getActionView();
+                setUpSearchView();
+                return true;
+            }
+
+            else if(id == R.id.menu_sort_asc){
+                Log.d(MPConstants.DEBUG_TAG, "Sorting ascending");
+                return true;
+            }
+
+            else if(id == R.id.menu_sort_dec){
+                Log.d(MPConstants.DEBUG_TAG, "Sorting descending");
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    private void setUpSearchView() {
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        List<Music> out = musicList;
+        recyclerView.setAdapter(
+                new SongsAdapter(listener, viewModel.searchMusicByName(out, query.toLowerCase())));
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        List<Music> out = musicList;
+        recyclerView.setAdapter(
+                new SongsAdapter(listener, viewModel.searchMusicByName(out, newText.toLowerCase())));
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == R.id.menu_sort_asc){
+            Log.d(MPConstants.DEBUG_TAG, "Sorting ascending");
+            return true;
+        }
+        else if(id == R.id.menu_sort_dec){
+            Log.d(MPConstants.DEBUG_TAG, "Sorting descending");
+            return true;
+        }
+        return false;
     }
 }

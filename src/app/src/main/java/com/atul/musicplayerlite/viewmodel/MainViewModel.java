@@ -16,31 +16,33 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import kotlin.collections.CollectionsKt;
+
 
 public class MainViewModel extends ViewModel {
 
-    public List<Music> musicList;
-    public List<Album> albumList;
-    public List<Artist> artistList;
-    public List<Folder> folderList;
+    public List<Music> songsList;
+    public List<Album> albumList = new ArrayList<>();
+    public List<Artist> artistList = new ArrayList<>();
+    public List<Folder> folderList = new ArrayList<>();
 
     public MainViewModel(Context context) {
-        musicList = MusicLibraryHelper.fetchMusicLibrary(context);
-        Collections.sort(musicList, new SongComparator());
+        songsList = MusicLibraryHelper.fetchMusicLibrary(context);
+        Collections.sort(songsList, new SongComparator());
     }
 
     public List<Music> getSongs(boolean reverse) {
         if (reverse)
-            Collections.reverse(musicList);
+            Collections.reverse(songsList);
 
-        return musicList;
+        return songsList;
     }
 
     public List<Album> getAlbums(boolean reverse) {
         HashMap<String, Album> map = new HashMap<>();
         albumList = new ArrayList<>();
 
-        for (Music music : musicList) {
+        for (Music music : songsList) {
             if (map.containsKey(music.album)) {
                 Album album = map.get(music.album);
                 assert album != null;
@@ -106,7 +108,7 @@ public class MainViewModel extends ViewModel {
     public List<Folder> getFolders(boolean reverse) {
         HashMap<String, Folder> map = new HashMap<>();
 
-        for (Music music : musicList) {
+        for (Music music : songsList) {
             Folder folder;
             if (map.containsKey(music.relativePath)) {
                 folder = map.get(music.relativePath);
@@ -125,10 +127,15 @@ public class MainViewModel extends ViewModel {
         return folderList;
     }
 
+    public List<Music> searchMusicByName(List<Music> list, String query){
+        return CollectionsKt.filter(list, music ->
+                music.title.toLowerCase().contains(query) || music.displayName.toLowerCase().contains(query));
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();
-        musicList = null;
+        songsList = null;
         albumList = null;
         artistList = null;
         folderList = null;
