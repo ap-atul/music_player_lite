@@ -3,7 +3,6 @@ package com.atul.musicplayerlite.fragments;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,7 +25,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongsFragment extends Fragment implements SearchView.OnQueryTextListener, MenuItem.OnMenuItemClickListener {
+public class SongsFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static MusicSelectListener listener;
     private MainViewModel viewModel;
@@ -92,12 +91,14 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
             }
 
             else if(id == R.id.menu_sort_asc){
-                Log.d(MPConstants.DEBUG_TAG, "Sorting ascending");
+                List<Music> out = musicList;
+                updateAdapter(viewModel.sortMusic(out, false));
                 return true;
             }
 
             else if(id == R.id.menu_sort_dec){
-                Log.d(MPConstants.DEBUG_TAG, "Sorting descending");
+                List<Music> out = musicList;
+                updateAdapter(viewModel.sortMusic(out, true));
                 return true;
             }
 
@@ -112,31 +113,19 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public boolean onQueryTextSubmit(String query) {
         List<Music> out = musicList;
-        recyclerView.setAdapter(
-                new SongsAdapter(listener, viewModel.searchMusicByName(out, query.toLowerCase())));
+        updateAdapter(viewModel.searchMusicByName(out, query.toLowerCase()));
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
         List<Music> out = musicList;
-        recyclerView.setAdapter(
-                new SongsAdapter(listener, viewModel.searchMusicByName(out, newText.toLowerCase())));
+        updateAdapter(viewModel.searchMusicByName(out, newText.toLowerCase()));
         return true;
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id == R.id.menu_sort_asc){
-            Log.d(MPConstants.DEBUG_TAG, "Sorting ascending");
-            return true;
-        }
-        else if(id == R.id.menu_sort_dec){
-            Log.d(MPConstants.DEBUG_TAG, "Sorting descending");
-            return true;
-        }
-        return false;
+    private void updateAdapter(List<Music> list){
+        recyclerView.setAdapter(
+                new SongsAdapter(listener, list));
     }
 }

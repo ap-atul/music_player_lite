@@ -10,6 +10,7 @@ import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.model.Folder;
 import com.atul.musicplayerlite.model.Music;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -130,6 +131,16 @@ public class MainViewModel extends ViewModel {
     public List<Music> searchMusicByName(List<Music> list, String query){
         return CollectionsKt.filter(list, music ->
                 music.title.toLowerCase().contains(query) || music.displayName.toLowerCase().contains(query));
+    }
+
+    public List<Music> sortMusic(List<Music> music, boolean reverse){
+        if(reverse){
+            Collections.sort(music, new SongComparator());
+            Collections.reverse(music);
+        } else {
+            Collections.sort(music, new SongComparator());
+        }
+        return music;
     }
 
     @Override
