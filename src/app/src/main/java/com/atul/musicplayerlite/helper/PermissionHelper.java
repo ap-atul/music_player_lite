@@ -24,7 +24,7 @@ public class PermissionHelper {
                 askReadStoragePermission(context);
         }
 
-        return hasReadStoragePermission(context);
+        return true;
     }
 
     public static boolean hasReadStoragePermission(Activity context) {

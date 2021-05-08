@@ -16,6 +16,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
 import org.greenrobot.eventbus.EventBus;
@@ -156,10 +157,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         return mediaPlayer.getCurrentPosition();
     }
 
-    public int getPercent() {
-        return mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
-    }
-
     public int getDuration() {
         return mediaPlayer.getDuration();
     }
@@ -183,7 +180,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void attachService() {
-        playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+        if(notificationManager != null) {
+            playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+        }
     }
 
     @Override

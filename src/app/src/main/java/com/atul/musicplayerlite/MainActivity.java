@@ -2,7 +2,6 @@ package com.atul.musicplayerlite;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,7 +32,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
 
-
     private RelativeLayout playerView;
     private ImageView albumArt;
     private TextView songName;
@@ -43,7 +41,6 @@ public class MainActivity extends AppCompatActivity
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
-    private TabLayout tabs;
     private PlayerDialog playerDialog;
 
     @Override
@@ -54,9 +51,6 @@ public class MainActivity extends AppCompatActivity
 
         if (PermissionHelper.manageStoragePermission(MainActivity.this))
             setUpUiElements();
-
-        if (savedInstanceState != null && savedInstanceState.getString(MPConstants.SAVE_INSTANCE_KEY_PLAYER) != null)
-            setPlayerView();
 
         playerBuilder = new PlayerBuilder(this, this);
         MPConstants.musicSelectListener = this;
@@ -92,15 +86,12 @@ public class MainActivity extends AppCompatActivity
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        tabs = findViewById(R.id.tabs);
+        TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        setUpTabIcons();
-    }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(MPConstants.SAVE_INSTANCE_KEY_PLAYER, MPConstants.SAVE_INSTANCE_VAL_PLAYER);
+        for (int i = 0; i < tabs.getTabCount(); i++) {
+            tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
+        }
     }
 
     @Override
@@ -111,31 +102,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void setUpTabIcons() {
-        for (int i = 0; i < tabs.getTabCount(); i++) {
-            tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        playerManager.detachService();
+        playerBuilder.unBindService();
 
         if (playerDialog != null)
             playerDialog.dismiss();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setPlayerView();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        setPlayerView();
     }
 
     @Override
@@ -171,7 +144,8 @@ public class MainActivity extends AppCompatActivity
     public void onMusicSet(Music music) {
         songName.setText(music.title);
         songDetails.setText(
-                String.format(Locale.getDefault(), "%s • %s",  music.artist,  music.album));
+                String.format(Locale.getDefault(), "%s • %s",
+                        music.artist,  music.album));
         playerView.setVisibility(View.VISIBLE);
 
         Glide.with(getApplicationContext())
@@ -186,9 +160,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onPlaybackCompleted() {
-        playerView.setVisibility(View.GONE);
-    }
+    public void onPlaybackCompleted() {  }
 
     @Override
     public void onRelease() {

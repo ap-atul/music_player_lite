@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,15 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.ArtistAdapter;
+import com.atul.musicplayerlite.helper.ListHelper;
 import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
+import com.google.android.material.appbar.MaterialToolbar;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistsFragment extends Fragment {
+public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private MainViewModel viewModel;
+    private ArtistAdapter artistAdapter;
+    private final List<Artist> artistList = new ArrayList<>();
+    private List<Artist> unchangedList = new ArrayList<>();
+
+    private MaterialToolbar toolbar;
+    private SearchView searchView;
 
     public ArtistsFragment() {
     }
@@ -44,14 +54,89 @@ public class ArtistsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_artists, container, false);
 
-        List<Artist> artistList = viewModel.getArtists(false);
+        unchangedList = viewModel.getArtists(false);
+        artistList.addAll(unchangedList);
+
+        toolbar = view.findViewById(R.id.search_toolbar);
 
         RecyclerView recyclerView = view.findViewById(R.id.artist_layout);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new ArtistAdapter(artistList));
+        artistAdapter = new ArtistAdapter(artistList);
+        recyclerView.setAdapter(artistAdapter);
 
+        setUpOptions();
         return view;
+    }
 
+
+    private void setUpOptions() {
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+
+            if(id == R.id.search){
+                searchView = (SearchView) item.getActionView();
+                setUpSearchView();
+                return true;
+            }
+
+            else if(id == R.id.menu_sort_asc){
+                updateAdapter(ListHelper.sortArtistByName(artistList, false));
+                return true;
+            }
+
+            else if(id == R.id.menu_sort_dec){
+                updateAdapter(ListHelper.sortArtistByName(artistList, true));
+                return true;
+            }
+
+            else if(id == R.id.menu_most_songs){
+                updateAdapter(ListHelper.sortArtistBySongs(artistList, false));
+                return true;
+            }
+
+            else if(id == R.id.menu_least_songs){
+                updateAdapter(ListHelper.sortArtistBySongs(artistList, true));
+                return true;
+            }
+
+            else if(id == R.id.menu_most_albums){
+                updateAdapter(ListHelper.sortArtistsByAlbums(artistList, false));
+                return true;
+            }
+
+            else if(id == R.id.menu_least_albums){
+                updateAdapter(ListHelper.sortArtistsByAlbums(artistList, true));
+                return true;
+            }
+
+            return false;
+        });
+        toolbar.setNavigationOnClickListener(v -> {
+            if(searchView == null || searchView.isIconified())
+                getActivity().finish();
+        });
+    }
+
+    private void setUpSearchView() {
+        searchView.setOnQueryTextListener(this);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        updateAdapter(ListHelper.searchArtistByName(unchangedList, query.toLowerCase()));
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        updateAdapter(ListHelper.searchArtistByName(unchangedList, newText.toLowerCase()));
+        return true;
+    }
+
+    private void updateAdapter(List<Artist> list){
+        artistList.clear();
+        artistList.addAll(list);
+        artistAdapter.notifyDataSetChanged();
     }
 }

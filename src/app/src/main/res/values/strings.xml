@@ -14,6 +14,12 @@
     <string name="filter">Filter</string>
     <string name="a_z">A-Z</string>
     <string name="z_a">Z-A</string>
+    <string name="newest_first">Newest first</string>
+    <string name="oldest_first">Oldest first</string>
+    <string name="most_songs">Most songs</string>
+    <string name="least_songs">Least songs</string>
+    <string name="most_albums">Most albums</string>
+    <string name="least_albums">Least albums</string>
 
 
 </resources>

@@ -34,13 +34,8 @@ public class MPConstants {
     };
 
     public static final String SAVE_INSTANCE_KEY_PLAYER = "save_player";
-    public static final String SAVE_INSTANCE_VAL_PLAYER = "player playing";
+
     public static final boolean PLAYER_QUEUE_MODE_SHUFFLE_ON = true;
-    public static final boolean PLAYER_QUEUE_MODE_SHUFFLE_OFF = false;
-    public static final boolean PLAYER_QUEUE_MODE_REPEAT_ON = true;
-    public static final boolean PLAYER_QUEUE_MODE_REPEAT_OFF = false;
-    public static final boolean PLAYER_QUEUE_MODE_ROUND_ON = true;
-    public static final boolean PLAYER_QUEUE_MODE_ROUND_OFF = false;
     public static MusicSelectListener musicSelectListener;
 
     public static final String SETTINGS_THEME = "shared_pref_theme";
@@ -89,4 +84,15 @@ public class MPConstants {
             R.color.grey_300,
             R.color.blue_grey_300
     );
+
+    public static final int SORT_MUSIC_BY_TITLE = 0;
+    public static final int SORT_MUSIC_BY_DATE_ADDED = 1;
+
+    public static final int SORT_ARTIST_BY_NAME = 0;
+    public static final int SORT_ARTIST_BY_ALBUMS = 1;
+    public static final int SORT_ARTIST_BY_SONGS = 2;
+
+    public static final int SORT_ALBUM_BY_TITLE = 0;
+    public static final int SORT_ALBUM_BY_DURATION = 0;
+    public static final int SORT_ALBUM_BY_SONGS = 0;
 }

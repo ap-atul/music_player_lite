@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.helper.ListHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
@@ -29,11 +30,13 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
 
     private static MusicSelectListener listener;
     private MainViewModel viewModel;
+    private SongsAdapter songsAdapter;
+    private final List<Music> musicList = new ArrayList<>();
+    private List<Music> unChangedList = new ArrayList<>();
 
     private MaterialToolbar toolbar;
     private SearchView searchView;
-    private List<Music> musicList = new ArrayList<>();
-    private RecyclerView recyclerView;
+    private ExtendedFloatingActionButton shuffleControl;
 
     public SongsFragment() {
     }
@@ -50,7 +53,8 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity(),
+                new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
     }
 
     @Override
@@ -59,16 +63,17 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
-        musicList = viewModel.getSongs(false);
+        unChangedList = viewModel.getSongs(false);
+        musicList.addAll(unChangedList);
 
         toolbar = view.findViewById(R.id.search_toolbar);
 
-        ExtendedFloatingActionButton shuffleControl = view.findViewById(R.id.shuffle_button);
+        shuffleControl = view.findViewById(R.id.shuffle_button);
         shuffleControl.setText(String.valueOf(musicList.size()));
 
-        recyclerView = view.findViewById(R.id.songs_layout);
+        RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        SongsAdapter songsAdapter = new SongsAdapter(listener, musicList);
+        songsAdapter = new SongsAdapter(listener, musicList);
         recyclerView.setAdapter(songsAdapter);
 
         shuffleControl.setOnClickListener(v -> {
@@ -91,18 +96,29 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
             }
 
             else if(id == R.id.menu_sort_asc){
-                List<Music> out = musicList;
-                updateAdapter(viewModel.sortMusic(out, false));
+                updateAdapter(ListHelper.sortMusic(musicList, false));
                 return true;
             }
 
             else if(id == R.id.menu_sort_dec){
-                List<Music> out = musicList;
-                updateAdapter(viewModel.sortMusic(out, true));
+                updateAdapter(ListHelper.sortMusic(musicList, true));
+                return true;
+            }
+
+            else if(id == R.id.menu_newest_first){
+                updateAdapter(ListHelper.sortMusicByDateAdded(musicList, false));
+                return true;
+            }
+            else if(id == R.id.menu_oldest_first){
+                updateAdapter(ListHelper.sortMusicByDateAdded(musicList, true));
                 return true;
             }
 
             return false;
+        });
+        toolbar.setNavigationOnClickListener(v -> {
+            if(searchView == null || searchView.isIconified())
+                getActivity().finish();
         });
     }
 
@@ -112,20 +128,21 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        List<Music> out = musicList;
-        updateAdapter(viewModel.searchMusicByName(out, query.toLowerCase()));
+        updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        List<Music> out = musicList;
-        updateAdapter(viewModel.searchMusicByName(out, newText.toLowerCase()));
+        updateAdapter(ListHelper.searchMusicByName(unChangedList, newText.toLowerCase()));
         return true;
     }
 
     private void updateAdapter(List<Music> list){
-        recyclerView.setAdapter(
-                new SongsAdapter(listener, list));
+        musicList.clear();
+        musicList.addAll(list);
+        songsAdapter.notifyDataSetChanged();
+
+        shuffleControl.setText(String.valueOf(musicList.size()));
     }
 }
