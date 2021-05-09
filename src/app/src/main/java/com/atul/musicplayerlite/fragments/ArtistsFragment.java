@@ -1,5 +1,6 @@
 package com.atul.musicplayerlite.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.activities.SelectedArtistActivity;
 import com.atul.musicplayerlite.adapter.ArtistAdapter;
 import com.atul.musicplayerlite.helper.ListHelper;
+import com.atul.musicplayerlite.listener.ArtistSelectListener;
 import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
@@ -22,7 +25,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextListener, ArtistSelectListener {
 
     private MainViewModel viewModel;
     private ArtistAdapter artistAdapter;
@@ -62,7 +65,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         RecyclerView recyclerView = view.findViewById(R.id.artist_layout);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        artistAdapter = new ArtistAdapter(artistList);
+        artistAdapter = new ArtistAdapter(this, artistList);
         recyclerView.setAdapter(artistAdapter);
 
         setUpOptions();
@@ -137,5 +140,12 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         artistList.clear();
         artistList.addAll(list);
         artistAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void selectedArtist(Artist artist) {
+        getActivity().startActivity(new Intent(
+                getActivity(), SelectedArtistActivity.class
+        ).putExtra("artist", artist));
     }
 }

@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.listener.AlbumSelectListener;
+import com.atul.musicplayerlite.listener.ArtistSelectListener;
 import com.atul.musicplayerlite.model.Artist;
 
 import java.util.List;
@@ -18,9 +20,11 @@ import java.util.Locale;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHolder> {
 
     private final List<Artist> artistList;
+    private  ArtistSelectListener selectListener;
 
-    public ArtistAdapter(List<Artist> artistList) {
+    public ArtistAdapter(ArtistSelectListener selectListener, List<Artist> artistList) {
         this.artistList = artistList;
+        this.selectListener = selectListener;
     }
 
     @NonNull
@@ -44,7 +48,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
         return artistList.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView artistName;
         private final TextView artistHistory;
@@ -54,6 +58,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHold
 
             artistName = itemView.findViewById(R.id.artist_name);
             artistHistory = itemView.findViewById(R.id.artist_history);
+
+            itemView.findViewById(R.id.root_layout).setOnClickListener(v ->
+                    selectListener.selectedArtist(artistList.get(getAdapterPosition())));
         }
     }
 }

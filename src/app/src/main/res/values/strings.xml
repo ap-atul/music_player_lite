@@ -22,6 +22,8 @@
     <string name="least_albums">Least albums</string>
     <string name="longest_dur">Longest duration</string>
     <string name="shortest_duration">Shortest duration</string>
+    <string name="add_to_queue">Add to queue</string>
+    <string name="more">More</string>
 
 
 </resources>

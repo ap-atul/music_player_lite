@@ -1,7 +1,6 @@
 package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +76,6 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         recyclerView.setAdapter(songsAdapter);
 
         shuffleControl.setOnClickListener(v -> {
-            listener.setShuffleMode(MPConstants.PLAYER_QUEUE_MODE_SHUFFLE_ON);
             listener.playQueue(musicList);
         });
 

@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface MusicSelectListener {
     void playQueue(List<Music> musicList);
-
-    void setShuffleMode(boolean mode);
+    void playCurrent(Music music);
+    void addToQueue(List<Music> music);
 }

@@ -1,14 +1,10 @@
 package com.atul.musicplayerlite.adapter;
 
-import android.content.Context;
-
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.fragments.AlbumsFragment;
 import com.atul.musicplayerlite.fragments.ArtistsFragment;
 import com.atul.musicplayerlite.fragments.SettingsFragment;
@@ -22,19 +18,11 @@ import java.util.List;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
-    @StringRes
-    private static final int[] TAB_TITLES = new int[]{
-            R.string.tab_one, R.string.tab_two, R.string.tab_three, R.string.tab_five
-    };
-    private final Context mContext;
     List<Fragment> fragments = new ArrayList<>();
-    private MusicSelectListener selectListener;
-    private FragmentManager fragmentManager;
+    private final MusicSelectListener selectListener;
 
-    public MainPagerAdapter(Context context, FragmentManager fm, MusicSelectListener selectListener) {
+    public MainPagerAdapter(FragmentManager fm, MusicSelectListener selectListener) {
         super(fm);
-        this.fragmentManager = fm;
-        this.mContext = context;
         this.selectListener = selectListener;
 
         setFragments();
@@ -43,7 +31,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     public void setFragments() {
         fragments.add(SongsFragment.newInstance(selectListener));
         fragments.add(ArtistsFragment.newInstance());
-        fragments.add(AlbumsFragment.newInstance(selectListener));
+        fragments.add(AlbumsFragment.newInstance());
         fragments.add(SettingsFragment.newInstance());
     }
 

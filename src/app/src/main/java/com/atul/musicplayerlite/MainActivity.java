@@ -2,6 +2,7 @@ package com.atul.musicplayerlite;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -61,13 +63,9 @@ public class MainActivity extends AppCompatActivity
         playerView = findViewById(R.id.player_view);
         songName = findViewById(R.id.song_title);
         songDetails = findViewById(R.id.song_details);
-        ImageButton next = findViewById(R.id.control_next);
-        ImageButton prev = findViewById(R.id.control_prev);
         play_pause = findViewById(R.id.control_play_pause);
 
         songName.setOnClickListener(this);
-        next.setOnClickListener(this);
-        prev.setOnClickListener(this);
         play_pause.setOnClickListener(this);
         playerLayout.setOnClickListener(this);
     }
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     public void setUpUiElements() {
         MainPagerAdapter sectionsPagerAdapter = new MainPagerAdapter(
-                this, getSupportFragmentManager(), this);
+                getSupportFragmentManager(), this);
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -124,11 +122,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void playQueue(List<Music> musicList) {
         playerManager.setMusicList(musicList);
+        setPlayerView();
     }
 
     @Override
-    public void setShuffleMode(boolean mode) {
-        playerManager.getPlayerQueue().setShuffle(mode);
+    public void playCurrent(Music music) {
+        List<Music> list = new ArrayList<>();
+        list.add(music);
+        playerManager.setMusicList(list);
+
+        setPlayerView();
+    }
+
+    @Override
+    public void addToQueue(List<Music> music) {
+        if (playerManager != null && playerManager.isPlaying())
+            playerManager.addMusicQueue(music);
+        else
+            playerManager.setMusicList(music);
+
+        setPlayerView();
     }
 
     @Override
@@ -181,17 +194,24 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.control_prev)
-            playerManager.playPrev();
+//        if (id == R.id.control_prev)
+//            playerManager.playPrev();
+//
+//        else if (id == R.id.control_next)
+//            playerManager.playNext();
 
-        else if (id == R.id.control_next)
-            playerManager.playNext();
-
-        else if (id == R.id.control_play_pause)
+        if (id == R.id.control_play_pause)
             playerManager.playPause();
+
+        else if (id == R.id.control_queue)
+            setUpQueueDialog();
 
         else if (id == R.id.player_layout)
             setUpPlayerDialog();
+    }
+
+    private void setUpQueueDialog() {
+        Log.d(MPConstants.DEBUG_TAG, "Queue clicked");
     }
 
     private void setUpPlayerDialog() {

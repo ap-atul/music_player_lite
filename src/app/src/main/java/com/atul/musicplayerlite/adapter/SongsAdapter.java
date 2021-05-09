@@ -67,7 +67,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
             albumName = itemView.findViewById(R.id.song_album);
 
             itemView.findViewById(R.id.root_layout).setOnClickListener(v ->
-                    listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size())));
+                    listener.playCurrent(musicList.get(getAdapterPosition())));
         }
     }
 }

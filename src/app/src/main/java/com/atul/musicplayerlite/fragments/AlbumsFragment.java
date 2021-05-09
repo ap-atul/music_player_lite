@@ -17,9 +17,7 @@ import com.atul.musicplayerlite.activities.SelectedAlbumActivity;
 import com.atul.musicplayerlite.adapter.AlbumsAdapter;
 import com.atul.musicplayerlite.helper.ListHelper;
 import com.atul.musicplayerlite.listener.AlbumSelectListener;
-import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
-import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -40,7 +38,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
     public AlbumsFragment() {
     }
 
-    public static AlbumsFragment newInstance(MusicSelectListener listener) {
+    public static AlbumsFragment newInstance() {
         AlbumsFragment fragment = new AlbumsFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -146,7 +144,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
     }
 
     @Override
-    public void playAlbum(Album album) {
+    public void selectedAlbum(Album album) {
         getActivity().startActivity(new Intent(
                 getActivity(),
                 SelectedAlbumActivity.class
