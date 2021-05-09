@@ -53,7 +53,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         toolbar = findViewById(R.id.search_toolbar);
         toolbar.setTitle(artist.name);
         toolbar.setSubtitle(String.format(Locale.getDefault(), "%d albums • %d songs",
-                artist.songCount, artist.albumCount));
+                artist.albumCount, artist.songCount));
 
         Album defAlbum = artist.albums.get(0);
         albumTitle.setText(defAlbum.title);
