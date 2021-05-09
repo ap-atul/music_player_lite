@@ -44,7 +44,7 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_controls_play" />
+                    android:src="@drawable/ic_album_art" />
 
             </com.google.android.material.card.MaterialCardView>
 

@@ -66,7 +66,7 @@ public class AccentAdapter extends RecyclerView.Adapter<AccentAdapter.MyViewHold
 
             accent.setOnClickListener(v -> {
                 MPPreferences.storeTheme(activity.getApplicationContext(), accentList.get(getAdapterPosition()));
-                ThemeHelper.setTheme(activity);
+                ThemeHelper.applySettings(activity);
             });
         }
     }

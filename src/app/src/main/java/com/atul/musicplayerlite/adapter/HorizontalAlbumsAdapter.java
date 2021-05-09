@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.model.Album;
@@ -36,10 +37,11 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        Glide.with(holder.albumArt.getContext())
-                .load(albumList.get(position).music.get(0).albumArt)
-                .placeholder(R.drawable.ic_album_art)
-                .into(holder.albumArt);
+        if(holder.state)
+            Glide.with(holder.albumArt.getContext())
+                    .load(albumList.get(position).music.get(0).albumArt)
+                    .placeholder(R.drawable.ic_album_art)
+                    .into(holder.albumArt);
     }
 
     @Override
@@ -50,10 +52,11 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView albumArt;
+        private final boolean state;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
+            state = MPPreferences.getAlbumRequest(itemView.getContext());
             albumArt = itemView.findViewById(R.id.album_art);
 
             itemView.findViewById(R.id.album_art_layout).setOnClickListener(v ->

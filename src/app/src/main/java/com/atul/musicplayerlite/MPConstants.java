@@ -39,6 +39,7 @@ public class MPConstants {
 
     public static final String SETTINGS_THEME = "shared_pref_theme";
     public static final String SETTINGS_PLAYER_STATE = "shared_pref_player_state";
+    public static final String SETTINGS_ALBUM_REQUEST = "shared_pref_album_request";
 
     public static final List<Integer> ACCENT_LIST = Arrays.asList(
             R.color.red,

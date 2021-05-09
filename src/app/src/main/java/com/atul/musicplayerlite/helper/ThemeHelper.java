@@ -60,7 +60,7 @@ public class ThemeHelper {
         return getThemeMap().get(accentColor);
     }
 
-    public static void setTheme(Activity activity) {
+    public static void applySettings(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         intent.setFlags(
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |

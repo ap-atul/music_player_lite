@@ -34,4 +34,12 @@ public class MPPreferences {
     public static boolean getPlayerState(Context context){
         return getSharedPref(context).getBoolean(MPConstants.SETTINGS_PLAYER_STATE, false);
     }
+
+    public static void storeAlbumRequest(Context context, boolean val){
+        getEditor(context).putBoolean(MPConstants.SETTINGS_ALBUM_REQUEST, val).apply();
+    }
+
+    public static boolean getAlbumRequest(Context context){
+        return getSharedPref(context).getBoolean(MPConstants.SETTINGS_ALBUM_REQUEST, false);
+    }
 }

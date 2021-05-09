@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
+    private boolean albumState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         if (PermissionHelper.manageStoragePermission(MainActivity.this))
             setUpUiElements();
 
+        albumState = MPPreferences.getAlbumRequest(this);
         playerBuilder = new PlayerBuilder(this, this);
         MPConstants.musicSelectListener = this;
 
@@ -171,10 +173,11 @@ public class MainActivity extends AppCompatActivity
                         music.artist,  music.album));
         playerView.setVisibility(View.VISIBLE);
 
-        Glide.with(getApplicationContext())
-                .load(music.albumArt)
-                .centerCrop()
-                .into(albumArt);
+        if(albumState)
+            Glide.with(getApplicationContext())
+                    .load(music.albumArt)
+                    .centerCrop()
+                    .into(albumArt);
 
         if (playerManager != null && playerManager.isPlaying())
             play_pause.setImageResource(R.drawable.ic_controls_pause);

@@ -24,6 +24,11 @@
     <string name="shortest_duration">Shortest duration</string>
     <string name="add_to_queue">Add to queue</string>
     <string name="more">More</string>
+    <string name="ui">UI</string>
+    <string name="select_accent_color">Select accent color</string>
+    <string name="choose_your_favorite_color_of_choice">choose your favorite color of choice</string>
+    <string name="huge_improve_in_performance_if_disabled">huge improve in performance if disabled</string>
+    <string name="show_embedded_album_arts">Show embedded album arts</string>
 
 
 </resources>
