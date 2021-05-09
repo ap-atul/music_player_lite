@@ -50,6 +50,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
 
         accentOption.setOnClickListener(this);
         albumOption.setOnClickListener(this);
+        switchMaterial.setOnClickListener(this);
         return view;
 
     }
@@ -64,8 +65,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         }
 
         else if (id == R.id.album_options){
-            MPPreferences.storeAlbumRequest(getActivity().getApplicationContext(), (!state));
-            ThemeHelper.applySettings(getActivity());
+            setAlbumRequest();
         }
+
+        else if(id == R.id.album_switch){
+            setAlbumRequest();
+        }
+    }
+
+    private void setAlbumRequest() {
+        MPPreferences.storeAlbumRequest(requireActivity().getApplicationContext(), (!state));
+        ThemeHelper.applySettings(getActivity());
     }
 }

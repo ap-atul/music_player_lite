@@ -31,8 +31,7 @@
                 android:id="@+id/albums_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:padding="10dp"
                 android:orientation="horizontal" />
 
         </RelativeLayout>
@@ -64,9 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:textAllCaps="true"
                 android:fontFamily="@font/roboto_mono_medium"
                 android:textColor="@color/material_on_background_emphasis_medium"
-                android:textSize="@dimen/text_medium"
+                android:textSize="@dimen/text_big_med"
                 android:textStyle="bold"/>
 
         </LinearLayout>

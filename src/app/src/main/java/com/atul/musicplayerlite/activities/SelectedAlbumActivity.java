@@ -30,7 +30,7 @@ public class SelectedAlbumActivity extends AppCompatActivity {
     private TextView albumName;
     private TextView albumDetails;
     private MaterialToolbar toolbar;
-    private  Album album;
+    private Album album;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,9 @@ public class SelectedAlbumActivity extends AppCompatActivity {
         albumName = findViewById(R.id.album_name);
         albumDetails = findViewById(R.id.album_details);
         toolbar = findViewById(R.id.search_toolbar);
+        toolbar.setTitle(album.title);
+        toolbar.setSubtitle(String.format(Locale.getDefault(), "%d songs",
+                album.music.size()));
 
         RecyclerView recyclerView = findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -62,7 +65,7 @@ public class SelectedAlbumActivity extends AppCompatActivity {
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
 
-            if(id == R.id.menu_add_to_queue){
+            if (id == R.id.menu_add_to_queue) {
                 musicSelectListener.addToQueue(album.music);
                 return true;
             }
@@ -82,7 +85,7 @@ public class SelectedAlbumActivity extends AppCompatActivity {
                 album.music.size()));
 
         boolean state = MPPreferences.getAlbumRequest(this);
-        if(state)
+        if (state)
             Glide.with(this)
                     .load(album.music.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)

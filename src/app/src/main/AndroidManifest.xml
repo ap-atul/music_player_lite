@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Default">
-        <activity android:name=".activities.SelectedArtistActivity"></activity>
+
+        <activity android:name=".activities.SelectedArtistActivity"/>
         <activity android:name=".activities.SelectedAlbumActivity" />
 
         <service

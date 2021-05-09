@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/album_art_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    app:rippleColor="?colorPrimary"
+    app:strokeColor="@color/windowBackground"
+    app:strokeWidth="1dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/album_art_layout"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/album_art"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_album_art" />
+
+        <TextView
+            android:id="@+id/album_title"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
-            app:cardElevation="10dp"
-            app:cardCornerRadius="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:rippleColor="?colorPrimary"
-            app:strokeColor="?colorBackgroundFloating"
-            app:strokeWidth="1dp">
-
-            <ImageView
-                android:id="@+id/album_art"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/image"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_album_art" />
-
-        </com.google.android.material.card.MaterialCardView>
+            android:textColor="@color/material_on_background_emphasis_medium"
+            android:background="@color/windowBackground"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:fontFamily="@font/roboto"
+            android:textSize="@dimen/text_big_med"/>
 
     </RelativeLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.google.android.material.card.MaterialCardView>

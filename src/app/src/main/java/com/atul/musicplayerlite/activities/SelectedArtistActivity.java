@@ -51,10 +51,13 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         albumTitle = findViewById(R.id.album_title);
         albumSongsCount = findViewById(R.id.album_song_count);
         toolbar = findViewById(R.id.search_toolbar);
+        toolbar.setTitle(artist.name);
+        toolbar.setSubtitle(String.format(Locale.getDefault(), "%d albums • %d songs",
+                artist.songCount, artist.albumCount));
 
         Album defAlbum = artist.albums.get(0);
         albumTitle.setText(defAlbum.title);
-        albumSongsCount.setText(String.format(Locale.getDefault(), "%d Songs",
+        albumSongsCount.setText(String.format(Locale.getDefault(), "%d songs",
                 defAlbum.music.size()));
 
         songsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

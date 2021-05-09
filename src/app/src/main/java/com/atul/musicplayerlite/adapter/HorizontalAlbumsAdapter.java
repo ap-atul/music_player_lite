@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +38,7 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.albumTitle.setText(albumList.get(position).title);
         if(holder.state)
             Glide.with(holder.albumArt.getContext())
                     .load(albumList.get(position).music.get(0).albumArt)
@@ -52,12 +54,14 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView albumArt;
+        private final TextView albumTitle;
         private final boolean state;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             state = MPPreferences.getAlbumRequest(itemView.getContext());
             albumArt = itemView.findViewById(R.id.album_art);
+            albumTitle = itemView.findViewById(R.id.album_title);
 
             itemView.findViewById(R.id.album_art_layout).setOnClickListener(v ->
                     listener.selectedAlbum(albumList.get(getAdapterPosition())));
