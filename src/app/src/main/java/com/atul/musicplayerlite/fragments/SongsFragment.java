@@ -27,9 +27,9 @@ import java.util.List;
 public class SongsFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private static MusicSelectListener listener;
+    private final List<Music> musicList = new ArrayList<>();
     private MainViewModel viewModel;
     private SongsAdapter songsAdapter;
-    private final List<Music> musicList = new ArrayList<>();
     private List<Music> unChangedList = new ArrayList<>();
 
     private MaterialToolbar toolbar;
@@ -87,27 +87,20 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
 
-            if(id == R.id.search){
+            if (id == R.id.search) {
                 searchView = (SearchView) item.getActionView();
                 setUpSearchView();
                 return true;
-            }
-
-            else if(id == R.id.menu_sort_asc){
+            } else if (id == R.id.menu_sort_asc) {
                 updateAdapter(ListHelper.sortMusic(musicList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_sort_dec){
+            } else if (id == R.id.menu_sort_dec) {
                 updateAdapter(ListHelper.sortMusic(musicList, true));
                 return true;
-            }
-
-            else if(id == R.id.menu_newest_first){
+            } else if (id == R.id.menu_newest_first) {
                 updateAdapter(ListHelper.sortMusicByDateAdded(musicList, false));
                 return true;
-            }
-            else if(id == R.id.menu_oldest_first){
+            } else if (id == R.id.menu_oldest_first) {
                 updateAdapter(ListHelper.sortMusicByDateAdded(musicList, true));
                 return true;
             }
@@ -115,7 +108,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
             return false;
         });
         toolbar.setNavigationOnClickListener(v -> {
-            if(searchView == null || searchView.isIconified())
+            if (searchView == null || searchView.isIconified())
                 getActivity().finish();
         });
     }
@@ -136,7 +129,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         return true;
     }
 
-    private void updateAdapter(List<Music> list){
+    private void updateAdapter(List<Music> list) {
         musicList.clear();
         musicList.addAll(list);
         songsAdapter.notifyDataSetChanged();

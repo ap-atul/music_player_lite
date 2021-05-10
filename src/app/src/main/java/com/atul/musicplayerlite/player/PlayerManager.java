@@ -175,7 +175,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public void addMusicQueue(List<Music> musicList) {
         playerQueue.addMusicListToQueue(musicList);
 
-        if(!mediaPlayer.isPlaying())
+        if (!mediaPlayer.isPlaying())
             initMediaPlayer();  // play when ready
     }
 
@@ -184,7 +184,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void attachService() {
-        if(notificationManager != null) {
+        if (notificationManager != null) {
             playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
         }
     }

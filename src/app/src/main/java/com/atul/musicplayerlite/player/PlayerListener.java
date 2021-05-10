@@ -10,10 +10,15 @@ import java.lang.annotation.RetentionPolicy;
 public interface PlayerListener {
 
     void onPrepared();
+
     void onStateChanged(@State int state);
+
     void onPositionChanged(int position);
+
     void onMusicSet(Music music);
+
     void onPlaybackCompleted();
+
     void onRelease();
 
     @IntDef({PlayerListener.State.INVALID,

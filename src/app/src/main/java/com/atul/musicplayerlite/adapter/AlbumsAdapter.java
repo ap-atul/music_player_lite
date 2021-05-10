@@ -45,7 +45,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 albumList.get(position).year,
                 albumList.get(position).music.size()));
 
-        if(holder.state)
+        if (holder.state)
             Glide.with(holder.albumArt.getContext())
                     .load(albumList.get(position).music.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)

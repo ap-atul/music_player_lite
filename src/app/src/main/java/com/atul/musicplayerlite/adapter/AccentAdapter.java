@@ -21,7 +21,7 @@ import java.util.List;
 public class AccentAdapter extends RecyclerView.Adapter<AccentAdapter.MyViewHolder> {
 
     public List<Integer> accentList;
-    private Activity activity;
+    private final Activity activity;
 
     public AccentAdapter(Activity activity) {
         this.accentList = MPConstants.ACCENT_LIST;
@@ -42,7 +42,7 @@ public class AccentAdapter extends RecyclerView.Adapter<AccentAdapter.MyViewHold
                 ColorStateList.valueOf(activity.getColor(accentList.get(position)))
         );
 
-        if(accentList.get(position) == MPPreferences.getTheme(activity.getApplicationContext()))
+        if (accentList.get(position) == MPPreferences.getTheme(activity.getApplicationContext()))
             holder.check.setVisibility(View.VISIBLE);
         else
             holder.check.setVisibility(View.GONE);

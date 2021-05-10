@@ -122,10 +122,10 @@ public class MainActivity extends AppCompatActivity
         //      notification.
 //        playerBuilder.unBindService();
 
-        if(playerDialog != null)
+        if (playerDialog != null)
             playerDialog.dismiss();
 
-        if(queueDialog != null)
+        if (queueDialog != null)
             queueDialog.dismiss();
     }
 
@@ -183,10 +183,10 @@ public class MainActivity extends AppCompatActivity
         songName.setText(music.title);
         songDetails.setText(
                 String.format(Locale.getDefault(), "%s • %s",
-                        music.artist,  music.album));
+                        music.artist, music.album));
         playerView.setVisibility(View.VISIBLE);
 
-        if(albumState)
+        if (albumState)
             Glide.with(getApplicationContext())
                     .load(music.albumArt)
                     .centerCrop()
@@ -199,7 +199,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onPlaybackCompleted() {  }
+    public void onPlaybackCompleted() {
+    }
 
     @Override
     public void onRelease() {

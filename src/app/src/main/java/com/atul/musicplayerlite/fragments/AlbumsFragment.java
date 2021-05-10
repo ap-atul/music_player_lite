@@ -27,8 +27,8 @@ import java.util.List;
 
 public class AlbumsFragment extends Fragment implements AlbumSelectListener, SearchView.OnQueryTextListener {
 
-    private AlbumsAdapter albumsAdapter;
     private final List<Album> albumList = new ArrayList<>();
+    private AlbumsAdapter albumsAdapter;
     private List<Album> unchangedList = new ArrayList<>();
     private MainViewModel viewModel;
 
@@ -77,38 +77,26 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
 
-            if(id == R.id.search){
+            if (id == R.id.search) {
                 searchView = (SearchView) item.getActionView();
                 setUpSearchView();
                 return true;
-            }
-
-            else if(id == R.id.menu_sort_asc){
+            } else if (id == R.id.menu_sort_asc) {
                 updateAdapter(ListHelper.sortAlbumByName(albumList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_sort_dec){
+            } else if (id == R.id.menu_sort_dec) {
                 updateAdapter(ListHelper.sortAlbumByName(albumList, true));
                 return true;
-            }
-
-            else if(id == R.id.menu_most_songs){
+            } else if (id == R.id.menu_most_songs) {
                 updateAdapter(ListHelper.sortAlbumBySongs(albumList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_least_songs){
+            } else if (id == R.id.menu_least_songs) {
                 updateAdapter(ListHelper.sortAlbumBySongs(albumList, true));
                 return true;
-            }
-
-            else if(id == R.id.menu_longest_dur){
+            } else if (id == R.id.menu_longest_dur) {
                 updateAdapter(ListHelper.sortAlbumByDuration(albumList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_shortest_dur){
+            } else if (id == R.id.menu_shortest_dur) {
                 updateAdapter(ListHelper.sortAlbumByDuration(albumList, true));
                 return true;
             }
@@ -116,7 +104,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
             return false;
         });
         toolbar.setNavigationOnClickListener(v -> {
-            if(searchView == null || searchView.isIconified())
+            if (searchView == null || searchView.isIconified())
                 getActivity().finish();
         });
     }
@@ -137,7 +125,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         return true;
     }
 
-    private void updateAdapter(List<Album> list){
+    private void updateAdapter(List<Album> list) {
         albumList.clear();
         albumList.addAll(list);
         albumsAdapter.notifyDataSetChanged();

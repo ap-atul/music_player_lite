@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.TypedValue;
 
-import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 
 import com.atul.musicplayerlite.MainActivity;
@@ -16,7 +15,7 @@ import java.util.HashMap;
 
 public class ThemeHelper {
 
-    public static HashMap<Integer, Integer> getThemeMap(){
+    public static HashMap<Integer, Integer> getThemeMap() {
         HashMap<Integer, Integer> themes = new HashMap<>();
         themes.put(R.color.red, R.style.BaseTheme_Red);
         themes.put(R.color.pink, R.style.BaseTheme_Pink);
@@ -81,15 +80,15 @@ public class ThemeHelper {
         );
     }
 
-    public static int resolveColorAttr(Context context, int attr){
+    public static int resolveColorAttr(Context context, int attr) {
         TypedValue resolveTheme = resolveThemeAttr(context, attr);
         int color = resolveTheme.resourceId != 0
-                ? resolveTheme.resourceId :  resolveTheme.data;
+                ? resolveTheme.resourceId : resolveTheme.data;
 
         return ContextCompat.getColor(context, color);
     }
 
-    private static TypedValue resolveThemeAttr(Context context, int attr){
+    private static TypedValue resolveThemeAttr(Context context, int attr) {
         TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attr, typedValue, true);
         return typedValue;

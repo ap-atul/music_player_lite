@@ -14,9 +14,13 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
         this.application = application;
     }
 
+    @SuppressWarnings("unchecked") // lint hide
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new MainViewModel(application);
+        if(modelClass.isAssignableFrom(MainViewModel.class))
+            return (T) new MainViewModel(application);
+
+        throw new IllegalArgumentException("Unknown ViewModel class");
     }
 }

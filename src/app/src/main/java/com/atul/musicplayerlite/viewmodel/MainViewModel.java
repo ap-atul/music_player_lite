@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.ViewModel;
 
+import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Artist;
@@ -15,17 +16,42 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 
 public class MainViewModel extends ViewModel {
 
-    public List<Music> songsList;
+    public List<Music> songsList = new ArrayList<>();
     public List<Album> albumList = new ArrayList<>();
     public List<Artist> artistList = new ArrayList<>();
     public List<Folder> folderList = new ArrayList<>();
 
     public MainViewModel(Context context) {
-        songsList = MusicLibraryHelper.fetchMusicLibrary(context);
+        initSongList(context);
+    }
+
+    private void initSongList(Context context) {
+        Set<String> excludedFolderList = MPPreferences.getExcludedFolders(context);
+        List<Music> musicList = MusicLibraryHelper.fetchMusicLibrary(context);
+        HashMap<String, Folder> map = new HashMap<>();
+
+        for (Music music : musicList) {
+            Folder folder;
+            if (map.containsKey(music.relativePath)) {
+                folder = map.get(music.relativePath);
+                folder.songsCount += 1;
+            } else {
+                folder = new Folder(1, music.relativePath);
+                folderList.add(folder);
+            }
+            map.put(music.relativePath, folder);
+        }
+
+        for (Music music : musicList) {
+            if (!excludedFolderList.contains(music.relativePath))
+                songsList.add(music);
+        }
+
         Collections.sort(songsList, new SongComparator());
     }
 
@@ -109,20 +135,6 @@ public class MainViewModel extends ViewModel {
     }
 
     public List<Folder> getFolders(boolean reverse) {
-        HashMap<String, Folder> map = new HashMap<>();
-
-        for (Music music : songsList) {
-            Folder folder;
-            if (map.containsKey(music.relativePath)) {
-                folder = map.get(music.relativePath);
-                folder.songsCount += 1;
-            } else {
-                folder = new Folder(1, music.relativePath);
-                folderList.add(folder);
-            }
-            map.put(music.relativePath, folder);
-        }
-
         Collections.sort(folderList, new FolderComparator());
         if (reverse)
             Collections.reverse(folderList);

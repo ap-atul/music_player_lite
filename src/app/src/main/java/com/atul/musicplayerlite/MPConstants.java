@@ -33,14 +33,10 @@ public class MPConstants {
             R.drawable.ic_library_music,
             R.drawable.ic_settings
     };
-
-    public static MusicSelectListener musicSelectListener;
-
     public static final String SETTINGS_THEME = "shared_pref_theme";
     public static final String SETTINGS_ALBUM_REQUEST = "shared_pref_album_request";
     public static final String SETTINGS_THEME_MODE = "shared_pref_theme_mode";
     public static final String SETTINGS_EXCLUDED_FOLDER = "shared_pref_excluded_folders";
-
     public static final List<Integer> ACCENT_LIST = Arrays.asList(
             R.color.red,
             R.color.pink,
@@ -84,15 +80,13 @@ public class MPConstants {
             R.color.grey_300,
             R.color.blue_grey_300
     );
-
     public static final int SORT_MUSIC_BY_TITLE = 0;
     public static final int SORT_MUSIC_BY_DATE_ADDED = 1;
-
     public static final int SORT_ARTIST_BY_NAME = 0;
     public static final int SORT_ARTIST_BY_ALBUMS = 1;
     public static final int SORT_ARTIST_BY_SONGS = 2;
-
     public static final int SORT_ALBUM_BY_TITLE = 0;
     public static final int SORT_ALBUM_BY_DURATION = 1;
     public static final int SORT_ALBUM_BY_SONGS = 2;
+    public static MusicSelectListener musicSelectListener;
 }

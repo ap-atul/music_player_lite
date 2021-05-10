@@ -42,7 +42,7 @@ public class QueueItemCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSelectedChanged(@Nullable RecyclerView.ViewHolder viewHolder, int actionState) {
-        if(viewHolder instanceof QueueAdapter.MyViewHolder){
+        if (viewHolder instanceof QueueAdapter.MyViewHolder) {
             QueueAdapter.MyViewHolder myViewHolder = (QueueAdapter.MyViewHolder) viewHolder;
             queueItemInterface.onRowSelected(myViewHolder);
         }
@@ -53,7 +53,7 @@ public class QueueItemCallback extends ItemTouchHelper.Callback {
     @Override
     public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
-        if(viewHolder instanceof QueueAdapter.MyViewHolder){
+        if (viewHolder instanceof QueueAdapter.MyViewHolder) {
             QueueAdapter.MyViewHolder myViewHolder = (QueueAdapter.MyViewHolder) viewHolder;
             queueItemInterface.onRowClear(myViewHolder);
         }
@@ -61,7 +61,9 @@ public class QueueItemCallback extends ItemTouchHelper.Callback {
 
     public interface QueueItemInterface {
         void onRowMoved(int fromPosition, int toPosition);
+
         void onRowSelected(QueueAdapter.MyViewHolder myViewHolder);
+
         void onRowClear(QueueAdapter.MyViewHolder myViewHolder);
     }
 }

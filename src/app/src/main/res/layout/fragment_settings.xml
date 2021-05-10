@@ -242,7 +242,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_setting_album"
+                android:src="@drawable/ic_library_music"
                 android:layout_gravity="center_vertical"
                 app:tint="?colorPrimary"
                 android:contentDescription="@string/image" />

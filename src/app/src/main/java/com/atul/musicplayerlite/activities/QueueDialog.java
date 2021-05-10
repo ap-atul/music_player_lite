@@ -1,7 +1,6 @@
 package com.atul.musicplayerlite.activities;
 
 import android.content.Context;
-import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -20,25 +19,19 @@ import java.util.List;
 
 public class QueueDialog extends BottomSheetDialog {
 
-    private QueueAdapter queueAdapter;
-    private List<Music> musicList = new ArrayList<>();
-    private ItemTouchHelper.Callback callback;
-    private ItemTouchHelper touchHelper;
-
     public QueueDialog(@NonNull Context context, PlayerQueue queue) {
         super(context);
         setContentView(R.layout.dialog_queue);
 
-        musicList.clear();
-        musicList.addAll(queue.getCurrentQueue());
+        List<Music> musicList = new ArrayList<>(queue.getCurrentQueue());
 
         RecyclerView queueLayout = findViewById(R.id.queue_layout);
         assert queueLayout != null;
 
         queueLayout.setLayoutManager(new LinearLayoutManager(getContext()));
-        queueAdapter = new QueueAdapter(context, musicList, queue);
-        callback = new QueueItemCallback(queueAdapter);
-        touchHelper = new ItemTouchHelper(callback);
+        QueueAdapter queueAdapter = new QueueAdapter(context, musicList, queue);
+        ItemTouchHelper.Callback callback = new QueueItemCallback(queueAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(queueLayout);
 
         queueLayout.setAdapter(queueAdapter);

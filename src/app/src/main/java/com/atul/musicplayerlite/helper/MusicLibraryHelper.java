@@ -40,7 +40,7 @@ public class MusicLibraryHelper {
                 MediaStore.Audio.AudioColumns.TRACK,
                 MediaStore.Audio.AudioColumns.TITLE,
                 MediaStore.Audio.AudioColumns.DISPLAY_NAME,
-                MediaStore.Audio.AudioColumns.DURATION,
+                MediaStore.Audio.AudioColumns.DURATION,  // error from android side, it works < 29
                 MediaStore.Audio.AudioColumns.ALBUM_ID,
                 MediaStore.Audio.AudioColumns.ALBUM,
                 collection,

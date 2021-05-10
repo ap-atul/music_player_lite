@@ -9,21 +9,32 @@ import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.activities.FolderDialog;
 import com.atul.musicplayerlite.adapter.AccentAdapter;
 import com.atul.musicplayerlite.helper.ThemeHelper;
+import com.atul.musicplayerlite.model.Folder;
+import com.atul.musicplayerlite.viewmodel.MainViewModel;
+import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-public class SettingsFragment extends Fragment implements View.OnClickListener{
+import java.util.ArrayList;
+import java.util.List;
 
+public class SettingsFragment extends Fragment implements View.OnClickListener {
+
+    private MainViewModel viewModel;
     private RecyclerView accentView;
     private boolean state;
     private LinearLayout chipLayout;
     private ImageView currentThemeMode;
+
+    private FolderDialog folderDialog;
 
     public SettingsFragment() {
     }
@@ -33,6 +44,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
     }
 
     @Override
@@ -74,10 +91,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     private void setCurrentThemeMode() {
         int mode = MPPreferences.getThemeMode(requireActivity().getApplicationContext());
 
-        if(mode == AppCompatDelegate.MODE_NIGHT_NO)
+        if (mode == AppCompatDelegate.MODE_NIGHT_NO)
             currentThemeMode.setImageResource(R.drawable.ic_theme_mode_light);
 
-        else if(mode == AppCompatDelegate.MODE_NIGHT_YES)
+        else if (mode == AppCompatDelegate.MODE_NIGHT_YES)
             currentThemeMode.setImageResource(R.drawable.ic_theme_mode_night);
 
         else
@@ -88,43 +105,42 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         int id = v.getId();
 
-        if(id == R.id.accent_option) {
+        if (id == R.id.accent_option) {
             int visibility = (accentView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
             accentView.setVisibility(visibility);
-        }
-
-        else if (id == R.id.album_options){
+        } else if (id == R.id.album_options) {
             setAlbumRequest();
-        }
-
-        else if(id == R.id.album_switch){
+        } else if (id == R.id.album_switch) {
             setAlbumRequest();
-        }
-
-        else if (id == R.id.theme_mode_option){
+        } else if (id == R.id.theme_mode_option) {
             int mode = chipLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
             chipLayout.setVisibility(mode);
-        }
-
-        else if(id == R.id.night_chip){
+        } else if (id == R.id.night_chip) {
             selectTheme(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-
-        else if(id == R.id.light_chip){
+        } else if (id == R.id.light_chip) {
             selectTheme(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-
-        else if(id == R.id.auto_chip){
+        } else if (id == R.id.auto_chip) {
             selectTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        }
-
-        else if(id == R.id.folder_options){
+        } else if (id == R.id.folder_options) {
             showFolderSelectionDialog();
         }
     }
 
-    private void showFolderSelectionDialog() {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (folderDialog != null)
+            folderDialog.dismiss();
+    }
 
+    private void showFolderSelectionDialog() {
+        List<Folder> folderList = new ArrayList<>(viewModel.getFolders(false));
+        folderDialog = new FolderDialog(requireActivity(), folderList);
+        folderDialog.show();
+
+        folderDialog.setOnDismissListener(dialog ->
+                ThemeHelper.applySettings(requireActivity())
+        );
     }
 
     private void selectTheme(int theme) {

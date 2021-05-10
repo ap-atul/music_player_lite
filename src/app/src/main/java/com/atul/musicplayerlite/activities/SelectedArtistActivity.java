@@ -29,14 +29,11 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
 
     private final
     MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
-
+    private final List<Music> musicList = new ArrayList<>();
     private TextView albumTitle;
     private TextView albumSongsCount;
     private MaterialToolbar toolbar;
-
     private SongsAdapter songsAdapter;
-
-    private final List<Music> musicList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +81,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
 
-            if(id == R.id.menu_add_to_queue){
+            if (id == R.id.menu_add_to_queue) {
                 musicSelectListener.addToQueue(musicList);
                 return true;
             }
@@ -92,7 +89,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
             return false;
         });
         toolbar.setNavigationOnClickListener(v ->
-            finish()
+                finish()
         );
     }
 

@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:layout_marginStart="5dp"
-    android:background="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="5dp"
+    android:orientation="horizontal"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/song_history"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/control_select_folder"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
-        android:maxLines="1"
-        android:textColor="@color/material_on_surface_disabled"
-        android:textSize="@dimen/text_medium" />
+        android:layout_gravity="center_vertical"
+        android:padding="5dp" />
 
-    <TextView
-        android:id="@+id/song_name"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/song_history"
-        android:fontFamily="@font/roboto"
-        android:maxLines="1"
-        android:textColor="@color/material_on_background_emphasis_high_type"
-        android:textSize="@dimen/text_big" />
+        android:layout_marginStart="5dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/song_album"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/song_name"
-        android:fontFamily="@font/roboto"
-        android:textColor="@color/material_on_background_emphasis_medium"
-        android:textSize="@dimen/text_big_med" />
+        <TextView
+            android:id="@+id/folder_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:maxLines="1"
+            android:textColor="@color/material_on_background_emphasis_high_type"
+            android:textSize="@dimen/text_big_med" />
 
-</RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

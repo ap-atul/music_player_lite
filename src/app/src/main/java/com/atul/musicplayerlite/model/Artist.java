@@ -6,9 +6,19 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Artist implements Parcelable {
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        @Override
+        public Artist createFromParcel(Parcel in) {
+            return new Artist(in);
+        }
+
+        @Override
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
     public String name;
     public List<Album> albums;
-
     public int songCount;
     public int albumCount;
 
@@ -25,18 +35,6 @@ public class Artist implements Parcelable {
         songCount = in.readInt();
         albumCount = in.readInt();
     }
-
-    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
-        @Override
-        public Artist createFromParcel(Parcel in) {
-            return new Artist(in);
-        }
-
-        @Override
-        public Artist[] newArray(int size) {
-            return new Artist[size];
-        }
-    };
 
     @Override
     public int describeContents() {

@@ -27,9 +27,9 @@ import java.util.List;
 
 public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextListener, ArtistSelectListener {
 
+    private final List<Artist> artistList = new ArrayList<>();
     private MainViewModel viewModel;
     private ArtistAdapter artistAdapter;
-    private final List<Artist> artistList = new ArrayList<>();
     private List<Artist> unchangedList = new ArrayList<>();
 
     private MaterialToolbar toolbar;
@@ -76,38 +76,26 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         toolbar.setOnMenuItemClickListener(item -> {
             int id = item.getItemId();
 
-            if(id == R.id.search){
+            if (id == R.id.search) {
                 searchView = (SearchView) item.getActionView();
                 setUpSearchView();
                 return true;
-            }
-
-            else if(id == R.id.menu_sort_asc){
+            } else if (id == R.id.menu_sort_asc) {
                 updateAdapter(ListHelper.sortArtistByName(artistList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_sort_dec){
+            } else if (id == R.id.menu_sort_dec) {
                 updateAdapter(ListHelper.sortArtistByName(artistList, true));
                 return true;
-            }
-
-            else if(id == R.id.menu_most_songs){
+            } else if (id == R.id.menu_most_songs) {
                 updateAdapter(ListHelper.sortArtistBySongs(artistList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_least_songs){
+            } else if (id == R.id.menu_least_songs) {
                 updateAdapter(ListHelper.sortArtistBySongs(artistList, true));
                 return true;
-            }
-
-            else if(id == R.id.menu_most_albums){
+            } else if (id == R.id.menu_most_albums) {
                 updateAdapter(ListHelper.sortArtistByAlbums(artistList, false));
                 return true;
-            }
-
-            else if(id == R.id.menu_least_albums){
+            } else if (id == R.id.menu_least_albums) {
                 updateAdapter(ListHelper.sortArtistByAlbums(artistList, true));
                 return true;
             }
@@ -115,7 +103,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
             return false;
         });
         toolbar.setNavigationOnClickListener(v -> {
-            if(searchView == null || searchView.isIconified())
+            if (searchView == null || searchView.isIconified())
                 getActivity().finish();
         });
     }
@@ -136,7 +124,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         return true;
     }
 
-    private void updateAdapter(List<Artist> list){
+    private void updateAdapter(List<Artist> list) {
         artistList.clear();
         artistList.addAll(list);
         artistAdapter.notifyDataSetChanged();

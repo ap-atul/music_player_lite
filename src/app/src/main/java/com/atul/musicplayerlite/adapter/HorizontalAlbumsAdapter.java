@@ -39,7 +39,7 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.albumTitle.setText(albumList.get(position).title);
-        if(holder.state)
+        if (holder.state)
             Glide.with(holder.albumArt.getContext())
                     .load(albumList.get(position).music.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)

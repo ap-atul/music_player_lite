@@ -24,7 +24,8 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
 
     private final List<Music> musicList;
     private final PlayerQueue playerQueue;
-    private final @ColorInt int colorInt;
+    private final @ColorInt
+    int colorInt;
 
     public QueueAdapter(Context context, List<Music> musics, PlayerQueue playerQueue) {
         this.musicList = musics;
@@ -47,7 +48,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.songName.setText(musicList.get(position).title);
 
-        if(playerQueue.getCurrentMusic().equals(musicList.get(position))) {
+        if (playerQueue.getCurrentMusic().equals(musicList.get(position))) {
             holder.albumName.setText(R.string.now_playing);
             holder.albumName.setTextColor(colorInt);
             holder.drag.setImageResource(R.drawable.ic_current_playing);

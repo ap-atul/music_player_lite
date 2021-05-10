@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.listener.ArtistSelectListener;
 import com.atul.musicplayerlite.model.Artist;
 
@@ -20,7 +19,7 @@ import java.util.Locale;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.MyViewHolder> {
 
     private final List<Artist> artistList;
-    private  ArtistSelectListener selectListener;
+    private final ArtistSelectListener selectListener;
 
     public ArtistAdapter(ArtistSelectListener selectListener, List<Artist> artistList) {
         this.artistList = artistList;

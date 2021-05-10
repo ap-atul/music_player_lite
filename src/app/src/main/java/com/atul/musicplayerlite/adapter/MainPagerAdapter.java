@@ -18,11 +18,11 @@ import java.util.List;
 
 public class MainPagerAdapter extends FragmentPagerAdapter {
 
-    List<Fragment> fragments = new ArrayList<>();
     private final MusicSelectListener selectListener;
+    List<Fragment> fragments = new ArrayList<>();
 
     public MainPagerAdapter(FragmentManager fm, MusicSelectListener selectListener) {
-        super(fm);
+        super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.selectListener = selectListener;
 
         setFragments();
