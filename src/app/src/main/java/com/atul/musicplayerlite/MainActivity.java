@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity
     private TextView songName;
     private TextView songDetails;
     private ImageButton play_pause;
-    private ImageButton queue;
     private LinearProgressIndicator progressIndicator;
     private PlayerDialog playerDialog;
     private QueueDialog queueDialog;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         songName = findViewById(R.id.song_title);
         songDetails = findViewById(R.id.song_details);
         play_pause = findViewById(R.id.control_play_pause);
-        queue = findViewById(R.id.control_queue);
+        ImageButton queue = findViewById(R.id.control_queue);
 
         songName.setOnClickListener(this);
         play_pause.setOnClickListener(this);

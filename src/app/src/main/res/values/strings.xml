@@ -30,6 +30,11 @@
     <string name="huge_improve_in_performance_if_disabled">huge improve in performance if disabled</string>
     <string name="show_embedded_album_arts">Show embedded album arts</string>
     <string name="now_playing">Now playing</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="automatic">Automatic</string>
+    <string name="select_default_theme">Select default theme</string>
+    <string name="theme_mode_sub_text">change the look and feel as per your preferences</string>
 
 
 </resources>
