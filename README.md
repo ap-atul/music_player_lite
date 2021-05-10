@@ -21,7 +21,10 @@ Get the debug version [here](https://github.com/AP-Atul/music_player_lite/blob/m
 ### Working on
 * UI improvements
 * Performance improvements
-* Any contribution is highly welcomed.
+* Going online soon
 
 ### References
 Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
+
+
+#### Any contribution is highly welcomed
