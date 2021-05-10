@@ -72,9 +72,9 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         albumsRecyclerView.setAdapter(albumsAdapter);
 
         ExtendedFloatingActionButton shuffleControl = findViewById(R.id.shuffle_button);
-        shuffleControl.setOnClickListener(v -> {
-            musicSelectListener.playQueue(musicList);
-        });
+        shuffleControl.setOnClickListener(v ->
+            musicSelectListener.playQueue(musicList)
+        );
 
         setUpOptions();
     }

@@ -71,17 +71,18 @@ public class PlayerQueue {
     }
 
     public void next() {
-        if (shuffle) {
-            currentPosition = random.nextInt(currentQueue.size());
-        } else if (!repeat)
+        if (!repeat)
             currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
+        else if (shuffle) {
+            currentPosition = random.nextInt(currentQueue.size());
+        }
     }
 
     public void prev() {
-        if (shuffle)
-            currentPosition = random.nextInt(currentQueue.size());
-
-        else if (!repeat)
+        if (!repeat)
             currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
+
+        else if (shuffle)
+            currentPosition = random.nextInt(currentQueue.size());
     }
 }
