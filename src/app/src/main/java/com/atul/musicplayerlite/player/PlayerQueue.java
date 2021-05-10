@@ -2,11 +2,12 @@ package com.atul.musicplayerlite.player;
 
 import com.atul.musicplayerlite.model.Music;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class PlayerQueue {
-    private List<Music> currentQueue;
+    private List<Music> currentQueue = new ArrayList<>();
     private boolean shuffle = false;
     private boolean repeat = false;
     private int currentPosition = 0;
@@ -45,7 +46,10 @@ public class PlayerQueue {
     }
 
     public Music getCurrentMusic() {
-        return currentQueue.get(currentPosition);
+        if(!isCurrentPositionOutOfBound(currentPosition))
+            return currentQueue.get(currentPosition);
+        else
+            return null;
     }
 
     public void addMusicListToQueue(List<Music> music) {

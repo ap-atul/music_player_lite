@@ -1,5 +1,7 @@
 package com.atul.musicplayerlite;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,12 +13,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.activities.QueueDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
-import com.atul.musicplayerlite.helper.PermissionHelper;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
@@ -25,6 +28,7 @@ import com.atul.musicplayerlite.player.PlayerListener;
 import com.atul.musicplayerlite.player.PlayerManager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
@@ -54,11 +58,12 @@ public class MainActivity extends AppCompatActivity
         setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
         setContentView(R.layout.activity_main);
 
-        if (PermissionHelper.manageStoragePermission(MainActivity.this))
+        if(hasReadStoragePermission(MainActivity.this))
             setUpUiElements();
+        else
+            manageStoragePermission(MainActivity.this);
 
         albumState = MPPreferences.getAlbumRequest(this);
-        playerBuilder = new PlayerBuilder(this, this);
         MPConstants.musicSelectListener = this;
 
         MaterialCardView playerLayout = findViewById(R.id.player_layout);
@@ -84,6 +89,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void setUpUiElements() {
+        playerBuilder = new PlayerBuilder(MainActivity.this, this);
         MainPagerAdapter sectionsPagerAdapter = new MainPagerAdapter(
                 getSupportFragmentManager(), this);
 
@@ -97,6 +103,33 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < tabs.getTabCount(); i++) {
             tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
         }
+    }
+
+    public void manageStoragePermission(Activity context) {
+        if (!hasReadStoragePermission(context)) {
+            // required a dialog?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                new MaterialAlertDialogBuilder(context)
+                        .setTitle("Requesting permission")
+                        .setMessage("Enable storage permission for accessing the media files.")
+                        .setPositiveButton("Accept", (dialog, which) -> askReadStoragePermission(context)).show();
+            } else
+                askReadStoragePermission(context);
+        }
+    }
+
+    public boolean hasReadStoragePermission(Activity context) {
+        return (
+                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        );
+    }
+
+    public void askReadStoragePermission(Activity context) {
+        ActivityCompat.requestPermissions(
+                context,
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                MPConstants.PERMISSION_READ_STORAGE
+        );
     }
 
     @Override

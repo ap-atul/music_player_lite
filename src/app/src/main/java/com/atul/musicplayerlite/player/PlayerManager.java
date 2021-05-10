@@ -12,7 +12,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -30,7 +29,6 @@ import static com.atul.musicplayerlite.MPConstants.AUDIO_FOCUSED;
 import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
 import static com.atul.musicplayerlite.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
 import static com.atul.musicplayerlite.MPConstants.CLOSE_ACTION;
-import static com.atul.musicplayerlite.MPConstants.DEBUG_TAG;
 import static com.atul.musicplayerlite.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayerlite.MPConstants.NOTIFICATION_ID;
 import static com.atul.musicplayerlite.MPConstants.PLAY_PAUSE_ACTION;
@@ -339,7 +337,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
             setPlayerState(PlayerListener.State.PLAYING);
         } catch (Exception e) {
-            Log.d(DEBUG_TAG, "exception in media player set : initMediaPlayer");
+            e.printStackTrace();
         }
     }
 
@@ -392,7 +390,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                         break;
 
                     case Intent.ACTION_HEADSET_PLUG:
-                        if (currentSong != null) {
+                        if (currentSong != null && intent.hasExtra("state")) {
                             switch (intent.getIntExtra("state", -1)) {
                                 //0 means disconnected
                                 case 0:
