@@ -2,7 +2,12 @@ package com.atul.musicplayerlite.helper;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.TypedValue;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
 
 import com.atul.musicplayerlite.MainActivity;
 import com.atul.musicplayerlite.R;
@@ -74,5 +79,19 @@ public class ThemeHelper {
                 android.R.anim.fade_in,
                 android.R.anim.fade_out
         );
+    }
+
+    public static int resolveColorAttr(Context context, int attr){
+        TypedValue resolveTheme = resolveThemeAttr(context, attr);
+        int color = resolveTheme.resourceId != 0
+                ? resolveTheme.resourceId :  resolveTheme.data;
+
+        return ContextCompat.getColor(context, color);
+    }
+
+    private static TypedValue resolveThemeAttr(Context context, int attr){
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(attr, typedValue, true);
+        return typedValue;
     }
 }

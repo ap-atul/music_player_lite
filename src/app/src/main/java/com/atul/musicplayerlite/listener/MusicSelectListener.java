@@ -8,4 +8,5 @@ public interface MusicSelectListener {
     void playQueue(List<Music> musicList);
     void playCurrent(Music music);
     void addToQueue(List<Music> music);
+    void setShuffleMode();
 }

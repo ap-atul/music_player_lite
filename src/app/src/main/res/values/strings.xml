@@ -29,6 +29,7 @@
     <string name="choose_your_favorite_color_of_choice">choose your favorite color of choice</string>
     <string name="huge_improve_in_performance_if_disabled">huge improve in performance if disabled</string>
     <string name="show_embedded_album_arts">Show embedded album arts</string>
+    <string name="now_playing">Now playing</string>
 
 
 </resources>

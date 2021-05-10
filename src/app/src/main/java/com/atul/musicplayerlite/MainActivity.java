@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.atul.musicplayerlite.activities.PlayerDialog;
+import com.atul.musicplayerlite.activities.QueueDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
 import com.atul.musicplayerlite.helper.PermissionHelper;
 import com.atul.musicplayerlite.helper.ThemeHelper;
@@ -39,8 +40,10 @@ public class MainActivity extends AppCompatActivity
     private TextView songName;
     private TextView songDetails;
     private ImageButton play_pause;
+    private ImageButton queue;
     private LinearProgressIndicator progressIndicator;
     private PlayerDialog playerDialog;
+    private QueueDialog queueDialog;
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
@@ -66,10 +69,12 @@ public class MainActivity extends AppCompatActivity
         songName = findViewById(R.id.song_title);
         songDetails = findViewById(R.id.song_details);
         play_pause = findViewById(R.id.control_play_pause);
+        queue = findViewById(R.id.control_queue);
 
         songName.setOnClickListener(this);
         play_pause.setOnClickListener(this);
         playerLayout.setOnClickListener(this);
+        queue.setOnClickListener(this);
     }
 
     private void setPlayerView() {
@@ -120,6 +125,9 @@ public class MainActivity extends AppCompatActivity
 
         if(playerDialog != null)
             playerDialog.dismiss();
+
+        if(queueDialog != null)
+            queueDialog.dismiss();
     }
 
     @Override
@@ -141,10 +149,15 @@ public class MainActivity extends AppCompatActivity
     public void addToQueue(List<Music> music) {
         if (playerManager != null && playerManager.isPlaying())
             playerManager.addMusicQueue(music);
-        else
+        else if (playerManager != null)
             playerManager.setMusicList(music);
 
         setPlayerView();
+    }
+
+    @Override
+    public void setShuffleMode() {
+        playerManager.getPlayerQueue().setShuffle(true);
     }
 
     @Override
@@ -198,12 +211,6 @@ public class MainActivity extends AppCompatActivity
     public void onClick(View v) {
         int id = v.getId();
 
-//        if (id == R.id.control_prev)
-//            playerManager.playPrev();
-//
-//        else if (id == R.id.control_next)
-//            playerManager.playNext();
-
         if (id == R.id.control_play_pause)
             playerManager.playPause();
 
@@ -214,12 +221,14 @@ public class MainActivity extends AppCompatActivity
             setUpPlayerDialog();
     }
 
-    private void setUpQueueDialog() {
-        Log.d(MPConstants.DEBUG_TAG, "Queue clicked");
-    }
-
     private void setUpPlayerDialog() {
         playerDialog = new PlayerDialog(this, playerManager);
         playerDialog.show();
+    }
+
+    private void setUpQueueDialog() {
+        Log.d(MPConstants.DEBUG_TAG, "queue clicked");
+        queueDialog = new QueueDialog(this, playerManager.getPlayerQueue());
+        queueDialog.show();
     }
 }

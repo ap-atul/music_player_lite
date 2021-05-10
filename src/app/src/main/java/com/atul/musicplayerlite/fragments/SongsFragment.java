@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
 import com.atul.musicplayerlite.helper.ListHelper;
@@ -76,6 +75,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         recyclerView.setAdapter(songsAdapter);
 
         shuffleControl.setOnClickListener(v -> {
+            listener.setShuffleMode();
             listener.playQueue(musicList);
         });
 
