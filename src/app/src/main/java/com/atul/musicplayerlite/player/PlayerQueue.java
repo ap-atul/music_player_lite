@@ -1,6 +1,5 @@
 package com.atul.musicplayerlite.player;
 
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
 import java.util.Collections;
