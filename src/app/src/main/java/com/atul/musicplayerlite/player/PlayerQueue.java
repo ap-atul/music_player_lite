@@ -1,7 +1,5 @@
 package com.atul.musicplayerlite.player;
 
-import android.util.Log;
-
 import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
@@ -78,7 +76,6 @@ public class PlayerQueue {
 
     public void removeMusicFromQueue(int position) {
         if (!isCurrentPositionOutOfBound(position)) {
-            Log.d(MPConstants.DEBUG_TAG, "song removed at pos :: " + position);
             currentQueue.remove(position);
         }
     }
@@ -86,7 +83,6 @@ public class PlayerQueue {
     public void swap(int one, int two) {
         if (!isCurrentPositionOutOfBound(one) && !isCurrentPositionOutOfBound(two)) {
             Collections.swap(currentQueue, one, two);
-            Log.d(MPConstants.DEBUG_TAG, "songs swapped at pos :: " + one + " " + two);
         }
     }
 }
