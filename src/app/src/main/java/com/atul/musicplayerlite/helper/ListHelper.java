@@ -126,7 +126,7 @@ class SongComparator implements Comparator<Music> {
             return m1.title.compareTo(m2.title);
 
         else if (mode == MPConstants.SORT_MUSIC_BY_DATE_ADDED)
-            return (m1.dateAdded < m2.dateAdded) ? -1 : 1;
+            return (m1.dateAdded > m2.dateAdded) ? -1 : 1;
 
         return 0;
     }

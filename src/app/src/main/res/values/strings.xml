@@ -35,6 +35,9 @@
     <string name="automatic">Automatic</string>
     <string name="select_default_theme">Select default theme</string>
     <string name="theme_mode_sub_text">change the look and feel as per your preferences</string>
+    <string name="general">GENERAL</string>
+    <string name="folder_option_sub">songs from these folders won\'t show up</string>
+    <string name="folder_option_title">Select folders to exclude</string>
 
 
 </resources>

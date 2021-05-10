@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class MPPreferences {
     private static SharedPreferences.Editor getEditor(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(
@@ -40,5 +43,13 @@ public class MPPreferences {
 
     public static int getThemeMode(Context context){
         return getSharedPref(context).getInt(MPConstants.SETTINGS_THEME_MODE, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    }
+
+    public static void storeExcludedFolders(Context context, Set<String> folders){
+        getEditor(context).putStringSet(MPConstants.SETTINGS_EXCLUDED_FOLDER, folders).apply();
+    }
+
+    public static Set<String> getExcludedFolders(Context context){
+        return getSharedPref(context).getStringSet(MPConstants.SETTINGS_EXCLUDED_FOLDER, new HashSet<>());
     }
 }

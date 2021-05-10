@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.SettingsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="10dp"
         android:orientation="vertical">
 
@@ -20,7 +22,6 @@
             android:textColor="?colorPrimary"
             android:textStyle="bold"
             android:textSize="@dimen/text_medium"/>
-
 
         <LinearLayout
             android:id="@+id/theme_mode_option"
@@ -217,6 +218,64 @@
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/general"
+            android:fontFamily="@font/roboto_mono_medium"
+            android:layout_marginTop="30dp"
+            android:textColor="?colorPrimary"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_medium"/>
+
+        <LinearLayout
+            android:id="@+id/folder_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
+            android:padding="10dp"
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_setting_album"
+                android:layout_gravity="center_vertical"
+                app:tint="?colorPrimary"
+                android:contentDescription="@string/image" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/folder_option_title"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="@dimen/text_big_med"
+                    android:textColor="@color/material_on_background_emphasis_high_type"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/folder_option_sub"
+                    android:fontFamily="@font/roboto"
+                    android:textSize="@dimen/text_medium"
+                    android:textColor="@color/material_on_background_emphasis_medium"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.core.widget.NestedScrollView>

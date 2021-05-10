@@ -48,6 +48,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         LinearLayout accentOption = view.findViewById(R.id.accent_option);
         LinearLayout albumOption = view.findViewById(R.id.album_options);
         LinearLayout themeModeOption = view.findViewById(R.id.theme_mode_option);
+        LinearLayout folderOption = view.findViewById(R.id.folder_options);
 
         state = MPPreferences.getAlbumRequest(requireActivity().getApplicationContext());
         switchMaterial.setChecked(state);
@@ -60,6 +61,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         albumOption.setOnClickListener(this);
         switchMaterial.setOnClickListener(this);
         themeModeOption.setOnClickListener(this);
+        folderOption.setOnClickListener(this);
 
         view.findViewById(R.id.night_chip).setOnClickListener(this);
         view.findViewById(R.id.light_chip).setOnClickListener(this);
@@ -115,6 +117,14 @@ public class SettingsFragment extends Fragment implements View.OnClickListener{
         else if(id == R.id.auto_chip){
             selectTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
         }
+
+        else if(id == R.id.folder_options){
+            showFolderSelectionDialog();
+        }
+    }
+
+    private void showFolderSelectionDialog() {
+
     }
 
     private void selectTheme(int theme) {
