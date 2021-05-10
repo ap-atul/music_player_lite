@@ -8,7 +8,7 @@
 
 ---
 ### Download
-Get the debug version [here](https://github.com/AP-Atul/music_player_lite/blob/main/assets/app-debug.apk) 
+Get the debug version [here](https://github.com/AP-Atul/music_player_lite/raw/main/assets/app-debug.apk) 
 
 ### Features
 * Listen to music 😆
