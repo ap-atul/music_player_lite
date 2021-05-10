@@ -27,4 +27,15 @@
     <color name="systemBarsColor">#313131</color>
 
     <color name="shuffleFabTint">@color/dialogsBackground</color>
+
+    <!--    background colors -->
+    <color name="colorBackgroundHigh">#212121</color>
+    <color name="colorBackgroundMed">#424242</color>
+    <color name="colorBackgroundLow">#616161</color>
+
+    <!--  text colors -->
+    <color name="colorTextHigh">#FAFAFA</color>
+    <color name="colorTextMed">#EEEEEE</color>
+    <color name="colorTextLow">#E0E0E0</color>
+
 </resources>

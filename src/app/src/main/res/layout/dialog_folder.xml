@@ -11,7 +11,7 @@
         android:text="@string/folder_option_title"
         android:layout_margin="10dp"
         android:textSize="@dimen/text_big_med"
-        android:textColor="@color/material_on_background_emphasis_high_type"
+        android:textColor="@color/colorTextHigh"
         android:fontFamily="@font/roboto"/>
 
     <androidx.recyclerview.widget.RecyclerView

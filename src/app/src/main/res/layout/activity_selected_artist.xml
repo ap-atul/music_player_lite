@@ -52,7 +52,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto_mono_medium"
-                android:textColor="@color/material_on_background_emphasis_high_type"
+                android:textColor="@color/colorTextHigh"
                 android:textSize="@dimen/text_big"
                 android:maxLines="1"
                 android:textStyle="bold"/>
@@ -64,7 +64,7 @@
                 android:layout_marginStart="5dp"
                 android:textAllCaps="true"
                 android:fontFamily="@font/roboto_mono_medium"
-                android:textColor="@color/material_on_background_emphasis_medium"
+                android:textColor="@color/colorTextMed"
                 android:textSize="@dimen/text_big_med"
                 android:textStyle="bold"/>
 

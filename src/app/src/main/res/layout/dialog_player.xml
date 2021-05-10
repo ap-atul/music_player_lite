@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto"
             android:textAlignment="center"
-            android:textColor="@color/material_on_background_emphasis_medium"
+            android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_medium" />
 
         <SeekBar
@@ -58,7 +58,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/roboto"
             android:textAlignment="center"
-            android:textColor="@color/material_on_background_emphasis_medium"
+            android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_medium" />
 
     </LinearLayout>
@@ -78,7 +78,7 @@
             android:fontFamily="@font/roboto"
             android:maxLines="1"
             android:textAlignment="center"
-            android:textColor="@color/material_on_background_emphasis_high_type"
+            android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:textAlignment="center"
-            android:textColor="@color/material_on_background_emphasis_medium"
+            android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_big_med" />
 
     </LinearLayout>
@@ -167,7 +167,7 @@
         android:fontFamily="@font/roboto"
         android:text="@string/music_bitrate_freq"
         android:textAlignment="center"
-        android:textColor="@color/material_on_background_disabled"
+        android:textColor="@color/colorTextLow"
         android:textSize="@dimen/text_medium" />
 
 </RelativeLayout>

@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:textColor="@color/material_on_background_emphasis_high_type"
+            android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
-            android:textColor="@color/material_on_background_emphasis_medium"
+            android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_medium" />
 
     </LinearLayout>

@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:maxLines="1"
-            android:textColor="@color/material_on_background_emphasis_high_type"
+            android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big_med" />
 
     </RelativeLayout>

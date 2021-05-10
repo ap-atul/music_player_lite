@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto"
             android:maxLines="1"
-            android:textColor="@color/material_on_background_emphasis_high_type"
+            android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/song_name"
             android:fontFamily="@font/roboto"
-            android:textColor="@color/material_on_background_emphasis_medium"
+            android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_big_med" />
 
     </RelativeLayout>

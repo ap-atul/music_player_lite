@@ -35,7 +35,7 @@
             android:id="@+id/album_title"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/material_on_background_emphasis_medium"
+            android:textColor="@color/colorTextMed"
             android:background="@color/windowBackground"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
