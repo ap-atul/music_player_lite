@@ -16,6 +16,14 @@
         app:trackCornerRadius="2dp"
         app:trackThickness="2dp" />
 
+    <ImageView
+        android:id="@+id/albumArt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/song_progress"
+        android:alpha="0.5"
+        android:contentDescription="@string/image" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -110,12 +118,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
-    <ImageView
-        android:id="@+id/albumArt"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/song_progress"
-        android:alpha="0.5"
-        android:contentDescription="@string/image" />
 </RelativeLayout>
