@@ -16,7 +16,7 @@
         <ImageView
             android:id="@+id/album_art"
             android:layout_width="180dp"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image"
             android:scaleType="centerCrop"
@@ -48,7 +48,7 @@
             android:id="@+id/song_progress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
+            android:layout_weight="5"
             app:indicatorColor="?attr/colorPrimary" />
 
         <TextView

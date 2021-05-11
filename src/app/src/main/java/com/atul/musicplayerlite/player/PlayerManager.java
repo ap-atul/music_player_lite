@@ -12,9 +12,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
 import org.greenrobot.eventbus.EventBus;
@@ -357,9 +359,14 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         @Override
         public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
             final String action = intent.getAction();
-            Music currentSong = playerQueue.getCurrentMusic();
+            Log.d(MPConstants.DEBUG_TAG, intent.getAction());
 
-            if (action != null) {
+            Music currentSong = null;
+            if(playerQueue.getCurrentQueue() != null)
+                currentSong = playerQueue.getCurrentMusic();
+
+
+            if (action != null && currentSong != null) {
 
                 switch (action) {
                     case PREV_ACTION:
@@ -379,18 +386,16 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                         break;
 
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:
-                        if (currentSong != null) {
-                            pauseMediaPlayer();
-                        }
+                        pauseMediaPlayer();
                         break;
                     case BluetoothDevice.ACTION_ACL_CONNECTED:
-                        if (currentSong != null && !isPlaying()) {
+                        if (!isPlaying()) {
                             resumeMediaPlayer();
                         }
                         break;
 
                     case Intent.ACTION_HEADSET_PLUG:
-                        if (currentSong != null && intent.hasExtra("state")) {
+                        if (intent.hasExtra("state")) {
                             switch (intent.getIntExtra("state", -1)) {
                                 //0 means disconnected
                                 case 0:
