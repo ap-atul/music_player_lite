@@ -164,16 +164,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
+        playerManager.getPlayerQueue().setShuffle(true);
         playerManager.setMusicList(musicList);
-        setPlayerView();
-    }
-
-    @Override
-    public void playCurrent(Music music) {
-        List<Music> list = new ArrayList<>();
-        list.add(music);
-        playerManager.setMusicList(list);
-
         setPlayerView();
     }
 
