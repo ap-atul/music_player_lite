@@ -39,7 +39,7 @@
             android:id="@+id/album_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/nunito_sans"
             android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big" />
 
@@ -47,7 +47,7 @@
             android:id="@+id/album_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/nunito_sans"
             android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_medium" />
 

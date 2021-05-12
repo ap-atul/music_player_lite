@@ -34,7 +34,7 @@
             android:id="@+id/song_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/nunito_sans"
             android:maxLines="1"
             android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big" />
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/song_name"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/nunito_sans"
             android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_big_med" />
 

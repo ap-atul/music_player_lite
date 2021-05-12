@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ui"
-            android:fontFamily="@font/roboto_mono_medium"
+            android:fontFamily="@font/nunito_sans_semibold"
             android:textColor="?colorPrimary"
             android:textStyle="bold"
             android:textSize="@dimen/text_medium"/>
@@ -55,7 +55,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/select_default_theme"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_big_med"
                     android:textColor="@color/colorTextHigh"/>
 
@@ -63,7 +63,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/theme_mode_sub_text"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorTextMed"/>
 
@@ -139,7 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/select_accent_color"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_big_med"
                     android:textColor="@color/colorTextHigh"/>
 
@@ -148,7 +148,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/choose_your_favorite_color_of_choice"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorTextMed"/>
 
@@ -195,7 +195,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/show_embedded_album_arts"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_big_med"
                     android:textColor="@color/colorTextHigh"/>
 
@@ -203,7 +203,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/huge_improve_in_performance_if_disabled"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorTextMed"/>
 
@@ -222,7 +222,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/general"
-            android:fontFamily="@font/roboto_mono_medium"
+            android:fontFamily="@font/nunito_sans_semibold"
             android:layout_marginTop="30dp"
             android:textColor="?colorPrimary"
             android:textStyle="bold"
@@ -259,7 +259,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/folder_option_title"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_big_med"
                     android:textColor="@color/colorTextHigh"/>
 
@@ -267,7 +267,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="@string/folder_option_sub"
-                    android:fontFamily="@font/roboto"
+                    android:fontFamily="@font/nunito_sans"
                     android:textSize="@dimen/text_medium"
                     android:textColor="@color/colorTextMed"/>
 

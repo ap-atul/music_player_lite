@@ -42,7 +42,7 @@
             android:textAlignment="center"
             android:maxLines="1"
             android:padding="3dp"
-            android:fontFamily="@font/roboto"
+            android:fontFamily="@font/nunito_sans"
             android:textSize="@dimen/text_big_med"/>
 
     </RelativeLayout>

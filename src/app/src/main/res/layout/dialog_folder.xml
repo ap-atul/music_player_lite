@@ -12,7 +12,7 @@
         android:layout_margin="10dp"
         android:textSize="@dimen/text_big_med"
         android:textColor="@color/colorTextHigh"
-        android:fontFamily="@font/roboto"/>
+        android:fontFamily="@font/nunito_sans"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
