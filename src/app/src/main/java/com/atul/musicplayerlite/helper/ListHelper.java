@@ -111,6 +111,10 @@ public class ListHelper {
 
         return list;
     }
+
+    public static String ifNull(String val) {
+        return val == null ? "" : val;
+    }
 }
 
 class SongComparator implements Comparator<Music> {

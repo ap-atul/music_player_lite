@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,10 +13,10 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/windowBackground"
         app:collapseIcon="@drawable/ic_close"
+        app:menu="@menu/menu_artists"
         app:navigationIcon="@drawable/ic_close"
         app:title="Artists"
-        app:titleTextColor="?android:attr/textColorPrimary"
-        app:menu="@menu/menu_artists"/>
+        app:titleTextColor="?android:attr/textColorPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/artist_layout"

@@ -362,7 +362,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             Log.d(MPConstants.DEBUG_TAG, intent.getAction());
 
             Music currentSong = null;
-            if(playerQueue.getCurrentQueue() != null)
+            if (playerQueue.getCurrentQueue() != null)
                 currentSong = playerQueue.getCurrentMusic();
 
 

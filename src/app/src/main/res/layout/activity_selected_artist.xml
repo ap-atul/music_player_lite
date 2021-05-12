@@ -14,17 +14,17 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/windowBackground"
             app:collapseIcon="@drawable/ic_back"
+            app:menu="@menu/menu_add_to_queue"
             app:navigationIcon="@drawable/ic_back"
             app:title="Albums"
-            app:titleTextColor="?android:attr/textColorPrimary"
-            app:menu="@menu/menu_add_to_queue"/>
+            app:titleTextColor="?android:attr/textColorPrimary" />
 
         <RelativeLayout
             android:id="@+id/album_details_layout"
             android:layout_width="match_parent"
-            android:background="?colorOnPrimary"
-            android:layout_below="@id/search_toolbar"
             android:layout_height="wrap_content"
+            android:layout_below="@id/search_toolbar"
+            android:background="?colorOnPrimary"
             android:elevation="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -40,10 +40,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/album_details_layout"
-            android:orientation="vertical"
             android:background="?colorOnPrimary"
-            android:paddingBottom="20dp"
-            android:elevation="10dp">
+            android:elevation="10dp"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:id="@+id/album_title"
@@ -62,11 +62,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:textAllCaps="true"
                 android:fontFamily="@font/nunito_sans_semibold"
+                android:textAllCaps="true"
                 android:textColor="@color/colorTextMed"
                 android:textSize="@dimen/text_big_med"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -74,10 +74,10 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_below="@id/album_details"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_below="@id/album_details"
-            android:background="@drawable/tab_indicator"/>
+            android:background="@drawable/tab_indicator" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/songs_layout"

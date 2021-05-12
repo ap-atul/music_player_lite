@@ -32,7 +32,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
         setContentView(R.layout.activity_main);
 
-        if(hasReadStoragePermission(MainActivity.this))
+        if (hasReadStoragePermission(MainActivity.this))
             setUpUiElements();
         else
             manageStoragePermission(MainActivity.this);

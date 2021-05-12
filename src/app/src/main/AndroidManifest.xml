@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Default">
 
-        <activity android:name=".activities.SelectedArtistActivity"/>
+        <activity android:name=".activities.SelectedArtistActivity" />
         <activity android:name=".activities.SelectedAlbumActivity" />
 
         <service

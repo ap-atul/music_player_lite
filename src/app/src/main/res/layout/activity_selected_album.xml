@@ -14,10 +14,10 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/windowBackground"
             app:collapseIcon="@drawable/ic_back"
+            app:menu="@menu/menu_add_to_queue"
             app:navigationIcon="@drawable/ic_back"
             app:title="Albums"
-            app:titleTextColor="?android:attr/textColorPrimary"
-            app:menu="@menu/menu_add_to_queue"/>
+            app:titleTextColor="?android:attr/textColorPrimary" />
 
         <RelativeLayout
             android:id="@+id/album_details_layout"
@@ -32,9 +32,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
-                app:cardElevation="10dp"
-                app:cardCornerRadius="10dp"
                 android:layout_margin="20dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:strokeColor="@color/windowBackground"
                 app:strokeWidth="1dp">
 
@@ -83,10 +83,10 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
+            android:layout_below="@id/album_details_layout"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_below="@id/album_details_layout"
-            android:background="@drawable/tab_indicator"/>
+            android:background="@drawable/tab_indicator" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/songs_layout"

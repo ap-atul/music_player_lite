@@ -4,19 +4,18 @@
 
     <item
         android:id="@+id/search"
-        android:title="@string/search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/filter"
-        android:title="@string/filter"
         android:icon="@drawable/ic_filter"
+        android:title="@string/filter"
         app:showAsAction="ifRoom">
 
-        <menu
-            android:id="@+id/sorting">
+        <menu android:id="@+id/sorting">
 
             <item
                 android:id="@+id/menu_sort_asc"
@@ -34,25 +33,25 @@
                 android:id="@+id/menu_most_songs"
                 android:orderInCategory="1"
                 android:title="@string/most_songs"
-                app:showAsAction="never"/>
+                app:showAsAction="never" />
 
             <item
                 android:id="@+id/menu_least_songs"
                 android:orderInCategory="1"
                 android:title="@string/least_songs"
-                app:showAsAction="never"/>
+                app:showAsAction="never" />
 
             <item
                 android:id="@+id/menu_most_albums"
                 android:orderInCategory="1"
                 android:title="@string/most_albums"
-                app:showAsAction="never"/>
+                app:showAsAction="never" />
 
             <item
                 android:id="@+id/menu_least_albums"
                 android:orderInCategory="1"
                 android:title="@string/least_albums"
-                app:showAsAction="never"/>
+                app:showAsAction="never" />
 
         </menu>
 

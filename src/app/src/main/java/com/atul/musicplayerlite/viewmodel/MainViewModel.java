@@ -39,6 +39,7 @@ public class MainViewModel extends ViewModel {
             Folder folder;
             if (map.containsKey(music.relativePath)) {
                 folder = map.get(music.relativePath);
+                assert folder != null;
                 folder.songsCount += 1;
             } else {
                 folder = new Folder(1, music.relativePath);

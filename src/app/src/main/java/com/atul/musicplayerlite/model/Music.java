@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.atul.musicplayerlite.helper.ListHelper;
+
 import org.jetbrains.annotations.NotNull;
 
 public class Music implements Parcelable {
@@ -36,11 +38,11 @@ public class Music implements Parcelable {
                  int year, int track, int startFrom, int dateAdded,
                  long id, long duration, long albumId,
                  Uri albumArt) {
-        this.artist = artist;
-        this.title = title;
-        this.displayName = displayName;
-        this.album = album;
-        this.relativePath = relativePath;
+        this.artist = ListHelper.ifNull(artist);
+        this.title = ListHelper.ifNull(title);
+        this.displayName = ListHelper.ifNull(displayName);
+        this.album = ListHelper.ifNull(album);
+        this.relativePath = ListHelper.ifNull(relativePath);
         this.year = year;
         this.track = track;
         this.startFrom = startFrom;

@@ -3,6 +3,8 @@ package com.atul.musicplayerlite.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.atul.musicplayerlite.helper.ListHelper;
+
 import java.util.List;
 
 public class Artist implements Parcelable {
@@ -23,7 +25,7 @@ public class Artist implements Parcelable {
     public int albumCount;
 
     public Artist(String name, List<Album> albums, int songCount, int albumCount) {
-        this.name = name;
+        this.name = ListHelper.ifNull(name);
         this.albums = albums;
         this.songCount = songCount;
         this.albumCount = albumCount;

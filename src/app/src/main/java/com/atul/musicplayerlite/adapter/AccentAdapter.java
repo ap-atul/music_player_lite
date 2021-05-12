@@ -20,8 +20,8 @@ import java.util.List;
 
 public class AccentAdapter extends RecyclerView.Adapter<AccentAdapter.MyViewHolder> {
 
-    public List<Integer> accentList;
     private final Activity activity;
+    public List<Integer> accentList;
 
     public AccentAdapter(Activity activity) {
         this.accentList = MPConstants.ACCENT_LIST;

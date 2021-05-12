@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/artist_name"
         android:fontFamily="@font/nunito_sans"
+        android:maxLines="1"
         android:textColor="@color/colorTextMed"
         android:textSize="@dimen/text_big_med" />
 

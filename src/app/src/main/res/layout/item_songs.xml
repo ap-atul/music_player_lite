@@ -3,8 +3,8 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
     android:layout_marginStart="5dp"
+    android:layout_marginTop="10dp"
     android:background="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
@@ -35,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/song_name"
         android:fontFamily="@font/nunito_sans"
+        android:maxLines="1"
         android:textColor="@color/colorTextMed"
         android:textSize="@dimen/text_big_med" />
 

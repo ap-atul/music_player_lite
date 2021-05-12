@@ -8,8 +8,7 @@
         android:title="@string/more"
         app:showAsAction="ifRoom">
 
-        <menu
-            android:id="@+id/more_options">
+        <menu android:id="@+id/more_options">
 
             <item
                 android:id="@+id/menu_add_to_queue"

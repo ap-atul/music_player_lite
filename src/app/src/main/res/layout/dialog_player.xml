@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="10dp">
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
 
         <ImageView
             android:id="@+id/album_art"
@@ -86,6 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_sans"
+            android:maxLines="1"
             android:textAlignment="center"
             android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_big_med" />

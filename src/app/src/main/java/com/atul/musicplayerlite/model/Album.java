@@ -3,6 +3,8 @@ package com.atul.musicplayerlite.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.atul.musicplayerlite.helper.ListHelper;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -27,9 +29,9 @@ public class Album implements Parcelable {
     public List<Music> music;
 
     public Album(String artist, String title, String year, Long duration, List<Music> music) {
-        this.artist = artist;
-        this.title = title;
-        this.year = year;
+        this.artist = ListHelper.ifNull(artist);
+        this.title = ListHelper.ifNull(title);
+        this.year = ListHelper.ifNull(year);
         this.duration = duration;
         this.music = music;
     }
