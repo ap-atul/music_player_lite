@@ -75,7 +75,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         recyclerView.setAdapter(songsAdapter);
 
         shuffleControl.setOnClickListener(v -> {
-            listener.setShuffleMode();
+            listener.setShuffleMode(true);
             listener.playQueue(musicList);
         });
 

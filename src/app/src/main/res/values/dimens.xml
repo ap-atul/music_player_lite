@@ -7,10 +7,10 @@
     <dimen name="appbar_padding_top">8dp</dimen>
 
     <!-- Dimens for text -->
-    <dimen name="text_small">11sp</dimen>
-    <dimen name="text_medium">12sp</dimen>
-    <dimen name="text_big_med">15sp</dimen>
-    <dimen name="text_big">18sp</dimen>
-    <dimen name="text_head">20sp</dimen>
-    <dimen name="text_large">23sp</dimen>
+    <dimen name="text_small">10sp</dimen>
+    <dimen name="text_medium">11sp</dimen>
+    <dimen name="text_big_med">12sp</dimen>
+    <dimen name="text_big">15sp</dimen>
+    <dimen name="text_head">18sp</dimen>
+    <dimen name="text_large">20sp</dimen>
 </resources>

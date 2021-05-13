@@ -54,7 +54,7 @@ public class SelectedAlbumActivity extends AppCompatActivity {
         recyclerView.setAdapter(new SongsAdapter(musicSelectListener, album.music));
 
         shuffleControl.setOnClickListener(v -> {
-            musicSelectListener.setShuffleMode();
+            musicSelectListener.setShuffleMode(true);
             musicSelectListener.playQueue(album.music);
         });
 

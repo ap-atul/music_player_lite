@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
-        playerManager.getPlayerQueue().setShuffle(true);
         playerManager.setMusicList(musicList);
         setPlayerView();
     }
@@ -179,8 +178,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void setShuffleMode() {
-        playerManager.getPlayerQueue().setShuffle(true);
+    public void setShuffleMode(boolean mode) {
+        playerManager.getPlayerQueue().setShuffle(mode);
     }
 
     @Override
