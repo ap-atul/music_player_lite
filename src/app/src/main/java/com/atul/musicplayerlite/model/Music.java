@@ -9,6 +9,7 @@ import com.atul.musicplayerlite.helper.ListHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class Music implements Parcelable {
+
     public static final Creator<Music> CREATOR = new Creator<Music>() {
         @Override
         public Music createFromParcel(Parcel in) {
@@ -33,6 +34,24 @@ public class Music implements Parcelable {
     public long id;
     public long duration;
     public long albumId;
+    public Uri url; // for online
+
+    public Music(Uri url, String artist, String title, String displayName, String album) {
+        this.url = url;
+        this.artist = ListHelper.ifNull(artist);
+        this.title = ListHelper.ifNull(title);
+        this.displayName = ListHelper.ifNull(displayName);
+        this.album = ListHelper.ifNull(album);
+        this.relativePath = ListHelper.ifNull(relativePath);
+        this.year = 0;
+        this.track = 0;
+        this.startFrom = 0;
+        this.dateAdded = 0;
+        this.id = 0;
+        this.duration = 0;
+        this.albumId = 0;
+        this.albumArt = null;
+    }
 
     public Music(String artist, String title, String displayName, String album, String relativePath,
                  int year, int track, int startFrom, int dateAdded,

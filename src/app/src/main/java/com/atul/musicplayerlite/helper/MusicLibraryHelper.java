@@ -1,6 +1,5 @@
 package com.atul.musicplayerlite.helper;
 
-import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -50,14 +49,13 @@ public class MusicLibraryHelper {
 
         String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
         String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
-        @SuppressLint("Recycle")
         Cursor musicCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder);
 
         int artistInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST);
         int yearInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.YEAR);
         int trackInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TRACK);
         int titleInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-        int displayMameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);
+        int displayNameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);
         int durationInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION);
         int albumIdInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM_ID);
         int albumInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM);
@@ -68,7 +66,7 @@ public class MusicLibraryHelper {
         while (musicCursor.moveToNext()) {
             String artist = musicCursor.getString(artistInd);
             String title = musicCursor.getString(titleInd);
-            String displayName = musicCursor.getString(displayMameInd);
+            String displayName = musicCursor.getString(displayNameInd);
             String album = musicCursor.getString(albumInd);
             String relativePath = musicCursor.getString(relativePathInd);
 
@@ -100,11 +98,52 @@ public class MusicLibraryHelper {
             ));
         }
 
+        if (musicCursor != null && !musicCursor.isClosed())
+            musicCursor.close();
+
         return musicList;
+    }
+
+    public static Music getLocalMusicFromUri(Context context, Uri uri) {
+        String[] projection = new String[]{
+                MediaStore.Audio.AudioColumns.DISPLAY_NAME
+        };
+
+        String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
+        String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
+        Cursor musicCursor = context.getContentResolver().query(uri, projection, selection, null, sortOrder);
+        musicCursor.moveToFirst();
+
+        // only available data
+        int displayNameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);
+
+        if (musicCursor.moveToFirst()) {
+            String displayName = musicCursor.getString(displayNameInd);
+
+
+            if (musicCursor != null && !musicCursor.isClosed())
+                musicCursor.close();
+
+            return new Music(
+                    uri,
+                    displayName,
+                    displayName,
+                    displayName,
+                    displayName
+            );
+        }
+
+        if (musicCursor != null && !musicCursor.isClosed())
+            musicCursor.close();
+
+        return null;
     }
 
     public static Bitmap getThumbnail(Context context, Uri uri) {
         try {
+            if (uri == null)
+                return null;
+
             ParcelFileDescriptor fileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
             Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor());
             fileDescriptor.close();

@@ -2,9 +2,10 @@ package com.atul.musicplayerlite;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.activities.QueueDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
+import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
@@ -78,6 +80,11 @@ public class MainActivity extends AppCompatActivity
         play_pause.setOnClickListener(this);
         playerLayout.setOnClickListener(this);
         queue.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private void setPlayerView() {
@@ -186,6 +193,16 @@ public class MainActivity extends AppCompatActivity
     public void onPrepared() {
         playerManager = playerBuilder.getPlayerManager();
         setPlayerView();
+
+
+        Intent intent = getIntent();
+        Uri data = intent.getData();
+        if (intent.getType() != null && intent.getType().contains("audio/") && playerManager != null) {
+            Music music = MusicLibraryHelper.getLocalMusicFromUri(MainActivity.this, data);
+            if (music != null) {
+                playerManager.setMusic(music);
+            }
+        }
     }
 
     @Override
@@ -250,7 +267,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpQueueDialog() {
-        Log.d(MPConstants.DEBUG_TAG, "queue clicked");
         queueDialog = new QueueDialog(this, playerManager.getPlayerQueue());
         queueDialog.show();
     }

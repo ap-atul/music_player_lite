@@ -172,6 +172,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         initMediaPlayer(); // play now
     }
 
+    public void setMusic(Music music) {
+        List<Music> musicList = new ArrayList<>();
+        musicList.add(music);
+        playerQueue.setCurrentQueue(musicList);
+        initMediaPlayer();
+    }
+
     public void addMusicQueue(List<Music> musicList) {
         playerQueue.addMusicListToQueue(musicList);
 
@@ -312,7 +319,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             mediaPlayer.reset();
         } else {
             mediaPlayer = new MediaPlayer();
-//            EqualizerUtils.openAudioEffectSession(mContext, mediaPlayer.getAudioSessionId());
 
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnCompletionListener(this);
@@ -325,10 +331,16 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
 
         tryToGetAudioFocus();
+        Uri trackUri;
+        Music music = playerQueue.getCurrentMusic();
 
-        Uri trackUri = ContentUris.withAppendedId(
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                playerQueue.getCurrentMusic().id);
+        if (music.url != null) {
+            trackUri = music.url;
+        } else {
+            trackUri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                    playerQueue.getCurrentMusic().id);
+        }
 
         try {
             mediaPlayer.setDataSource(context, trackUri);
