@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
@@ -65,7 +65,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
 
         RecyclerView recyclerView = view.findViewById(R.id.albums_layout);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         albumsAdapter = new AlbumsAdapter(albumList, this);
         recyclerView.setAdapter(albumsAdapter);
 

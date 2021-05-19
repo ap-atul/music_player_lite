@@ -68,11 +68,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
             super(itemView);
 
             state = MPPreferences.getAlbumRequest(itemView.getContext());
-            albumArt = itemView.findViewById(R.id.albumArt);
+            albumArt = itemView.findViewById(R.id.album_art);
             albumDetails = itemView.findViewById(R.id.album_details);
             albumName = itemView.findViewById(R.id.album_name);
 
-            itemView.findViewById(R.id.root_layout).setOnClickListener(v ->
+            itemView.findViewById(R.id.album_art_layout).setOnClickListener(v ->
                     listener.selectedAlbum(albumList.get(getAdapterPosition())));
         }
     }

@@ -3,56 +3,58 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="?selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:padding="10dp">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/album_art_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="20dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="10dp"
+        app:cardElevation="3dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:rippleColor="?colorPrimary">
 
         <ImageView
-            android:id="@+id/albumArt"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/album_art"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:background="@drawable/ic_album_art"
             android:contentDescription="@string/image"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_album_art" />
 
     </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@id/album_art_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/album_art_layout"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/album_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/nunito_sans"
             android:maxLines="1"
-            android:textColor="@color/colorTextHigh"
+            android:padding="3dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_big" />
 
         <TextView
             android:id="@+id/album_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:fontFamily="@font/nunito_sans"
             android:maxLines="1"
-            android:textColor="@color/colorTextMed"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextLow"
             android:textSize="@dimen/text_medium" />
 
     </LinearLayout>
-
 </RelativeLayout>
