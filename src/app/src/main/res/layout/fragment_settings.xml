@@ -7,274 +7,292 @@
     android:orientation="vertical"
     tools:context=".fragments.SettingsFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_sans_semibold"
-            android:text="@string/ui"
-            android:textColor="?colorPrimary"
-            android:textSize="@dimen/text_medium"
-            android:textStyle="bold" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/windowBackground"
+            app:collapseIcon="@drawable/ic_close"
+            app:menu="@menu/menu_settings"
+            app:navigationIcon="@drawable/ic_close"
+            app:title="Settings"
+            app:titleTextColor="?android:attr/textColorPrimary" />
+
 
         <LinearLayout
-            android:id="@+id/theme_mode_option"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="?selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:orientation="vertical"
             android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/current_theme_mode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/image"
-                android:src="@drawable/ic_theme_mode_night"
-                app:tint="?colorPrimary" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/select_default_theme"
-                    android:textColor="@color/colorTextHigh"
-                    android:textSize="@dimen/text_big_med" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/theme_mode_sub_text"
-                    android:textColor="@color/colorTextMed"
-                    android:textSize="@dimen/text_medium" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/chip_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/auto_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="@string/automatic"
-                app:chipIcon="@drawable/ic_theme_mode_auto" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/night_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="@string/dark"
-                app:chipIcon="@drawable/ic_theme_mode_night" />
-
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/light_chip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="@string/light"
-                app:chipIcon="@drawable/ic_theme_mode_light" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/accent_option"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="?selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/image"
-                android:src="@drawable/ic_theme_option"
-                app:tint="?colorPrimary" />
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/select_accent_color"
-                    android:textColor="@color/colorTextHigh"
-                    android:textSize="@dimen/text_big_med" />
-
-                <TextView
-                    android:id="@+id/current_accent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/choose_your_favorite_color_of_choice"
-                    android:textColor="@color/colorTextMed"
-                    android:textSize="@dimen/text_medium" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/accent_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/album_options"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="?selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/image"
-                android:src="@drawable/ic_setting_album"
-                app:tint="?colorPrimary" />
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="@string/ui"
+                android:textColor="?colorPrimary"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/theme_mode_option"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/show_embedded_album_arts"
-                    android:textColor="@color/colorTextHigh"
-                    android:textSize="@dimen/text_big_med" />
+                <ImageView
+                    android:id="@+id/current_theme_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_theme_mode_night"
+                    app:tint="?colorPrimary" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/huge_improve_in_performance_if_disabled"
-                    android:textColor="@color/colorTextMed"
-                    android:textSize="@dimen/text_medium" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/select_default_theme"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big_med" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/theme_mode_sub_text"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_medium" />
+
+                </LinearLayout>
 
             </LinearLayout>
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/album_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:checked="true" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/nunito_sans_semibold"
-            android:text="@string/general"
-            android:textColor="?colorPrimary"
-            android:textSize="@dimen/text_medium"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/folder_options"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="?selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/image"
-                android:src="@drawable/ic_library_music"
-                app:tint="?colorPrimary" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/chip_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/folder_option_title"
-                    android:textColor="@color/colorTextHigh"
-                    android:textSize="@dimen/text_big_med" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/auto_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/automatic"
+                    app:chipIcon="@drawable/ic_theme_mode_auto" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fontFamily="@font/nunito_sans"
-                    android:text="@string/folder_option_sub"
-                    android:textColor="@color/colorTextMed"
-                    android:textSize="@dimen/text_medium" />
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/night_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/dark"
+                    app:chipIcon="@drawable/ic_theme_mode_night" />
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/light_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/light"
+                    app:chipIcon="@drawable/ic_theme_mode_light" />
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/accent_option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_theme_option"
+                    app:tint="?colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/select_accent_color"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big_med" />
+
+                    <TextView
+                        android:id="@+id/current_accent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/choose_your_favorite_color_of_choice"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_medium" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/accent_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/album_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_setting_album"
+                    app:tint="?colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/show_embedded_album_arts"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big_med" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/huge_improve_in_performance_if_disabled"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_medium" />
+
+                </LinearLayout>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/album_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:checked="true" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/nunito_sans_semibold"
+                android:text="@string/general"
+                android:textColor="?colorPrimary"
+                android:textSize="@dimen/text_medium"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/folder_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_library_music"
+                    app:tint="?colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/folder_option_title"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big_med" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/folder_option_sub"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_medium" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
-
-
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.core.widget.NestedScrollView>

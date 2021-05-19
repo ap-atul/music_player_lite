@@ -1,5 +1,7 @@
 package com.atul.musicplayerlite.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.activities.FolderDialog;
@@ -21,6 +24,7 @@ import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.model.Folder;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private LinearLayout chipLayout;
     private ImageView currentThemeMode;
 
+    private MaterialToolbar toolbar;
     private FolderDialog folderDialog;
 
     public SettingsFragment() {
@@ -62,6 +67,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         accentView = view.findViewById(R.id.accent_view);
         chipLayout = view.findViewById(R.id.chip_layout);
         currentThemeMode = view.findViewById(R.id.current_theme_mode);
+        toolbar = view.findViewById(R.id.toolbar);
         LinearLayout accentOption = view.findViewById(R.id.accent_option);
         LinearLayout albumOption = view.findViewById(R.id.album_options);
         LinearLayout themeModeOption = view.findViewById(R.id.theme_mode_option);
@@ -83,9 +89,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.night_chip).setOnClickListener(this);
         view.findViewById(R.id.light_chip).setOnClickListener(this);
         view.findViewById(R.id.auto_chip).setOnClickListener(this);
+        setUpOptions();
 
         return view;
 
+    }
+
+
+    private void setUpOptions() {
+        toolbar.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+
+            if (id == R.id.github) {
+                startActivity(new Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(MPConstants.GITHUB_REPO_URL)
+                ));
+                return true;
+            }
+
+            return false;
+        });
+        toolbar.setNavigationOnClickListener(v -> requireActivity().finish());
     }
 
     private void setCurrentThemeMode() {

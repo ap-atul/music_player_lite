@@ -109,7 +109,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         });
         toolbar.setNavigationOnClickListener(v -> {
             if (searchView == null || searchView.isIconified())
-                getActivity().finish();
+                requireActivity().finish();
         });
     }
 

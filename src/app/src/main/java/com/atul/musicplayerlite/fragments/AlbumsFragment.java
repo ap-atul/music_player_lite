@@ -105,7 +105,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         });
         toolbar.setNavigationOnClickListener(v -> {
             if (searchView == null || searchView.isIconified())
-                getActivity().finish();
+                requireActivity().finish();
         });
     }
 
@@ -133,7 +133,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
 
     @Override
     public void selectedAlbum(Album album) {
-        getActivity().startActivity(new Intent(
+        requireActivity().startActivity(new Intent(
                 getActivity(),
                 SelectedAlbumActivity.class
         ).putExtra("album", album));

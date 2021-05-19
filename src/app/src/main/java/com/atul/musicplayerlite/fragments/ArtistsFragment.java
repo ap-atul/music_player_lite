@@ -104,7 +104,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         });
         toolbar.setNavigationOnClickListener(v -> {
             if (searchView == null || searchView.isIconified())
-                getActivity().finish();
+                requireActivity().finish();
         });
     }
 
@@ -132,7 +132,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
 
     @Override
     public void selectedArtist(Artist artist) {
-        getActivity().startActivity(new Intent(
+        requireActivity().startActivity(new Intent(
                 getActivity(), SelectedArtistActivity.class
         ).putExtra("artist", artist));
     }

@@ -8,6 +8,7 @@ import java.util.List;
 public class MPConstants {
     public static final String PACKAGE_NAME = "com.atul.musicplayerlite";
     public static final String DEBUG_TAG = "MPLite_debug";
+    public static final String GITHUB_REPO_URL = "https://github.com/AP-Atul/music_player_lite";
 
     public static final int PERMISSION_READ_STORAGE = 1009;
 
