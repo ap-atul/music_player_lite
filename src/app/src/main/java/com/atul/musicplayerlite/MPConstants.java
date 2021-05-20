@@ -95,4 +95,7 @@ public class MPConstants {
     public static final String NETWORK_SONGS_KEY = "network_songs";
     public static final String NETWORK_ALBUMS_KEY = "network_albums";
     public static final String NETWORK_RECEIVER_ID = "com.atul.musicplayerlite.network";
+
+    public static final String DOWNLOAD_TITLE = "Downloading music file";
+    public static final String DOWNLOAD_DESC = "processing your request";
 }

@@ -99,7 +99,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:tint="?colorOnBackground"
+                app:tint="?colorOnBackground"
                 app:srcCompat="@drawable/ic_controls_play" />
 
             <ImageButton
@@ -112,7 +112,7 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                android:tint="?colorOnBackground"
+                app:tint="?colorOnBackground"
                 app:srcCompat="@drawable/ic_music_queue" />
 
 

@@ -37,6 +37,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private TextView songsTitle;
     private TextView albumsTitle;
     private ProgressBar progressBar;
+    private SearchView searchView;
 
     private final MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
     private NetSongsAdapter songsAdapter;
@@ -64,7 +65,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        SearchView searchView = view.findViewById(R.id.api_search);
+        searchView = view.findViewById(R.id.api_search);
         searchView.setOnQueryTextListener(this);
 
         songsTitle = view.findViewById(R.id.songs_title);
@@ -141,6 +142,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public void selectedAlbum(Album album) {
+        searchView.clearFocus();
         requireActivity().startActivity(new Intent(
                 getActivity(),
                 SelectedAlbumActivity.class

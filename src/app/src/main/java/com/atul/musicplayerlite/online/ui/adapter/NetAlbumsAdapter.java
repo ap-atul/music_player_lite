@@ -40,9 +40,8 @@ public class NetAlbumsAdapter extends RecyclerView.Adapter<NetAlbumsAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.albumName.setText(albumList.get(position).title);
-        holder.albumDetails.setText(String.format(Locale.getDefault(), "%s • %s • %d songs",
+        holder.albumDetails.setText(String.format(Locale.getDefault(), "%s • %d songs",
                 albumList.get(position).music.get(0).artist,
-                albumList.get(position).year,
                 albumList.get(position).music.size()));
 
         if (holder.state)

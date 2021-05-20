@@ -38,7 +38,7 @@ public class Music implements Parcelable {
         this.year = 0;
         this.track = 0;
         this.startFrom = 0;
-        this.dateAdded =  Calendar.getInstance().getTimeInMillis();
+        this.dateAdded =  -1;
         this.id = 0;
         this.duration = 0;
         this.albumId = new Random().nextLong();

@@ -3,6 +3,7 @@ package com.atul.musicplayerlite.online.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
+import com.atul.musicplayerlite.online.download.Downloader;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -43,11 +45,6 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
                         musicList.get(position).artist,
                         musicList.get(position).album)
         );
-        holder.songHistory.setText(
-                String.format(Locale.getDefault(), "%s • %s",
-                        MusicLibraryHelper.formatDuration(musicList.get(position).duration),
-                        MusicLibraryHelper.formatDate(musicList.get(position).dateAdded))
-        );
 
         Glide.with(holder.albumArt.getContext())
                 .load(musicList.get(position).albumArt)
@@ -63,13 +60,13 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
 
         private final TextView songName;
         private final TextView albumName;
-        private final TextView songHistory;
         private final ImageView albumArt;
+        private final ImageButton download;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            songHistory = itemView.findViewById(R.id.song_history);
+            download = itemView.findViewById(R.id.control_download);
             songName = itemView.findViewById(R.id.song_name);
             albumName = itemView.findViewById(R.id.song_album);
             albumArt = itemView.findViewById(R.id.album_art);
@@ -77,6 +74,11 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
             itemView.findViewById(R.id.root_layout).setOnClickListener(v -> {
                 listener.setShuffleMode(false);
                 listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size()));
+            });
+
+            download.setOnClickListener(v -> {
+                Downloader downloader = new Downloader(itemView.getContext().getApplicationContext());
+                downloader.downloadMusic(musicList.get(getAdapterPosition()));
             });
         }
     }

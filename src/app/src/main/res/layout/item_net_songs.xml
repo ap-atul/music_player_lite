@@ -36,24 +36,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="10dp">
-
-        <TextView
-            android:id="@+id/song_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/nunito_sans"
-            android:maxLines="1"
-            android:textColor="@color/colorTextLow"
-            android:textSize="@dimen/text_medium" />
 
         <TextView
             android:id="@+id/song_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/song_history"
             android:fontFamily="@font/nunito_sans"
             android:maxLines="1"
+            android:layout_toStartOf="@id/control_download"
             android:textColor="@color/colorTextHigh"
             android:textSize="@dimen/text_big" />
 
@@ -63,9 +55,25 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/song_name"
             android:fontFamily="@font/nunito_sans"
+            android:layout_toStartOf="@id/control_download"
             android:maxLines="1"
             android:textColor="@color/colorTextMed"
             android:textSize="@dimen/text_big_med" />
+
+        <ImageButton
+            android:id="@+id/control_download"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="@string/image"
+            android:paddingStart="10dp"
+            android:paddingTop="5dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="5dp"
+            app:tint="?colorPrimary"
+            app:srcCompat="@drawable/ic_download" />
 
     </RelativeLayout>
 

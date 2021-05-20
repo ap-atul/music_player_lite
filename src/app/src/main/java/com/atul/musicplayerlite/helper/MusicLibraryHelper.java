@@ -230,9 +230,11 @@ public class MusicLibraryHelper {
         List<Album> currAlb = new ArrayList<>();
 
         for(com.atul.jsa.model.Album album: albumList){
-            currAlb.add(
-                    new Album(album.artist, album.name, "0", 0L, jsaMusicToCurrent(album.songs))
-            );
+            List<Music> musics = jsaMusicToCurrent(album.songs);
+            if(musics.size() > 0)
+                currAlb.add(
+                        new Album(album.artist, album.name, "0", 0L, jsaMusicToCurrent(album.songs))
+                );
         }
 
         return currAlb;

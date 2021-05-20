@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity
     public void manageStoragePermission(Activity context) {
         if (!hasReadStoragePermission(context)) {
             // required a dialog?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 new MaterialAlertDialogBuilder(context)
                         .setTitle("Requesting permission")
                         .setMessage("Enable storage permission for accessing the media files.")
@@ -126,14 +127,15 @@ public class MainActivity extends AppCompatActivity
 
     public boolean hasReadStoragePermission(Activity context) {
         return (
-                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
         );
     }
 
     public void askReadStoragePermission(Activity context) {
         ActivityCompat.requestPermissions(
                 context,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
                 MPConstants.PERMISSION_READ_STORAGE
         );
     }

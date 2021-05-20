@@ -101,7 +101,6 @@ public class PlayerNotificationManager {
     public void updateNotification() {
 
         notificationBuilder.setOngoing(playerService.getPlayerManager().isPlaying());
-
         PlayerManager playerManager = playerService.getPlayerManager();
         Music song = playerManager.getCurrentMusic();
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),

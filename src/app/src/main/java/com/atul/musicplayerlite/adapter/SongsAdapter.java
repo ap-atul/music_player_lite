@@ -3,15 +3,18 @@ package com.atul.musicplayerlite.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 import java.util.Locale;
@@ -41,11 +44,21 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
                         musicList.get(position).artist,
                         musicList.get(position).album)
         );
-        holder.songHistory.setText(
-                String.format(Locale.getDefault(), "%s • %s",
-                        MusicLibraryHelper.formatDuration(musicList.get(position).duration),
-                        MusicLibraryHelper.formatDate(musicList.get(position).dateAdded))
-        );
+
+        if(musicList.get(position).dateAdded == -1)
+            holder.songHistory.setVisibility(View.GONE);
+        else
+            holder.songHistory.setText(
+                    String.format(Locale.getDefault(), "%s • %s",
+                            MusicLibraryHelper.formatDuration(musicList.get(position).duration),
+                            MusicLibraryHelper.formatDate(musicList.get(position).dateAdded))
+            );
+
+        if (holder.state)
+            Glide.with(holder.albumArt.getContext())
+                    .load(musicList.get(position).albumArt)
+                    .placeholder(R.drawable.ic_album_art)
+                    .into(holder.albumArt);
     }
 
     @Override
@@ -58,10 +71,14 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
         private final TextView songName;
         private final TextView albumName;
         private final TextView songHistory;
+        private final ImageView albumArt;
+        private final boolean state;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            state = MPPreferences.getAlbumRequest(itemView.getContext());
+            albumArt = itemView.findViewById(R.id.album_art);
             songHistory = itemView.findViewById(R.id.song_history);
             songName = itemView.findViewById(R.id.song_name);
             albumName = itemView.findViewById(R.id.song_album);

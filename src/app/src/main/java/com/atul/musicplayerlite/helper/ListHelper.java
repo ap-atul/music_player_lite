@@ -130,7 +130,7 @@ class SongComparator implements Comparator<Music> {
             return m1.title.compareTo(m2.title);
 
         else if (mode == MPConstants.SORT_MUSIC_BY_DATE_ADDED)
-            return (m1.dateAdded > m2.dateAdded) ? -1 : 1;
+            return (m1.dateAdded >= m2.dateAdded) ? -1 : 1;
 
         return 0;
     }
@@ -149,10 +149,10 @@ class ArtistComparator implements Comparator<Artist> {
             return a1.name.compareTo(a2.name);
 
         else if (mode == MPConstants.SORT_ARTIST_BY_SONGS)
-            return (a1.songCount < a2.songCount) ? 1 : -1;
+            return (a1.songCount <= a2.songCount) ? 1 : -1;
 
         else if (mode == MPConstants.SORT_ARTIST_BY_ALBUMS)
-            return (a1.albumCount < a2.albumCount) ? 1 : -1;
+            return (a1.albumCount <= a2.albumCount) ? 1 : -1;
 
         return 0;
     }
@@ -171,10 +171,10 @@ class AlbumComparator implements Comparator<Album> {
             return a1.title.compareTo(a2.title);
 
         else if (mode == MPConstants.SORT_ALBUM_BY_SONGS)
-            return (a1.music.size() < a2.music.size()) ? 1 : -1;
+            return (a1.music.size() <= a2.music.size()) ? 1 : -1;
 
         else if (mode == MPConstants.SORT_ALBUM_BY_DURATION)
-            return (a1.duration < a2.duration) ? 1 : -1;
+            return (a1.duration <= a2.duration) ? 1 : -1;
 
         return 0;
     }
