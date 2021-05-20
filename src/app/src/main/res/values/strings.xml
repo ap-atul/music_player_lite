@@ -39,6 +39,9 @@
     <string name="folder_option_sub">songs from these folders won\'t show up</string>
     <string name="folder_option_title">Select folders to exclude</string>
     <string name="github">GitHub</string>
+    <string name="online_search_text">Search for any song</string>
+    <string name="songs">SONGS</string>
+    <string name="albums">ALBUMS</string>
 
 
 </resources>

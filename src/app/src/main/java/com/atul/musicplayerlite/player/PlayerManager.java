@@ -12,11 +12,9 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
 
 import org.greenrobot.eventbus.EventBus;
@@ -205,6 +203,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     @Override
     public void onPrepared(MediaPlayer mp) {
+        mp.start();
+        playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+
         for (PlayerListener listener : playerListeners)
             listener.onMusicSet(playerQueue.getCurrentMusic());
 
@@ -315,6 +316,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     private void initMediaPlayer() {
+        Music music = playerQueue.getCurrentMusic();
+
         if (mediaPlayer != null) {
             mediaPlayer.reset();
         } else {
@@ -327,29 +330,28 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                     .setUsage(AudioAttributes.USAGE_MEDIA)
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                     .build());
+
             notificationManager = playerService.getNotificationManager();
         }
 
         tryToGetAudioFocus();
-        Uri trackUri;
-        Music music = playerQueue.getCurrentMusic();
+        Uri trackUri = null;
 
-        if (music.url != null) {
-            trackUri = music.url;
-        } else {
+        if (music.url == null) {
             trackUri = ContentUris.withAppendedId(
                     android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                     playerQueue.getCurrentMusic().id);
         }
 
         try {
-            mediaPlayer.setDataSource(context, trackUri);
-            mediaPlayer.prepare();
-            mediaPlayer.start();
+            if(music.url != null)
+                mediaPlayer.setDataSource(music.url);
+            else
+                mediaPlayer.setDataSource(context, trackUri);
 
-            playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
-
+            mediaPlayer.prepareAsync();
             setPlayerState(PlayerListener.State.PLAYING);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -371,7 +373,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         @Override
         public void onReceive(@NonNull final Context context, @NonNull final Intent intent) {
             final String action = intent.getAction();
-            Log.d(MPConstants.DEBUG_TAG, intent.getAction());
 
             Music currentSong = null;
             if (playerQueue.getCurrentQueue() != null)

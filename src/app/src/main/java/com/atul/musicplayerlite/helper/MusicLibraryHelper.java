@@ -10,7 +10,9 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,7 +86,7 @@ public class MusicLibraryHelper {
             int year = musicCursor.getInt(yearInd);
             int track = musicCursor.getInt(trackInd);
             int startFrom = 0;
-            int dateAdded = musicCursor.getInt(dateModifiedInd);
+            long dateAdded = musicCursor.getLong(dateModifiedInd);
 
             long id = musicCursor.getLong(idInd);
             long duration = musicCursor.getLong(durationInd);
@@ -98,7 +100,7 @@ public class MusicLibraryHelper {
             ));
         }
 
-        if (musicCursor != null && !musicCursor.isClosed())
+        if (!musicCursor.isClosed())
             musicCursor.close();
 
         return musicList;
@@ -121,25 +123,35 @@ public class MusicLibraryHelper {
             String displayName = musicCursor.getString(displayNameInd);
 
 
-            if (musicCursor != null && !musicCursor.isClosed())
+            if (!musicCursor.isClosed())
                 musicCursor.close();
 
             return new Music(
-                    uri,
+                    uri.toString(),
                     displayName,
                     displayName,
                     displayName,
-                    displayName
+                    displayName,
+                    null
             );
         }
 
-        if (musicCursor != null && !musicCursor.isClosed())
+        if (!musicCursor.isClosed())
             musicCursor.close();
 
         return null;
     }
 
     public static Bitmap getThumbnail(Context context, Uri uri) {
+        if (uri != null && uri.toString().contains("http")){
+            try {
+                return Glide.with(context).asBitmap().load(uri).submit().get();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
         try {
             if (uri == null)
                 return null;
@@ -184,17 +196,45 @@ public class MusicLibraryHelper {
         );
     }
 
-    public static String formatDate(int dateAdded) {
+    public static String formatDate(long dateAdded) {
         SimpleDateFormat fromFormat = new SimpleDateFormat("s", Locale.getDefault());
         SimpleDateFormat toFormat = new SimpleDateFormat("d MMM yyyy", Locale.getDefault());
 
         try {
             Date date = fromFormat.parse(String.valueOf(dateAdded));
+            assert date != null;
             return toFormat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    public static List<Music> jsaMusicToCurrent(List<com.atul.jsa.model.Music> musicList){
+        List<Music> currMus = new ArrayList<>();
+
+        for(com.atul.jsa.model.Music music : musicList){
+            if(music.url != null) {
+                String url = music.url;
+                String title = music.title.replace("&quot;", "'");
+                String album = music.album.replace("&quot;", "'");
+                String artist = music.artist.replace("&quot;", "'");
+                currMus.add(new Music(url, artist, title, title, album, Uri.parse(music.albumArt)));
+            }
+        }
+        return currMus;
+    }
+
+    public static List<Album> jsaAlbumToCurrent(List<com.atul.jsa.model.Album> albumList){
+        List<Album> currAlb = new ArrayList<>();
+
+        for(com.atul.jsa.model.Album album: albumList){
+            currAlb.add(
+                    new Album(album.artist, album.name, "0", 0L, jsaMusicToCurrent(album.songs))
+            );
+        }
+
+        return currAlb;
     }
 }

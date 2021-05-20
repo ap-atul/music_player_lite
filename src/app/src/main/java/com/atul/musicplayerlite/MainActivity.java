@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
         setContentView(R.layout.activity_main);
+        MPConstants.musicSelectListener = this;
 
         if (hasReadStoragePermission(MainActivity.this))
             setUpUiElements();
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity
             manageStoragePermission(MainActivity.this);
 
         albumState = MPPreferences.getAlbumRequest(this);
-        MPConstants.musicSelectListener = this;
 
         MaterialCardView playerLayout = findViewById(R.id.player_layout);
         albumArt = findViewById(R.id.albumArt);
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity
     public void askReadStoragePermission(Activity context) {
         ActivityCompat.requestPermissions(
                 context,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
                 MPConstants.PERMISSION_READ_STORAGE
         );
     }

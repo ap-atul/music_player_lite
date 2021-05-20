@@ -8,19 +8,11 @@ import com.atul.musicplayerlite.helper.ListHelper;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
+import java.util.Random;
+
 public class Music implements Parcelable {
 
-    public static final Creator<Music> CREATOR = new Creator<Music>() {
-        @Override
-        public Music createFromParcel(Parcel in) {
-            return new Music(in);
-        }
-
-        @Override
-        public Music[] newArray(int size) {
-            return new Music[size];
-        }
-    };
     public String artist;
     public String title;
     public String displayName;
@@ -30,13 +22,13 @@ public class Music implements Parcelable {
     public int year;
     public int track;
     public int startFrom;
-    public int dateAdded;
+    public long dateAdded;
     public long id;
     public long duration;
     public long albumId;
-    public Uri url; // for online
+    public String url; // for online
 
-    public Music(Uri url, String artist, String title, String displayName, String album) {
+    public Music(String url, String artist, String title, String displayName, String album, Uri albumArt) {
         this.url = url;
         this.artist = ListHelper.ifNull(artist);
         this.title = ListHelper.ifNull(title);
@@ -46,15 +38,15 @@ public class Music implements Parcelable {
         this.year = 0;
         this.track = 0;
         this.startFrom = 0;
-        this.dateAdded = 0;
+        this.dateAdded =  Calendar.getInstance().getTimeInMillis();
         this.id = 0;
         this.duration = 0;
-        this.albumId = 0;
-        this.albumArt = null;
+        this.albumId = new Random().nextLong();
+        this.albumArt = albumArt;
     }
 
     public Music(String artist, String title, String displayName, String album, String relativePath,
-                 int year, int track, int startFrom, int dateAdded,
+                 int year, int track, int startFrom, long dateAdded,
                  long id, long duration, long albumId,
                  Uri albumArt) {
         this.artist = ListHelper.ifNull(artist);
@@ -82,11 +74,24 @@ public class Music implements Parcelable {
         year = in.readInt();
         track = in.readInt();
         startFrom = in.readInt();
-        dateAdded = in.readInt();
+        dateAdded = in.readLong();
         id = in.readLong();
         duration = in.readLong();
         albumId = in.readLong();
+        url = in.readString();
     }
+
+    public static final Creator<Music> CREATOR = new Creator<Music>() {
+        @Override
+        public Music createFromParcel(Parcel in) {
+            return new Music(in);
+        }
+
+        @Override
+        public Music[] newArray(int size) {
+            return new Music[size];
+        }
+    };
 
     @NotNull
     @Override
@@ -104,6 +109,7 @@ public class Music implements Parcelable {
                 ", id=" + id +
                 ", duration=" + duration +
                 ", albumId=" + albumId +
+                ", url=" + url +
                 '}';
     }
 
@@ -123,9 +129,10 @@ public class Music implements Parcelable {
         dest.writeInt(year);
         dest.writeInt(track);
         dest.writeInt(startFrom);
-        dest.writeInt(dateAdded);
+        dest.writeLong(dateAdded);
         dest.writeLong(id);
         dest.writeLong(duration);
         dest.writeLong(albumId);
+        dest.writeString(url);
     }
 }
