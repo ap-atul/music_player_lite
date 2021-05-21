@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.activities.SelectedAlbumActivity;
 import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
@@ -145,7 +143,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         searchView.clearFocus();
         requireActivity().startActivity(new Intent(
                 getActivity(),
-                SelectedAlbumActivity.class
+                NetSelectedAlbum.class
         ).putExtra("album", album));
     }
 }

@@ -77,6 +77,7 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
             });
 
             download.setOnClickListener(v -> {
+                download.setAlpha(0.5F);
                 Downloader downloader = new Downloader(itemView.getContext().getApplicationContext());
                 downloader.downloadMusic(musicList.get(getAdapterPosition()));
             });

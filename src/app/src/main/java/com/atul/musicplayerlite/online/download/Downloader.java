@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -83,6 +84,7 @@ public class Downloader {
     public void downloadMusic(Music music) {
         this.music = music;
         String fileName = music.title + ".mp4";
+        Log.d(MPConstants.DEBUG_TAG, music.url);
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(music.url))
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI)
@@ -121,6 +123,7 @@ public class Downloader {
                     if (from.exists()) {
                         boolean b = from.renameTo(to);
                         byte[] data = FileUtils.readFileToByteArray(to);
+                        String filePath = to.getAbsolutePath();
                         b = from.delete();
                         b = to.delete();
 
@@ -134,7 +137,7 @@ public class Downloader {
                         values.put(MediaStore.Audio.AudioColumns.ALBUM, music.album);
                         values.put(MediaStore.Audio.AudioColumns.TITLE, music.title);
                         values.put(MediaStore.Audio.AudioColumns.DISPLAY_NAME, music.title);
-                        values.put(collection, to.getAbsolutePath());
+                        values.put(collection, filePath);
 
                         Uri uri = context.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
                         OutputStream stream = context.getContentResolver().openOutputStream(uri);

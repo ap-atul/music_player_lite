@@ -43,6 +43,8 @@
     <string name="songs">SONGS</string>
     <string name="albums">ALBUMS</string>
     <string name="zero_time">00:00</string>
+    <string name="download">download</string>
+    <string name="all">all</string>
 
 
 </resources>
