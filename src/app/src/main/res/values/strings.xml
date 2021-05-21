@@ -42,6 +42,7 @@
     <string name="online_search_text">Search for any song</string>
     <string name="songs">SONGS</string>
     <string name="albums">ALBUMS</string>
+    <string name="zero_time">00:00</string>
 
 
 </resources>
