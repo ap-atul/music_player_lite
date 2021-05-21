@@ -11,9 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -21,6 +19,7 @@ import com.atul.musicplayerlite.helper.VersioningHelper;
 import com.atul.musicplayerlite.model.Music;
 import com.bumptech.glide.Glide;
 
+import org.apache.commons.io.FileUtils;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -117,31 +116,31 @@ public class Downloader {
 
                     audio.commit();
 
-                    File from = new File(source.getAbsolutePath());
+                    File from = audio.getFile();
                     File to = new File(source.getAbsolutePath().replace(".mp4", ".mp3"));
                     if (from.exists()) {
                         boolean b = from.renameTo(to);
-                        Log.d(MPConstants.DEBUG_TAG, String.valueOf(b));
+                        byte[] data = FileUtils.readFileToByteArray(to);
+                        b = from.delete();
+                        b = to.delete();
+
+                        String collection;
+                        if (VersioningHelper.isVersionQ())
+                            collection = MediaStore.Audio.AudioColumns.BUCKET_DISPLAY_NAME;
+                        else
+                            collection = MediaStore.Audio.AudioColumns.DATA;
+                        ContentValues values = new ContentValues();
+                        values.put(MediaStore.Audio.AudioColumns.ARTIST, music.artist);
+                        values.put(MediaStore.Audio.AudioColumns.ALBUM, music.album);
+                        values.put(MediaStore.Audio.AudioColumns.TITLE, music.title);
+                        values.put(MediaStore.Audio.AudioColumns.DISPLAY_NAME, music.title);
+                        values.put(collection, to.getAbsolutePath());
+
+                        Uri uri = context.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
+                        OutputStream stream = context.getContentResolver().openOutputStream(uri);
+                        stream.write(data);
+                        stream.close();
                     }
-
-                    String collection;
-                    if (VersioningHelper.isVersionQ())
-                        collection = MediaStore.Audio.AudioColumns.BUCKET_DISPLAY_NAME;
-                    else
-                        collection = MediaStore.Audio.AudioColumns.DATA;
-                    ContentValues values = new ContentValues();
-                    values.put(MediaStore.Audio.AudioColumns.ARTIST, music.artist);
-                    values.put(MediaStore.Audio.AudioColumns.ALBUM, music.album);
-                    values.put(MediaStore.Audio.AudioColumns.TITLE, music.title);
-                    values.put(MediaStore.Audio.AudioColumns.DISPLAY_NAME, music.title);
-                    values.put(collection, to.getAbsolutePath());
-
-                    Log.d(MPConstants.DEBUG_TAG, to.getAbsolutePath());
-
-                    Uri uri = context.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
-                    OutputStream stream = context.getContentResolver().openOutputStream(uri);
-                    stream.write("this is something".getBytes());
-                    stream.close();
 
 
                 } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException | CannotWriteException | ExecutionException | InterruptedException e) {
