@@ -2,7 +2,9 @@ package com.atul.musicplayerlite;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.activities.QueueDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
+import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
@@ -250,7 +253,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpQueueDialog() {
-        Log.d(MPConstants.DEBUG_TAG, "queue clicked");
         queueDialog = new QueueDialog(this, playerManager.getPlayerQueue());
         queueDialog.show();
     }

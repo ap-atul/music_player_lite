@@ -39,6 +39,7 @@
     <string name="folder_option_sub">songs from these folders won\'t show up</string>
     <string name="folder_option_title">Select folders to exclude</string>
     <string name="github">GitHub</string>
+    <string name="zero_time">00:00</string>
 
 
 </resources>

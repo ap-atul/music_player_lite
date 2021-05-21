@@ -56,6 +56,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         currentDuration = findViewById(R.id.current_duration);
         totalDuration = findViewById(R.id.total_duration);
         songProgress = findViewById(R.id.song_progress);
+        currentDuration.setText(getContext().getString(R.string.zero_time));
 
         setUpUi();
         setUpListeners();
@@ -92,8 +93,10 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         repeatControl.setImageResource(repeat);
 
         totalDuration.setText(MusicLibraryHelper.formatDurationTimeStyle(music.duration));
-        currentDuration.setText(MusicLibraryHelper
-                .formatDurationTimeStyle(percentToPosition(playerManager.getCurrentPosition())));
+
+        if(playerManager.getCurrentPosition() <= 100)
+            currentDuration.setText(MusicLibraryHelper
+                    .formatDurationTimeStyle(percentToPosition(playerManager.getCurrentPosition())));
     }
 
     private int percentToPosition(int percent) {
