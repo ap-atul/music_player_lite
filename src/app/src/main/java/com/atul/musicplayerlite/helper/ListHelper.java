@@ -17,7 +17,9 @@ public class ListHelper {
     public static List<Music> searchMusicByName(List<Music> list, String query) {
         List<Music> newList = new ArrayList<>(list);
         return CollectionsKt.filter(newList, music ->
-                music.title.toLowerCase().contains(query) || music.displayName.toLowerCase().contains(query));
+                (music.title.toLowerCase().contains(query) || music.displayName.toLowerCase().contains(query)) ||
+                        (music.artist.toLowerCase().contains(query) || music.album.toLowerCase().contains(query))
+        );
     }
 
     public static List<Music> sortMusicByDateAdded(List<Music> list, boolean reverse) {
@@ -79,7 +81,7 @@ public class ListHelper {
     public static List<Album> searchByAlbumName(List<Album> albumList, String query) {
         List<Album> list = new ArrayList<>(albumList);
         return CollectionsKt.filter(list, album ->
-                album.title.toLowerCase().contains(query));
+                album.title.toLowerCase().contains(query) || album.artist.toLowerCase().equals(query));
     }
 
     public static List<Album> sortAlbumByName(List<Album> albumList, boolean reverse) {
@@ -130,7 +132,11 @@ class SongComparator implements Comparator<Music> {
             return m1.title.compareTo(m2.title);
 
         else if (mode == MPConstants.SORT_MUSIC_BY_DATE_ADDED)
+<<<<<<< HEAD
             return (m1.dateAdded > m2.dateAdded) ? -1 : 1;
+=======
+            return Long.compare(m2.dateAdded, m1.dateAdded);
+>>>>>>> 835435a... comparator bug fixed
 
         return 0;
     }
@@ -149,10 +155,17 @@ class ArtistComparator implements Comparator<Artist> {
             return a1.name.compareTo(a2.name);
 
         else if (mode == MPConstants.SORT_ARTIST_BY_SONGS)
+<<<<<<< HEAD
             return (a1.songCount < a2.songCount) ? 1 : -1;
 
         else if (mode == MPConstants.SORT_ARTIST_BY_ALBUMS)
             return (a1.albumCount < a2.albumCount) ? 1 : -1;
+=======
+            return Integer.compare(a2.songCount, a1.songCount);
+
+        else if (mode == MPConstants.SORT_ARTIST_BY_ALBUMS)
+            return Integer.compare(a2.albumCount, a1.albumCount);
+>>>>>>> 835435a... comparator bug fixed
 
         return 0;
     }
@@ -171,10 +184,17 @@ class AlbumComparator implements Comparator<Album> {
             return a1.title.compareTo(a2.title);
 
         else if (mode == MPConstants.SORT_ALBUM_BY_SONGS)
+<<<<<<< HEAD
             return (a1.music.size() < a2.music.size()) ? 1 : -1;
 
         else if (mode == MPConstants.SORT_ALBUM_BY_DURATION)
             return (a1.duration < a2.duration) ? 1 : -1;
+=======
+            return Integer.compare(a2.music.size(), a1.music.size());
+
+        else if (mode == MPConstants.SORT_ALBUM_BY_DURATION)
+            return Long.compare(a2.duration, a1.duration);
+>>>>>>> 835435a... comparator bug fixed
 
         return 0;
     }
