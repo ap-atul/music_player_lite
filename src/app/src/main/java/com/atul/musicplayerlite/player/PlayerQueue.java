@@ -4,8 +4,10 @@ import com.atul.musicplayerlite.model.Music;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class PlayerQueue {
+    private final Random random = new Random();
     private List<Music> currentQueue;
     private boolean shuffle = false;
     private boolean repeat = false;
@@ -58,19 +60,15 @@ public class PlayerQueue {
     }
 
     public void next() {
-        if (!repeat)
-            currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
-        else if (shuffle) {
-            Collections.shuffle(currentQueue);
-        }
+        if (repeat) return;
+        if (shuffle) currentPosition = random.nextInt(currentQueue.size());
+        else currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
     }
 
     public void prev() {
-        if (!repeat)
-            currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
-
-        else if (shuffle)
-            Collections.shuffle(currentQueue);
+        if (repeat) return;
+        if (shuffle) currentPosition = random.nextInt(currentQueue.size());
+        else currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
     }
 
     public void removeMusicFromQueue(int position) {
