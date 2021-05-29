@@ -39,11 +39,7 @@ public class PlayerQueue {
 
     public void setCurrentQueue(List<Music> currentQueue) {
         this.currentQueue = currentQueue;
-
-        if (shuffle)
-            Collections.shuffle(currentQueue);
-        else
-            this.currentPosition = 0;
+        this.currentPosition = (shuffle) ? random.nextInt(currentQueue.size()) : 0;
     }
 
     public Music getCurrentMusic() {
@@ -52,11 +48,6 @@ public class PlayerQueue {
 
     public void addMusicListToQueue(List<Music> music) {
         currentQueue.addAll(music);
-
-        if (shuffle)
-            Collections.shuffle(currentQueue);
-        else
-            this.currentPosition = 0;
     }
 
     public void next() {
