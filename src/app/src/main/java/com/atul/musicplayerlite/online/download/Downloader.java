@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -41,6 +40,7 @@ public class Downloader {
     private final DownloadManager downloadManager;
     private final Context context;
     private Music music;
+
     BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -83,12 +83,11 @@ public class Downloader {
 
     public void downloadMusic(Music music) {
         this.music = music;
-        String fileName = music.title + ".mp4";
-        Log.d(MPConstants.DEBUG_TAG, music.url);
+        String fileName = sanitizeName(music.title) + ".mp4";
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(music.url))
                 .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI)
-                .setTitle(MPConstants.DOWNLOAD_TITLE)
+                .setTitle(String.format(MPConstants.DOWNLOAD_TITLE, music.title))
                 .setDescription(MPConstants.DOWNLOAD_DESC)
                 .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                 .setAllowedOverMetered(true)
@@ -154,5 +153,9 @@ public class Downloader {
         }.start();
 
         return true;
+    }
+
+    private String sanitizeName(String fileName){
+        return fileName.replaceAll("[^a-zA-Z0-9 ]", "");
     }
 }
