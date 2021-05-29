@@ -56,7 +56,6 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         currentDuration = findViewById(R.id.current_duration);
         totalDuration = findViewById(R.id.total_duration);
         songProgress = findViewById(R.id.song_progress);
-        currentDuration.setText(getContext().getString(R.string.zero_time));
 
         setUpUi();
         setUpListeners();
@@ -74,6 +73,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private void setUpUi() {
         Music music = playerManager.getCurrentMusic();
 
+        currentDuration.setText(getContext().getString(R.string.zero_time));
         songName.setText(music.title);
         songAlbum.setText(String.format(Locale.getDefault(), "%s • %s",
                 music.artist, music.album));
