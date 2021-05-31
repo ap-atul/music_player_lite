@@ -91,11 +91,9 @@ public class NetSelectedAlbum extends AppCompatActivity {
                 album.music.get(0).artist,
                 album.music.size()));
 
-        boolean state = MPPreferences.getAlbumRequest(this);
-        if (state)
-            Glide.with(this)
-                    .load(album.music.get(0).albumArt)
-                    .placeholder(R.drawable.ic_album_art)
-                    .into(albumArt);
+        Glide.with(this)
+                .load(album.music.get(0).albumArt)
+                .placeholder(R.drawable.ic_album_art)
+                .into(albumArt);
     }
 }

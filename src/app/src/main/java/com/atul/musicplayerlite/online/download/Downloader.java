@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -73,16 +72,13 @@ public class Downloader {
                 }
                 c.close();
             }
+            context.unregisterReceiver(this);
         }
     };
 
     public Downloader(Context context) {
         this.context = context;
         this.downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-    }
-
-    public void release(){
-        context.unregisterReceiver(downloadReceiver);
     }
 
     public void downloadMusic(Music music) {
@@ -111,7 +107,6 @@ public class Downloader {
             public void run() {
 
                 try {
-                    Log.d(MPConstants.DEBUG_TAG, music.toString());
 
                     File art = Glide.with(context).asFile().load(music.albumArt).submit().get();
                     AudioFile audio = AudioFileIO.read(source);

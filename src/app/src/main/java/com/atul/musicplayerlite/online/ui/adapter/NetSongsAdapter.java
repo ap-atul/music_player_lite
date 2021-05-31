@@ -57,11 +57,6 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
         return musicList.size();
     }
 
-    public void release(){
-        if(downloader != null)
-            downloader.release();
-    }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView songName;

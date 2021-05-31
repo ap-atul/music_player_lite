@@ -291,6 +291,53 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/refresh_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_refresh"
+                    app:tint="?colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/refresh_title"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big_med" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/refresh_subtitle"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_medium" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </RelativeLayout>

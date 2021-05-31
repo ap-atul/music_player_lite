@@ -35,8 +35,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private SearchView searchView;
 
     private JsaReceiver jsaReceiver;
-    private NetSongsAdapter songsAdapter;
-
     private final MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
 
     public SearchFragment() {
@@ -81,19 +79,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
-        if(songsAdapter != null)
-            songsAdapter.release();
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         if(query.length() > 0){
             progressBar.setVisibility(View.VISIBLE);
@@ -109,7 +94,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     private void setAdapter(List<Music> list) {
-        songsAdapter = new NetSongsAdapter(musicSelectListener, list);
+        NetSongsAdapter songsAdapter = new NetSongsAdapter(musicSelectListener, list);
         songsView.setAdapter(songsAdapter);
         songsView.setVisibility(View.VISIBLE);
 

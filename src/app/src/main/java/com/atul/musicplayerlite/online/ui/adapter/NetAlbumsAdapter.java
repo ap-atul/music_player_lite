@@ -44,12 +44,11 @@ public class NetAlbumsAdapter extends RecyclerView.Adapter<NetAlbumsAdapter.MyVi
                 albumList.get(position).music.get(0).artist,
                 albumList.get(position).music.size()));
 
-        if (holder.state)
-            Glide.with(holder.albumArt.getContext())
-                    .load(albumList.get(position).music.get(0).albumArt)
-                    .placeholder(R.drawable.ic_album_art)
-                    .fitCenter()
-                    .into(holder.albumArt);
+        Glide.with(holder.albumArt.getContext())
+                .load(albumList.get(position).music.get(0).albumArt)
+                .placeholder(R.drawable.ic_album_art)
+                .fitCenter()
+                .into(holder.albumArt);
     }
 
     @Override
@@ -62,12 +61,10 @@ public class NetAlbumsAdapter extends RecyclerView.Adapter<NetAlbumsAdapter.MyVi
         private final TextView albumDetails;
         private final TextView albumName;
         private final ImageView albumArt;
-        private final boolean state;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            state = MPPreferences.getAlbumRequest(itemView.getContext());
             albumArt = itemView.findViewById(R.id.album_art);
             albumDetails = itemView.findViewById(R.id.album_details);
             albumName = itemView.findViewById(R.id.album_name);

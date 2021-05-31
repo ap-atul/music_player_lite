@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
@@ -68,10 +69,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         chipLayout = view.findViewById(R.id.chip_layout);
         currentThemeMode = view.findViewById(R.id.current_theme_mode);
         toolbar = view.findViewById(R.id.toolbar);
+
         LinearLayout accentOption = view.findViewById(R.id.accent_option);
         LinearLayout albumOption = view.findViewById(R.id.album_options);
         LinearLayout themeModeOption = view.findViewById(R.id.theme_mode_option);
         LinearLayout folderOption = view.findViewById(R.id.folder_options);
+        LinearLayout refreshOption = view.findViewById(R.id.refresh_options);
 
         state = MPPreferences.getAlbumRequest(requireActivity().getApplicationContext());
         switchMaterial.setChecked(state);
@@ -85,10 +88,12 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         switchMaterial.setOnClickListener(this);
         themeModeOption.setOnClickListener(this);
         folderOption.setOnClickListener(this);
+        refreshOption.setOnClickListener(this);
 
         view.findViewById(R.id.night_chip).setOnClickListener(this);
         view.findViewById(R.id.light_chip).setOnClickListener(this);
         view.findViewById(R.id.auto_chip).setOnClickListener(this);
+
         setUpOptions();
 
         return view;
@@ -133,21 +138,34 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         if (id == R.id.accent_option) {
             int visibility = (accentView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
             accentView.setVisibility(visibility);
-        } else if (id == R.id.album_options) {
+        }
+
+        else if (id == R.id.album_options)
             setAlbumRequest();
-        } else if (id == R.id.album_switch) {
+
+        else if (id == R.id.album_switch)
             setAlbumRequest();
-        } else if (id == R.id.theme_mode_option) {
+
+        else if (id == R.id.theme_mode_option) {
             int mode = chipLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
             chipLayout.setVisibility(mode);
-        } else if (id == R.id.night_chip) {
+        }
+
+        else if (id == R.id.night_chip)
             selectTheme(AppCompatDelegate.MODE_NIGHT_YES);
-        } else if (id == R.id.light_chip) {
+
+        else if (id == R.id.light_chip)
             selectTheme(AppCompatDelegate.MODE_NIGHT_NO);
-        } else if (id == R.id.auto_chip) {
+
+        else if (id == R.id.auto_chip)
             selectTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        } else if (id == R.id.folder_options) {
+
+        else if (id == R.id.folder_options)
             showFolderSelectionDialog();
+
+        else if (id == R.id.refresh_options) {
+            Toast.makeText(requireActivity(), "Looking ...", Toast.LENGTH_SHORT).show();
+            ThemeHelper.applySettings(requireActivity());
         }
     }
 
