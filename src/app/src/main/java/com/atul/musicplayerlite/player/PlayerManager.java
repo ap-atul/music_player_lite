@@ -15,13 +15,11 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +49,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private PlayerNotificationManager notificationManager;
     private int currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private boolean playOnFocusGain;
+    private final MutableLiveData<Integer> progressPercent = new MutableLiveData<>();
+
     private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
 
                 @Override
                 public void onAudioFocusChange(final int focusChange) {
-
                     switch (focusChange) {
                         case AudioManager.AUDIOFOCUS_GAIN:
                             currentAudioFocus = AUDIO_FOCUSED;
@@ -91,6 +90,12 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         this.context = playerService.getApplicationContext();
         this.playerQueue = new PlayerQueue();
         this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+
+        Observer<Integer> progressObserver = percent -> {
+            for (PlayerListener playerListener : playerListeners)
+                playerListener.onPositionChanged(percent);
+        };
+        progressPercent.observeForever(progressObserver);
     }
 
     public void registerActionsReceiver() {
@@ -202,7 +207,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             listener.onMusicSet(playerQueue.getCurrentMusic());
 
         if (mediaObserver == null) {
-            EventBus.getDefault().register(this);
             mediaObserver = new MediaObserver();
             new Thread(mediaObserver).start();
         }
@@ -266,7 +270,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         for (PlayerListener playerListener : playerListeners)
             playerListener.onRelease();
 
-        EventBus.getDefault().unregister(this);
     }
 
     public void seekTo(int position) {
@@ -341,13 +344,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    // do not remove this
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onProgressEvent(PlayerProgressEvent event) {
-        for (PlayerListener playerListener : playerListeners)
-            playerListener.onPositionChanged(event.percent);
     }
 
     @Override
@@ -435,7 +431,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
                     if (mediaPlayer != null && isPlaying()) {
                         int percent = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
-                        EventBus.getDefault().post(new PlayerProgressEvent(percent));
+                        progressPercent.postValue(percent);
                     }
 
                     Thread.sleep(100);
