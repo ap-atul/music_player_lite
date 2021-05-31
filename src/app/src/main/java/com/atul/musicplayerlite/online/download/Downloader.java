@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -78,7 +79,6 @@ public class Downloader {
     public Downloader(Context context) {
         this.context = context;
         this.downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        context.registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     public void release(){
@@ -87,6 +87,7 @@ public class Downloader {
 
     public void downloadMusic(Music music) {
         this.music = music;
+
         String fileName = sanitizeName(music.title) + ".mp4";
 
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(music.url))
@@ -101,6 +102,7 @@ public class Downloader {
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, fileName);
 
         downloadManager.enqueue(request);
+        context.registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     private boolean setTagData(File source) {
@@ -109,6 +111,7 @@ public class Downloader {
             public void run() {
 
                 try {
+                    Log.d(MPConstants.DEBUG_TAG, music.toString());
 
                     File art = Glide.with(context).asFile().load(music.albumArt).submit().get();
                     AudioFile audio = AudioFileIO.read(source);

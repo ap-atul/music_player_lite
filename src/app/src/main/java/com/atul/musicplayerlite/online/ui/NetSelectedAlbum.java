@@ -14,12 +14,9 @@ import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
-import com.atul.musicplayerlite.model.Music;
-import com.atul.musicplayerlite.online.download.Downloader;
 import com.atul.musicplayerlite.online.ui.adapter.NetSongsAdapter;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.Locale;
 
@@ -43,7 +40,7 @@ public class NetSelectedAlbum extends AppCompatActivity {
 
         album = getIntent().getParcelableExtra("album");
 
-        ExtendedFloatingActionButton downloadControl = findViewById(R.id.download_button);
+//        ExtendedFloatingActionButton downloadControl = findViewById(R.id.download_button);
         albumArt = findViewById(R.id.album_art);
         albumName = findViewById(R.id.album_name);
         albumDetails = findViewById(R.id.album_details);
@@ -56,20 +53,20 @@ public class NetSelectedAlbum extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new NetSongsAdapter(musicSelectListener, album.music));
 
-        downloadControl.setOnClickListener(v -> {
-            downloadAlbum();
-        });
+//        downloadControl.setOnClickListener(v -> {
+//            downloadAlbum();
+//        });
 
         setAlbumDataToUi();
         setUpOptions();
     }
 
-    private void downloadAlbum() {
-        Downloader downloader = new Downloader(this);
-        for(Music music: album.music){
-            downloader.downloadMusic(music);
-        }
-    }
+//    private void downloadAlbum() {
+//        Downloader downloader = new Downloader(this);
+//        for(Music music: album.music){
+//            downloader.downloadMusic(music);
+//        }
+//    }
 
 
     private void setUpOptions() {

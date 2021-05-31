@@ -110,6 +110,7 @@ public class Music implements Parcelable {
                 ", duration=" + duration +
                 ", albumId=" + albumId +
                 ", url=" + url +
+                ", albumArt=" + albumArt.toString() +
                 '}';
     }
 

@@ -58,7 +58,8 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
     }
 
     public void release(){
-        downloader.release();
+        if(downloader != null)
+            downloader.release();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -81,6 +82,7 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
                 listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size()));
             });
 
+            downloader = new Downloader(itemView.getContext().getApplicationContext());
             download.setOnClickListener(v -> {
                 download.setAlpha(0.5F);
                 downloader.downloadMusic(musicList.get(getAdapterPosition()));

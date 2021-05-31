@@ -95,18 +95,18 @@
 
     </RelativeLayout>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/download_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/image"
-        android:textColor="@color/widgetsColor"
-        app:backgroundTint="@color/shuffleFabTint"
-        app:icon="@drawable/ic_download"
-        app:iconTint="@color/widgetsColor"
-        android:text="@string/all"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+<!--    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton-->
+<!--        android:id="@+id/download_button"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom|end"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:contentDescription="@string/image"-->
+<!--        android:textColor="@color/widgetsColor"-->
+<!--        app:backgroundTint="@color/shuffleFabTint"-->
+<!--        app:icon="@drawable/ic_download"-->
+<!--        app:iconTint="@color/widgetsColor"-->
+<!--        android:text="@string/all"-->
+<!--        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

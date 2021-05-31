@@ -88,7 +88,9 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        songsAdapter.release();
+
+        if(songsAdapter != null)
+            songsAdapter.release();
     }
 
     @Override
