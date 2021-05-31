@@ -11,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.online.download.Downloader;
@@ -24,6 +23,8 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
 
     private final List<Music> musicList;
     public MusicSelectListener listener;
+
+    private Downloader downloader;
 
     public NetSongsAdapter(MusicSelectListener listener, List<Music> musics) {
         this.listener = listener;
@@ -56,6 +57,10 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
         return musicList.size();
     }
 
+    public void release(){
+        downloader.release();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView songName;
@@ -78,7 +83,6 @@ public class NetSongsAdapter extends RecyclerView.Adapter<NetSongsAdapter.MyView
 
             download.setOnClickListener(v -> {
                 download.setAlpha(0.5F);
-                Downloader downloader = new Downloader(itemView.getContext().getApplicationContext());
                 downloader.downloadMusic(musicList.get(getAdapterPosition()));
             });
         }

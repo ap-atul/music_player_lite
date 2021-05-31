@@ -1,8 +1,6 @@
 package com.atul.musicplayerlite.online.ui;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,6 @@ import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
-import com.atul.musicplayerlite.model.Network;
 import com.atul.musicplayerlite.online.receiver.JsaReceiver;
 import com.atul.musicplayerlite.online.ui.adapter.NetAlbumsAdapter;
 import com.atul.musicplayerlite.online.ui.adapter.NetSongsAdapter;
@@ -37,10 +34,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     private ProgressBar progressBar;
     private SearchView searchView;
 
-    private final MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
+    private JsaReceiver jsaReceiver;
     private NetSongsAdapter songsAdapter;
-    private NetAlbumsAdapter albumsAdapter;
-    private JsaReceiver receiver;
+
+    private final MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
 
     public SearchFragment() {
     }
@@ -76,6 +73,10 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         albumsView = view.findViewById(R.id.albums_layout);
         albumsView.setLayoutManager(new LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false));
 
+        jsaReceiver = new JsaReceiver();
+        jsaReceiver.getMusics().observeForever(this::setAdapter);
+        jsaReceiver.getAlbums().observeForever(this::setAlbumAdapter);
+
         return view;
     }
 
@@ -85,27 +86,16 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        songsAdapter.release();
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         if(query.length() > 0){
             progressBar.setVisibility(View.VISIBLE);
-            receiver = new JsaReceiver(requireActivity(), query){
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    super.onReceive(context, intent);
-
-                    Network network = intent.getParcelableExtra(MPConstants.NETWORK_SONGS_KEY);
-                    if(network != null){
-                        setAdapter(network.musicList);
-                    }
-
-                    Network albumNet = intent.getParcelableExtra(MPConstants.NETWORK_ALBUMS_KEY);
-                    if(albumNet != null){
-                        setAlbumAdapter(albumNet.albumList);
-                    }
-                }
-            };
-
-            requireActivity().registerReceiver(receiver, new IntentFilter(MPConstants.NETWORK_RECEIVER_ID));
+            jsaReceiver.search(query);
             return true;
         }
         return false;
@@ -128,7 +118,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     private void setAlbumAdapter(List<Album> albumList) {
-        albumsAdapter = new NetAlbumsAdapter(albumList, this);
+        NetAlbumsAdapter albumsAdapter = new NetAlbumsAdapter(albumList, this);
         albumsView.setAdapter(albumsAdapter);
         albumsView.setVisibility(View.VISIBLE);
 

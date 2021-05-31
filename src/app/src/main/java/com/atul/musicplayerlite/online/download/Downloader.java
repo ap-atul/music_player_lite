@@ -72,13 +72,17 @@ public class Downloader {
                 }
                 c.close();
             }
-            context.unregisterReceiver(this);
         }
     };
 
     public Downloader(Context context) {
         this.context = context;
         this.downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        context.registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+    }
+
+    public void release(){
+        context.unregisterReceiver(downloadReceiver);
     }
 
     public void downloadMusic(Music music) {
@@ -97,7 +101,6 @@ public class Downloader {
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_MUSIC, fileName);
 
         downloadManager.enqueue(request);
-        context.registerReceiver(downloadReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     private boolean setTagData(File source) {
