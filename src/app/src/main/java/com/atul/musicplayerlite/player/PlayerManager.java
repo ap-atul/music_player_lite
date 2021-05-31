@@ -315,7 +315,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             mediaPlayer.reset();
         } else {
             mediaPlayer = new MediaPlayer();
-//            EqualizerUtils.openAudioEffectSession(mContext, mediaPlayer.getAudioSessionId());
 
             mediaPlayer.setOnPreparedListener(this);
             mediaPlayer.setOnCompletionListener(this);
