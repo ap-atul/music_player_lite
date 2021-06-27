@@ -8,7 +8,9 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 
+import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
@@ -46,7 +48,8 @@ public class MusicLibraryHelper {
                 MediaStore.Audio.AudioColumns.ALBUM,
                 collection,
                 MediaStore.Audio.AudioColumns._ID,
-                MediaStore.Audio.AudioColumns.DATE_MODIFIED
+                MediaStore.Audio.AudioColumns.DATE_MODIFIED,
+                MediaStore.Audio.AudioColumns.DATA
         };
 
         String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
@@ -64,6 +67,7 @@ public class MusicLibraryHelper {
         int relativePathInd = musicCursor.getColumnIndexOrThrow(collection);
         int idInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID);
         int dateModifiedInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATE_MODIFIED);
+        int contentUriInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA);
 
         while (musicCursor.moveToNext()) {
             String artist = musicCursor.getString(artistInd);
@@ -71,6 +75,7 @@ public class MusicLibraryHelper {
             String displayName = musicCursor.getString(displayNameInd);
             String album = musicCursor.getString(albumInd);
             String relativePath = musicCursor.getString(relativePathInd);
+            String contentUri = musicCursor.getString(contentUriInd);
 
             if (VersioningHelper.isVersionQ())
                 relativePath += "/";
@@ -106,7 +111,10 @@ public class MusicLibraryHelper {
         return musicList;
     }
 
-    public static Music getLocalMusicFromUri(Context context, Uri uri) {
+    public static Music getLocalMusicFromUri(Context context, Music old) {
+        Uri uri = Uri.parse("content://media/external/audio/media/" + old.id);
+        Log.d(MPConstants.DEBUG_TAG, String.valueOf(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI));
+//        51539
         String[] projection = new String[]{
                 MediaStore.Audio.AudioColumns.DISPLAY_NAME
         };
@@ -114,7 +122,11 @@ public class MusicLibraryHelper {
         String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
         String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
         Cursor musicCursor = context.getContentResolver().query(uri, projection, selection, null, sortOrder);
-        musicCursor.moveToFirst();
+
+        if(musicCursor == null) {
+            Log.d(MPConstants.DEBUG_TAG, "cursor is null");
+            return null;
+        }
 
         // only available data
         int displayNameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);

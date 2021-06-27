@@ -2,10 +2,9 @@ package com.atul.musicplayerlite;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,6 +35,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         tabs.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabs.getTabCount(); i++) {
-            tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
+            Objects.requireNonNull(tabs.getTabAt(i)).setIcon(MPConstants.TAB_ICONS[i]);
         }
     }
 
@@ -172,6 +172,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
+        Music m = MusicLibraryHelper.getLocalMusicFromUri(getApplicationContext(), musicList.get(0));
+        if(m != null){
+            Log.d(MPConstants.DEBUG_TAG, m.displayName);
+        } else {
+            Log.d(MPConstants.DEBUG_TAG, "null");
+        }
+
         playerManager.setMusicList(musicList);
         setPlayerView();
     }
@@ -195,16 +202,6 @@ public class MainActivity extends AppCompatActivity
     public void onPrepared() {
         playerManager = playerBuilder.getPlayerManager();
         setPlayerView();
-
-
-        Intent intent = getIntent();
-        Uri data = intent.getData();
-        if (intent.getType() != null && intent.getType().contains("audio/") && playerManager != null) {
-            Music music = MusicLibraryHelper.getLocalMusicFromUri(MainActivity.this, data);
-            if (music != null) {
-                playerManager.setMusic(music);
-            }
-        }
     }
 
     @Override

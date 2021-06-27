@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.atul.musicplayerlite.MPConstants;
@@ -140,9 +141,11 @@ public class Downloader {
                         values.put(collection, filePath);
 
                         Uri uri = context.getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
-                        OutputStream stream = context.getContentResolver().openOutputStream(uri);
-                        stream.write(data);
-                        stream.close();
+                        if (uri != null) {
+                            OutputStream stream = context.getContentResolver().openOutputStream(uri);
+                            stream.write(data);
+                            stream.close();
+                        }
                     }
 
 

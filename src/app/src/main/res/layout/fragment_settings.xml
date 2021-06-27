@@ -36,7 +36,7 @@
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="@string/ui"
                 android:textColor="?colorPrimary"
-                android:textSize="@dimen/text_medium"
+                android:textSize="@dimen/text_big_med"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -73,7 +73,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/select_default_theme"
                         android:textColor="@color/colorTextHigh"
-                        android:textSize="@dimen/text_big_med" />
+                        android:textSize="@dimen/text_big" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/theme_mode_sub_text"
                         android:textColor="@color/colorTextMed"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_big_med" />
 
                 </LinearLayout>
 
@@ -157,7 +157,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/select_accent_color"
                         android:textColor="@color/colorTextHigh"
-                        android:textSize="@dimen/text_big_med" />
+                        android:textSize="@dimen/text_big" />
 
                     <TextView
                         android:id="@+id/current_accent"
@@ -166,7 +166,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/choose_your_favorite_color_of_choice"
                         android:textColor="@color/colorTextMed"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_big_med" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -213,7 +213,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/show_embedded_album_arts"
                         android:textColor="@color/colorTextHigh"
-                        android:textSize="@dimen/text_big_med" />
+                        android:textSize="@dimen/text_big" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -221,7 +221,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/huge_improve_in_performance_if_disabled"
                         android:textColor="@color/colorTextMed"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_big_med" />
 
                 </LinearLayout>
 
@@ -241,7 +241,7 @@
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="@string/general"
                 android:textColor="?colorPrimary"
-                android:textSize="@dimen/text_medium"
+                android:textSize="@dimen/text_big_med"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -277,7 +277,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/folder_option_title"
                         android:textColor="@color/colorTextHigh"
-                        android:textSize="@dimen/text_big_med" />
+                        android:textSize="@dimen/text_big" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -285,7 +285,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/folder_option_sub"
                         android:textColor="@color/colorTextMed"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_big_med" />
 
                 </LinearLayout>
 
@@ -324,7 +324,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/refresh_title"
                         android:textColor="@color/colorTextHigh"
-                        android:textSize="@dimen/text_big_med" />
+                        android:textSize="@dimen/text_big" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -332,7 +332,7 @@
                         android:fontFamily="@font/nunito_sans"
                         android:text="@string/refresh_subtitle"
                         android:textColor="@color/colorTextMed"
-                        android:textSize="@dimen/text_medium" />
+                        android:textSize="@dimen/text_big_med" />
 
                 </LinearLayout>
 
