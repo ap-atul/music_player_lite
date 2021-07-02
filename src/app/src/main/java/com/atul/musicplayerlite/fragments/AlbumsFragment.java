@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.activities.PlaylistActivity;
 import com.atul.musicplayerlite.activities.SelectedAlbumActivity;
 import com.atul.musicplayerlite.adapter.AlbumsAdapter;
 import com.atul.musicplayerlite.adapter.PlayListAdapter;
@@ -33,9 +34,9 @@ import java.util.List;
 public class AlbumsFragment extends Fragment implements AlbumSelectListener, SearchView.OnQueryTextListener, PlayListAdapter.PlayListListener {
 
     private final List<Album> albumList = new ArrayList<>();
+    private final List<PlayList> playLists = new ArrayList<>();
     private AlbumsAdapter albumsAdapter;
     private List<Album> unchangedList = new ArrayList<>();
-    private final List<PlayList> playLists = new ArrayList<>();
     private MainViewModel viewModel;
     private PlayListAdapter playListAdapter;
 
@@ -90,8 +91,10 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
             playLists.addAll(playList);
             playListAdapter.notifyDataSetChanged();
 
-            if(playList.size() > 0)
+            if (playList.size() > 0)
                 playlistHeader.setVisibility(View.VISIBLE);
+            else
+                playlistHeader.setVisibility(View.GONE);
         });
 
         setUpOptions();
@@ -166,6 +169,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
 
     @Override
     public void click(PlayList playList) {
-        // open up activity
+        startActivity(new Intent(requireContext(), PlaylistActivity.class)
+                .putExtra("playlist", playList));
     }
 }

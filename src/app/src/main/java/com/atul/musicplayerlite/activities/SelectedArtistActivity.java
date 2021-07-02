@@ -1,5 +1,6 @@
 package com.atul.musicplayerlite.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -13,9 +14,11 @@ import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.HorizontalAlbumsAdapter;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.dialogs.SongOptionDialog;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.AlbumSelectListener;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
+import com.atul.musicplayerlite.listener.PlayListListener;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Artist;
 import com.atul.musicplayerlite.model.Music;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SelectedArtistActivity extends AppCompatActivity implements AlbumSelectListener {
+public class SelectedArtistActivity extends AppCompatActivity implements AlbumSelectListener, PlayListListener {
 
     private final
     MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
@@ -61,7 +64,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
 
         songsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         musicList.addAll(defAlbum.music);
-        songsAdapter = new SongsAdapter(musicSelectListener, musicList);
+        songsAdapter = new SongsAdapter(musicSelectListener, this, musicList);
         songsRecyclerView.setAdapter(songsAdapter);
 
         albumsRecyclerView.setLayoutManager(
@@ -104,5 +107,11 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         albumTitle.setText(album.title);
         albumSongsCount.setText(String.format(Locale.getDefault(), "%d Songs",
                 album.music.size()));
+    }
+
+    @Override
+    public void option(Context context, Music music) {
+        SongOptionDialog dialog = new SongOptionDialog(context, music);
+        dialog.show();
     }
 }

@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_weight="0"
-            android:background="@color/windowBackground"
+            android:background="@color/colorBackgroundHigh"
             app:tabIconTint="@color/tab_color"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorAnimationMode="linear"

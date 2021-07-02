@@ -46,6 +46,7 @@
     <string name="options">OPTIONS</string>
     <string name="enter_new_playlist_name">Enter new playlist name</string>
     <string name="add">add</string>
+    <string name="delete_playlist">Delete Playlist</string>
 
 
 </resources>

@@ -37,7 +37,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(playLists.get(position).title);
-        holder.info.setText(String.format(Locale.getDefault(), "Songs %d", playLists.get(position).musics.size()));
+        holder.info.setText(String.format(Locale.getDefault(), "%d Songs", playLists.get(position).musics.size()));
 
         if (holder.state)
             Glide.with(holder.albumArt.getContext())

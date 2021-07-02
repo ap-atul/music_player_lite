@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Default">
-
+        <activity android:name=".activities.PlaylistActivity"></activity>
         <activity android:name=".activities.SelectedArtistActivity" />
         <activity android:name=".activities.SelectedAlbumActivity" />
 
@@ -34,9 +34,9 @@
                 <category android:name="android.intent.category.APP_MUSIC" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="content" />

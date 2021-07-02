@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".fragments.ArtistsFragment">
 
@@ -25,8 +25,8 @@
         android:layout_below="@id/search_toolbar"
         android:layout_margin="10dp"
         android:fontFamily="@font/nunito_sans_semibold"
-        android:text="@string/playlists"
         android:letterSpacing="0.2"
+        android:text="@string/playlists"
         android:textColor="?colorPrimary"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"
@@ -37,8 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/playlist_header"
-        android:orientation="horizontal"
         android:layout_marginStart="5dp"
+        android:orientation="horizontal"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
     <TextView
@@ -48,8 +48,8 @@
         android:layout_below="@id/playlist_layout"
         android:layout_margin="10dp"
         android:fontFamily="@font/nunito_sans_semibold"
-        android:text="@string/albums"
         android:letterSpacing="0.2"
+        android:text="@string/albums"
         android:textColor="?colorPrimary"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold" />
@@ -60,6 +60,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/info"
         android:layout_marginTop="10dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+        android:nestedScrollingEnabled="false" />
 
 </RelativeLayout>
