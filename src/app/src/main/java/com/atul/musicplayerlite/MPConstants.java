@@ -98,4 +98,8 @@ public class MPConstants {
 
     public static final String DOWNLOAD_TITLE = "Downloading %s";
     public static final String DOWNLOAD_DESC = "";
+
+    public static final int DATABASE_VERSION = 1;
+    public static final String MUSIC_TABLE = "music";
+    public static final String DATABASE_NAME = "playlist";
 }

@@ -1,5 +1,6 @@
 package com.atul.musicplayerlite.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,16 +14,19 @@ import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.dialogs.SongOptionDialog;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
+import com.atul.musicplayerlite.listener.PlayListListener;
 import com.atul.musicplayerlite.model.Album;
+import com.atul.musicplayerlite.model.Music;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.Locale;
 
-public class SelectedAlbumActivity extends AppCompatActivity {
+public class SelectedAlbumActivity extends AppCompatActivity implements PlayListListener {
 
     private final
     MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
@@ -53,7 +57,7 @@ public class SelectedAlbumActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new SongsAdapter(musicSelectListener, album.music));
+        recyclerView.setAdapter(new SongsAdapter(musicSelectListener, this, album.music));
 
         shuffleControl.setOnClickListener(v -> {
             musicSelectListener.setShuffleMode(true);
@@ -93,5 +97,11 @@ public class SelectedAlbumActivity extends AppCompatActivity {
                     .load(album.music.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)
                     .into(albumArt);
+    }
+
+    @Override
+    public void option(Context context, Music music) {
+        SongOptionDialog dialog = new SongOptionDialog(context, music);
+        dialog.show();
     }
 }

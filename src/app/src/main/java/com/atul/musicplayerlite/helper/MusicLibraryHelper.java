@@ -1,5 +1,6 @@
 package com.atul.musicplayerlite.helper;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,13 +9,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.util.Log;
 
-import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
-import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +52,7 @@ public class MusicLibraryHelper {
 
         String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
         String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
+        @SuppressLint("Recycle")
         Cursor musicCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder);
 
         int artistInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST);
@@ -75,7 +74,6 @@ public class MusicLibraryHelper {
             String displayName = musicCursor.getString(displayNameInd);
             String album = musicCursor.getString(albumInd);
             String relativePath = musicCursor.getString(relativePathInd);
-            String contentUri = musicCursor.getString(contentUriInd);
 
             if (VersioningHelper.isVersionQ())
                 relativePath += "/";
@@ -91,7 +89,7 @@ public class MusicLibraryHelper {
             int year = musicCursor.getInt(yearInd);
             int track = musicCursor.getInt(trackInd);
             int startFrom = 0;
-            long dateAdded = musicCursor.getLong(dateModifiedInd);
+            int dateAdded = musicCursor.getInt(dateModifiedInd);
 
             long id = musicCursor.getLong(idInd);
             long duration = musicCursor.getLong(durationInd);
@@ -111,64 +109,12 @@ public class MusicLibraryHelper {
         return musicList;
     }
 
-    public static Music getLocalMusicFromUri(Context context, Music old) {
-        Uri uri = Uri.parse("content://media/external/audio/media/" + old.id);
-        Log.d(MPConstants.DEBUG_TAG, String.valueOf(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI));
-//        51539
-        String[] projection = new String[]{
-                MediaStore.Audio.AudioColumns.DISPLAY_NAME
-        };
-
-        String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
-        String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
-        Cursor musicCursor = context.getContentResolver().query(uri, projection, selection, null, sortOrder);
-
-        if(musicCursor == null) {
-            Log.d(MPConstants.DEBUG_TAG, "cursor is null");
-            return null;
-        }
-
-        // only available data
-        int displayNameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);
-
-        if (musicCursor.moveToFirst()) {
-            String displayName = musicCursor.getString(displayNameInd);
-
-
-            if (!musicCursor.isClosed())
-                musicCursor.close();
-
-            return new Music(
-                    uri.toString(),
-                    displayName,
-                    displayName,
-                    displayName,
-                    displayName,
-                    null
-            );
-        }
-
-        if (!musicCursor.isClosed())
-            musicCursor.close();
-
-        return null;
-    }
-
-    public static Bitmap getThumbnail(Context context, Uri uri) {
-        if (uri != null && uri.toString().contains("http")){
-            try {
-                return Glide.with(context).asBitmap().load(uri).submit().get();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
+    public static Bitmap getThumbnail(Context context, String uri) {
         try {
+            ParcelFileDescriptor fileDescriptor = context.getContentResolver().openFileDescriptor(Uri.parse(uri), "r");
             if (uri == null)
                 return null;
 
-            ParcelFileDescriptor fileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
             Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor());
             fileDescriptor.close();
 

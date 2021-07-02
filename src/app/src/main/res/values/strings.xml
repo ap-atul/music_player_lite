@@ -47,6 +47,12 @@
     <string name="all">all</string>
     <string name="refresh_title">Refresh media library for new content</string>
     <string name="refresh_subtitle">we look into every corner for some new tunes you got</string>
+    <string name="options">OPTIONS</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="playlists">PLAYLISTS</string>
+    <string name="enter_new_playlist_name">Enter new name for playlist</string>
+    <string name="add">add</string>
+    <string name="delete_playlist">Delete playlist</string>
 
 
 </resources>

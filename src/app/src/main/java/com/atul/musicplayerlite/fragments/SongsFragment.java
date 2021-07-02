@@ -1,5 +1,6 @@
 package com.atul.musicplayerlite.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.dialogs.SongOptionDialog;
 import com.atul.musicplayerlite.helper.ListHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
+import com.atul.musicplayerlite.listener.PlayListListener;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.viewmodel.MainViewModel;
 import com.atul.musicplayerlite.viewmodel.MainViewModelFactory;
@@ -24,7 +27,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongsFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class SongsFragment extends Fragment implements SearchView.OnQueryTextListener, PlayListListener {
 
     private static MusicSelectListener listener;
     private final List<Music> musicList = new ArrayList<>();
@@ -71,7 +74,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        songsAdapter = new SongsAdapter(listener, musicList);
+        songsAdapter = new SongsAdapter(listener, this, musicList);
         recyclerView.setAdapter(songsAdapter);
 
         shuffleControl.setOnClickListener(v -> {
@@ -135,5 +138,11 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         songsAdapter.notifyDataSetChanged();
 
         shuffleControl.setText(String.valueOf(musicList.size()));
+    }
+
+    @Override
+    public void option(Context context, Music music) {
+        SongOptionDialog dialog = new SongOptionDialog(context, music);
+        dialog.show();
     }
 }

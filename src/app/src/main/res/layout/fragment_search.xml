@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackgroundHigh"
     android:fillViewport="true"
     android:orientation="vertical"
     tools:context=".online.ui.SearchFragment">
@@ -31,10 +32,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/api_search"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/nunito_sans_semibold"
             android:text="@string/albums"
+            android:letterSpacing="0.2"
             android:textColor="?colorPrimary"
             android:textSize="@dimen/text_medium"
             android:textStyle="bold"
@@ -49,16 +51,16 @@
             android:visibility="gone"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
-
         <TextView
             android:id="@+id/songs_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/albums_layout"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/nunito_sans_semibold"
             android:text="@string/songs"
+            android:letterSpacing="0.2"
             android:textColor="?colorPrimary"
             android:textSize="@dimen/text_medium"
             android:textStyle="bold"
@@ -72,7 +74,6 @@
             android:layout_marginTop="10dp"
             android:visibility="gone"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
 
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

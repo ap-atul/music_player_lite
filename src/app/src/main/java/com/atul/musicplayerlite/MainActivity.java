@@ -21,7 +21,6 @@ import androidx.viewpager.widget.ViewPager;
 import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.activities.QueueDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
-import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
@@ -36,7 +35,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener {
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity
             manageStoragePermission(MainActivity.this);
 
         albumState = MPPreferences.getAlbumRequest(this);
+        MPConstants.musicSelectListener = this;
 
         MaterialCardView playerLayout = findViewById(R.id.player_layout);
         albumArt = findViewById(R.id.albumArt);
@@ -82,11 +81,6 @@ public class MainActivity extends AppCompatActivity
         play_pause.setOnClickListener(this);
         playerLayout.setOnClickListener(this);
         queue.setOnClickListener(this);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     private void setPlayerView() {
@@ -109,7 +103,7 @@ public class MainActivity extends AppCompatActivity
         tabs.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabs.getTabCount(); i++) {
-            Objects.requireNonNull(tabs.getTabAt(i)).setIcon(MPConstants.TAB_ICONS[i]);
+            tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
         }
     }
 
@@ -174,13 +168,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
-        Music m = MusicLibraryHelper.getLocalMusicFromUri(getApplicationContext(), musicList.get(0));
-        if(m != null){
-            Log.d(MPConstants.DEBUG_TAG, m.displayName);
-        } else {
-            Log.d(MPConstants.DEBUG_TAG, "null");
-        }
-
         playerManager.setMusicList(musicList);
         setPlayerView();
     }
