@@ -40,6 +40,12 @@
     <string name="folder_option_title">Select folders to exclude</string>
     <string name="github">GitHub</string>
     <string name="zero_time">00:00</string>
+    <string name="playlists">PLAYLISTS</string>
+    <string name="albums">ALBUMS</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="options">OPTIONS</string>
+    <string name="enter_new_playlist_name">Enter new playlist name</string>
+    <string name="add">add</string>
 
 
 </resources>

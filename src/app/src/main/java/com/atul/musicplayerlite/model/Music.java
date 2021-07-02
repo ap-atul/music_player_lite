@@ -25,7 +25,7 @@ public class Music implements Parcelable {
     public String displayName;
     public String album;
     public String relativePath;
-    public Uri albumArt;
+    public String albumArt;
     public int year;
     public int track;
     public int startFrom;
@@ -50,7 +50,7 @@ public class Music implements Parcelable {
         this.id = id;
         this.duration = duration;
         this.albumId = albumId;
-        this.albumArt = albumArt;
+        this.albumArt = albumArt.toString();
     }
 
     protected Music(Parcel in) {
@@ -59,7 +59,7 @@ public class Music implements Parcelable {
         displayName = in.readString();
         album = in.readString();
         relativePath = in.readString();
-        albumArt = in.readParcelable(Uri.class.getClassLoader());
+        albumArt = in.readString();
         year = in.readInt();
         track = in.readInt();
         startFrom = in.readInt();
@@ -100,7 +100,7 @@ public class Music implements Parcelable {
         dest.writeString(displayName);
         dest.writeString(album);
         dest.writeString(relativePath);
-        dest.writeParcelable(albumArt, flags);
+        dest.writeString(albumArt);
         dest.writeInt(year);
         dest.writeInt(track);
         dest.writeInt(startFrom);

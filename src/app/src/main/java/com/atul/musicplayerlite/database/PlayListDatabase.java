@@ -8,14 +8,14 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.atul.musicplayerlite.MPConstants;
-import com.atul.musicplayerlite.database.converter.MusicListConverter;
-import com.atul.musicplayerlite.model.Music;
+import com.atul.musicplayerlite.database.converter.CustomConverter;
+import com.atul.musicplayerlite.model.PlayList;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@TypeConverters(MusicListConverter.class)
-@Database(entities = {Music.class}, version = MPConstants.DATABASE_VERSION, exportSchema = false)
+@TypeConverters({CustomConverter.MusicListConverter.class})
+@Database(entities = {PlayList.class}, version = MPConstants.DATABASE_VERSION, exportSchema = false)
 public abstract class PlayListDatabase extends RoomDatabase {
 
     public static final ExecutorService databaseExecutor = Executors.newSingleThreadExecutor();
@@ -34,5 +34,5 @@ public abstract class PlayListDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    public abstract MusicDao dao();
+    public abstract PlayListDao dao();
 }

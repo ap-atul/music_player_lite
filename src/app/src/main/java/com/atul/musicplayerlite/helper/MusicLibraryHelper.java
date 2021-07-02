@@ -103,9 +103,9 @@ public class MusicLibraryHelper {
         return musicList;
     }
 
-    public static Bitmap getThumbnail(Context context, Uri uri) {
+    public static Bitmap getThumbnail(Context context, String uri) {
         try {
-            ParcelFileDescriptor fileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r");
+            ParcelFileDescriptor fileDescriptor = context.getContentResolver().openFileDescriptor(Uri.parse(uri), "r");
             Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor.getFileDescriptor());
             fileDescriptor.close();
 

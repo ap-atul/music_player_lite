@@ -4,21 +4,27 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.model.Music;
+import com.atul.musicplayerlite.model.PlayList;
 
 import java.util.List;
 
 @Dao
-public interface MusicDao {
-    @Insert
-    void add(Music music);
+public interface PlayListDao {
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void add(PlayList playList);
 
     @Delete
-    void delete(Music music);
+    void delete(PlayList playList);
 
     @Query("SELECT * FROM " + MPConstants.MUSIC_TABLE)
-    LiveData<List<Music>> all();
+    LiveData<List<PlayList>> all();
+
+    @Update
+    void update(PlayList playList);
 }

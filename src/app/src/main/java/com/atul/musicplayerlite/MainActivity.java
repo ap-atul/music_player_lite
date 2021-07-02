@@ -20,6 +20,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.atul.musicplayerlite.activities.PlayerDialog;
 import com.atul.musicplayerlite.activities.QueueDialog;
 import com.atul.musicplayerlite.adapter.MainPagerAdapter;
+import com.atul.musicplayerlite.dialogs.SongOptionDialog;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     private LinearProgressIndicator progressIndicator;
     private PlayerDialog playerDialog;
     private QueueDialog queueDialog;
+    private SongOptionDialog songOptionDialog;
 
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
@@ -181,6 +183,12 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void setShuffleMode(boolean mode) {
         playerManager.getPlayerQueue().setShuffle(mode);
+    }
+
+    @Override
+    public void option(Music music) {
+        songOptionDialog = new SongOptionDialog(this, music);
+        songOptionDialog.show();
     }
 
     @Override

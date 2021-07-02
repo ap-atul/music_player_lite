@@ -18,11 +18,48 @@
         app:title="Albums"
         app:titleTextColor="?android:attr/textColorPrimary" />
 
+    <TextView
+        android:id="@+id/playlist_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_toolbar"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:text="@string/playlists"
+        android:letterSpacing="0.2"
+        android:textColor="?colorPrimary"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/playlist_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playlist_header"
+        android:orientation="horizontal"
+        android:layout_marginStart="5dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playlist_layout"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/nunito_sans_semibold"
+        android:text="@string/albums"
+        android:letterSpacing="0.2"
+        android:textColor="?colorPrimary"
+        android:textSize="@dimen/text_medium"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/albums_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_toolbar"
+        android:layout_below="@id/info"
+        android:layout_marginTop="10dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 </RelativeLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/album_art_layout"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/colorBackgroundHigh"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="3dp"
+    android:layout_margin="5dp"
+    app:rippleColor="?colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/album_art"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_album_art" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@id/album_art"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans"
+                android:maxLines="2"
+                android:textColor="@color/colorTextHigh"
+                android:textSize="@dimen/text_big" />
+
+            <TextView
+                android:id="@+id/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/nunito_sans"
+                android:maxLines="1"
+                android:textColor="@color/colorTextMed"
+                android:textSize="@dimen/text_big_med" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

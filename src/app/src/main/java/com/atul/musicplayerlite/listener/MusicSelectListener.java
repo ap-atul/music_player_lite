@@ -10,4 +10,6 @@ public interface MusicSelectListener {
     void addToQueue(List<Music> music);
 
     void setShuffleMode(boolean mode);
+
+    void option(Music music);
 }

@@ -70,6 +70,8 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
                 listener.setShuffleMode(false);
                 listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size()));
             });
+
+            itemView.findViewById(R.id.root_layout).setOnLongClickListener(v -> {listener.option(musicList.get(getAdapterPosition())); return true;});
         }
     }
 }

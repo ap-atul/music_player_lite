@@ -13,9 +13,12 @@ import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.adapter.SongsAdapter;
+import com.atul.musicplayerlite.database.PlayListDao;
+import com.atul.musicplayerlite.database.PlayListDatabase;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Album;
+import com.atul.musicplayerlite.model.PlayList;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -70,6 +73,8 @@ public class SelectedAlbumActivity extends AppCompatActivity {
 
             if (id == R.id.menu_add_to_queue) {
                 musicSelectListener.addToQueue(album.music);
+
+                addToPlayList();
                 return true;
             }
 
@@ -78,6 +83,15 @@ public class SelectedAlbumActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v ->
                 finish()
         );
+    }
+
+    private void addToPlayList() {
+        PlayListDao database = PlayListDatabase.getDatabase(this).dao();
+        PlayList playList = new PlayList();
+        playList.title = "Another title";
+        playList.musics = album.music;
+
+        PlayListDatabase.databaseExecutor.execute(() -> database.add(playList));
     }
 
     private void setAlbumDataToUi() {
