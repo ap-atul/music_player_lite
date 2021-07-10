@@ -86,7 +86,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         playListAdapter = new PlayListAdapter(this, playLists);
         playListView.setAdapter(playListAdapter);
 
-        database.dao().all().observe(this, playList -> {
+        database.dao().all().observe(requireActivity(), playList -> {
             playLists.clear();
             playLists.addAll(playList);
             playListAdapter.notifyDataSetChanged();
