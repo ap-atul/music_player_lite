@@ -3,12 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_more"
         android:icon="@drawable/ic_more"
         android:title="@string/more"
         app:showAsAction="ifRoom">
 
-        <menu android:id="@+id/more_options">
+        <menu>
 
             <item
                 android:id="@+id/menu_add_to_queue"

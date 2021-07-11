@@ -39,10 +39,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
     }
 
     public static ArtistsFragment newInstance() {
-        ArtistsFragment fragment = new ArtistsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
+        return new ArtistsFragment();
     }
 
     @Override

@@ -58,9 +58,7 @@ public class PlayerQueue {
     }
 
     public void prev() {
-        if (repeat) return;
-        if (shuffle) currentPosition = random.nextInt(currentQueue.size());
-        else currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
+        currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
     }
 
     public void removeMusicFromQueue(int position) {

@@ -12,7 +12,6 @@
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/windowBackground"
             app:collapseIcon="@drawable/ic_back"
             app:menu="@menu/menu_add_to_queue"
             app:navigationIcon="@drawable/ic_back"

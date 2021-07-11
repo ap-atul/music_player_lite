@@ -24,7 +24,7 @@
             android:id="@+id/tabs"
             style="?attr/tabStyle"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="45dp"
             android:layout_weight="0"
             android:background="@color/colorBackgroundHigh"
             app:tabIconTint="@color/tab_color"

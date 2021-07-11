@@ -10,12 +10,11 @@
         app:showAsAction="ifRoom|collapseActionView" />
 
     <item
-        android:id="@+id/filter"
         android:icon="@drawable/ic_filter"
         android:title="@string/filter"
         app:showAsAction="ifRoom">
 
-        <menu android:id="@+id/sorting">
+        <menu>
 
             <item
                 android:id="@+id/menu_sort_asc"

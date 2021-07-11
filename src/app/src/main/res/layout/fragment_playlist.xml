@@ -11,19 +11,38 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/windowBackground"
+            android:layout_height="45dp"
             app:collapseIcon="@drawable/ic_back"
             app:menu="@menu/menu_add_to_playlist"
             app:navigationIcon="@drawable/ic_back"
-            app:title="Albums"
+            app:title="Playlists"
             app:titleTextColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/oops_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/text_head"
+            android:text="@string/oops"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextHigh"
+            android:fontFamily="@font/nunito_sans"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/playlist_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_toolbar"
+            android:orientation="horizontal"
+            android:background="?colorOnPrimary"/>
 
         <RelativeLayout
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_below="@id/search_toolbar"
+            android:layout_below="@id/playlist_layout"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:background="@drawable/tab_indicator" />
@@ -44,7 +63,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/image"
         android:textColor="@color/widgetsColor"
-        app:backgroundTint="@color/shuffleFabTint"
+        app:backgroundTint="@color/windowBackground"
         app:icon="@drawable/ic_controls_shuffle"
         app:iconTint="@color/widgetsColor"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />

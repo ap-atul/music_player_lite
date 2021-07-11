@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackgroundHigh"
     tools:context=".fragments.SongsFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="45dp"
         app:collapseIcon="@drawable/ic_close"
         app:menu="@menu/menu_songs"
         app:navigationIcon="@drawable/ic_close"
@@ -34,7 +33,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/image"
         android:textColor="@color/widgetsColor"
-        app:backgroundTint="@color/shuffleFabTint"
+        app:backgroundTint="@color/windowBackground"
         app:icon="@drawable/ic_controls_shuffle"
         app:iconTint="@color/widgetsColor"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />

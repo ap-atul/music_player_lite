@@ -4,62 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundHigh"
     tools:context=".online.ui.SearchFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/windowBackground"
+        android:layout_height="45dp"
         app:collapseIcon="@drawable/ic_close"
         app:menu="@menu/menu_albums"
         app:navigationIcon="@drawable/ic_close"
         app:title="Albums"
         app:titleTextColor="?android:attr/textColorPrimary" />
 
-    <TextView
-        android:id="@+id/playlist_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_toolbar"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/nunito_sans_semibold"
-        android:letterSpacing="0.2"
-        android:text="@string/playlists"
-        android:textColor="?colorPrimary"
-        android:textSize="@dimen/text_medium"
-        android:textStyle="bold"
-        android:visibility="gone" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/playlist_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/playlist_header"
-        android:layout_marginStart="5dp"
-        android:orientation="horizontal"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-    <TextView
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/playlist_layout"
-        android:layout_margin="10dp"
-        android:fontFamily="@font/nunito_sans_semibold"
-        android:letterSpacing="0.2"
-        android:text="@string/albums"
-        android:textColor="?colorPrimary"
-        android:textSize="@dimen/text_medium"
-        android:textStyle="bold" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/albums_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/info"
-        android:layout_marginTop="10dp"
-        android:nestedScrollingEnabled="false" />
+        android:layout_below="@id/search_toolbar"
+        android:layout_marginTop="10dp" />
 
 </RelativeLayout>

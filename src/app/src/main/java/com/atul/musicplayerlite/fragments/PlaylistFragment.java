@@ -1,4 +1,4 @@
-package com.atul.musicplayerlite.activities;
+package com.atul.musicplayerlite.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,17 +9,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.atul.musicplayerlite.MPConstants;
 import com.atul.musicplayerlite.MPPreferences;
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.adapter.PlayListAdapter;
 import com.atul.musicplayerlite.database.PlayListDatabase;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
-import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.listener.MusicSelectListener;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.model.PlayList;
@@ -28,46 +27,78 @@ import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class PlaylistActivity extends AppCompatActivity {
+public class PlaylistFragment extends Fragment implements PlayListAdapter.PlayListListener {
 
     private final
     MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
-
+    private final List<PlayList> playLists = new ArrayList<>();
+    private final List<Music> musicList = new ArrayList<>();
     private MaterialToolbar toolbar;
     private PlayList playList;
     private PlayListDatabase database;
     private SongsAdapter adapter;
+    private PlayListAdapter playListAdapter;
+    private TextView oops;
+
+    public static PlaylistFragment newInstance() {
+        return new PlaylistFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
-        AppCompatDelegate.setDefaultNightMode(MPPreferences.getThemeMode(getApplicationContext()));
-        setContentView(R.layout.activity_playlist);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        database = PlayListDatabase.getDatabase(this);
-        playList = getIntent().getParcelableExtra("playlist");
+        View view = inflater.inflate(R.layout.fragment_playlist, container, false);
 
-        ExtendedFloatingActionButton shuffleControl = findViewById(R.id.shuffle_button);
-        toolbar = findViewById(R.id.search_toolbar);
-        toolbar.setTitle(playList.title);
-        toolbar.setSubtitle(String.format(Locale.getDefault(), "%d songs",
-                playList.musics.size()));
+        database = PlayListDatabase.getDatabase(requireContext());
 
-        RecyclerView recyclerView = findViewById(R.id.songs_layout);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SongsAdapter(musicSelectListener, playList.musics);
+        ExtendedFloatingActionButton shuffleControl = view.findViewById(R.id.shuffle_button);
+        toolbar = view.findViewById(R.id.search_toolbar);
+        oops = view.findViewById(R.id.oops_text);
+
+        RecyclerView playListView = view.findViewById(R.id.playlist_layout);
+        playListView.setHasFixedSize(true);
+        playListView.setLayoutManager(new LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false));
+        playListAdapter = new PlayListAdapter(this, playLists);
+        playListView.setAdapter(playListAdapter);
+
+        RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter = new SongsAdapter(musicSelectListener, musicList);
         recyclerView.setAdapter(adapter);
 
         shuffleControl.setOnClickListener(v -> {
             musicSelectListener.setShuffleMode(true);
-            musicSelectListener.playQueue(playList.musics);
+            musicSelectListener.playQueue(musicList);
+        });
+
+        database.dao().all().observe(this, playList -> {
+            playLists.clear();
+            playLists.addAll(playList);
+            playListAdapter.notifyDataSetChanged();
+
+            if (playList.size() > 0) {
+                setCurrPlaylist(playList.get(0));
+                oops.setVisibility(View.GONE);
+            } else {
+                oops.setVisibility(View.VISIBLE);
+            }
         });
 
         setUpOptions();
+
+        return view;
+    }
+
+    private void setCurrPlaylist(PlayList list) {
+        playList = list;
+        musicList.clear();
+        musicList.addAll(list.musics);
+        adapter.notifyDataSetChanged();
     }
 
     private void setUpOptions() {
@@ -75,36 +106,42 @@ public class PlaylistActivity extends AppCompatActivity {
             int id = item.getItemId();
 
             if (id == R.id.menu_add_to_queue) {
-                musicSelectListener.addToQueue(playList.musics);
+                musicSelectListener.addToQueue(musicList);
                 return true;
             } else if (id == R.id.menu_delete_playlist) {
 
-                new MaterialAlertDialogBuilder(this)
-                        .setMessage("Are you sure you want to delete this playlist?")
-                        .setPositiveButton("Delete", (dia, which) -> {
-                            deletePlaylist();
-                            dia.dismiss();
-                        }).setNegativeButton("Cancel", (dia, which) -> dia.dismiss()).show();
+                if(playList != null) {
+                    new MaterialAlertDialogBuilder(requireContext())
+                            .setMessage("Are you sure you want to delete this playlist?")
+                            .setPositiveButton("Delete", (dia, which) -> {
+                                deletePlaylist();
+                                dia.dismiss();
+                            }).setNegativeButton("Cancel", (dia, which) -> dia.dismiss()).show();
+                }
             }
 
             return false;
         });
-        toolbar.setNavigationOnClickListener(v ->
-                finish()
-        );
     }
 
     private void deletePlaylist() {
-        Toast.makeText(this, "Playlist deleted successfully", Toast.LENGTH_SHORT).show();
-        PlayListDatabase.databaseExecutor.execute(() -> database.dao().delete(playList));
-        finish();
+        if(playList != null) {
+            musicList.clear();
+            Toast.makeText(requireContext(), "Playlist deleted successfully", Toast.LENGTH_SHORT).show();
+            PlayListDatabase.databaseExecutor.execute(() -> database.dao().delete(playList));
+        }
     }
 
     private void removeSongFromPlayList(Music music) {
         playList.musics.remove(music);
         adapter.notifyDataSetChanged();
-        Toast.makeText(this, "Song removed from playlist", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Song removed from playlist", Toast.LENGTH_SHORT).show();
         PlayListDatabase.databaseExecutor.execute(() -> database.dao().update(playList));
+    }
+
+    @Override
+    public void click(PlayList playList) {
+        setCurrPlaylist(playList);
     }
 
     public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
@@ -133,7 +170,7 @@ public class PlaylistActivity extends AppCompatActivity {
                             musicList.get(position).album)
             );
 
-            if(musicList.get(position).dateAdded == -1)
+            if (musicList.get(position).dateAdded == -1)
                 holder.songHistory.setVisibility(View.GONE);
             else
                 holder.songHistory.setText(

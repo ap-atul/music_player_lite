@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity
         play_pause = findViewById(R.id.control_play_pause);
         ImageButton queue = findViewById(R.id.control_queue);
 
-        songName.setOnClickListener(this);
         play_pause.setOnClickListener(this);
         playerLayout.setOnClickListener(this);
         queue.setOnClickListener(this);
@@ -168,18 +167,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
-        playerManager.setMusicList(musicList);
-        setPlayerView();
+        if(musicList.size() > 0) {
+            playerManager.setMusicList(musicList);
+            setPlayerView();
+        }
     }
 
     @Override
     public void addToQueue(List<Music> music) {
-        if (playerManager != null && playerManager.isPlaying())
-            playerManager.addMusicQueue(music);
-        else if (playerManager != null)
-            playerManager.setMusicList(music);
+        if(music.size() > 0) {
+            if (playerManager != null && playerManager.isPlaying())
+                playerManager.addMusicQueue(music);
+            else if (playerManager != null)
+                playerManager.setMusicList(music);
 
-        setPlayerView();
+            setPlayerView();
+        }
     }
 
     @Override

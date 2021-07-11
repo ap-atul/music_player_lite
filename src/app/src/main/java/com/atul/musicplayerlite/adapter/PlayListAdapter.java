@@ -14,9 +14,7 @@ import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.PlayList;
 import com.bumptech.glide.Glide;
 
-import java.text.BreakIterator;
 import java.util.List;
-import java.util.Locale;
 
 public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyViewHolder> {
     private final List<PlayList> playLists;
@@ -37,13 +35,12 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.name.setText(playLists.get(position).title);
-        holder.info.setText(String.format(Locale.getDefault(), "%d Songs", playLists.get(position).musics.size()));
 
         if (holder.state)
-            Glide.with(holder.albumArt.getContext())
+            Glide.with(holder.art.getContext())
                     .load(playLists.get(position).musics.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)
-                    .into(holder.albumArt);
+                    .into(holder.art);
     }
 
     @Override
@@ -52,19 +49,18 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView name, info;
-        private final ImageView albumArt;
+        private final TextView name;
+        private final ImageView art;
         private final boolean state;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             state = MPPreferences.getAlbumRequest(itemView.getContext());
-            name = itemView.findViewById(R.id.name);
-            info = itemView.findViewById(R.id.info);
-            albumArt = itemView.findViewById(R.id.album_art);
+            name = itemView.findViewById(R.id.title);
+            art = itemView.findViewById(R.id.art);
 
-            itemView.findViewById(R.id.album_art_layout).setOnClickListener(v ->
+            itemView.findViewById(R.id.art_layout).setOnClickListener(v ->
                     playListListener.click(playLists.get(getAdapterPosition())));
         }
     }

@@ -13,7 +13,6 @@
             android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/windowBackground"
             app:collapseIcon="@drawable/ic_back"
             app:menu="@menu/menu_add_to_queue"
             app:navigationIcon="@drawable/ic_back"
@@ -105,7 +104,7 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/image"
         android:textColor="@color/widgetsColor"
-        app:backgroundTint="@color/shuffleFabTint"
+        app:backgroundTint="@color/windowBackground"
         app:icon="@drawable/ic_controls_shuffle"
         app:iconTint="@color/widgetsColor"
         app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />

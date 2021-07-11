@@ -14,6 +14,8 @@
         android:focusable="true"
         app:cardCornerRadius="10dp"
         app:cardElevation="3dp"
+        app:strokeColor="@color/windowBackground"
+        app:strokeWidth="1dp"
         app:rippleColor="?colorPrimary">
 
         <ImageView

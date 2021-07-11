@@ -21,7 +21,6 @@
         <activity android:name=".online.ui.NetSelectedAlbum" />
         <activity android:name=".activities.SelectedArtistActivity" />
         <activity android:name=".activities.SelectedAlbumActivity" />
-        <activity android:name=".activities.PlaylistActivity" />
 
         <service
             android:name=".player.PlayerService"

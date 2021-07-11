@@ -41,11 +41,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
     public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-
-        return fragment;
+        return  new SearchFragment();
     }
 
     @Override

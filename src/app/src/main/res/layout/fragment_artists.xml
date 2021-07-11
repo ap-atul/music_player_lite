@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorBackgroundHigh"
     tools:context=".fragments.ArtistsFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/search_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="45dp"
         app:collapseIcon="@drawable/ic_close"
         app:menu="@menu/menu_artists"
         app:navigationIcon="@drawable/ic_close"

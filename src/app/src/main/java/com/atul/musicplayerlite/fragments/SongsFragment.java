@@ -43,12 +43,8 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     public static SongsFragment newInstance(MusicSelectListener selectListener) {
-        SongsFragment fragment = new SongsFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-
         SongsFragment.listener = selectListener;
-        return fragment;
+        return new SongsFragment();
     }
 
     @Override

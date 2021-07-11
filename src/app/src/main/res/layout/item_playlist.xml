@@ -1,59 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/album_art_layout"
-    android:layout_width="200dp"
-    android:layout_height="80dp"
-    android:layout_centerVertical="true"
-    android:layout_margin="5dp"
+    android:id="@+id/art_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="20dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/colorBackgroundMed"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="3dp"
-    app:rippleColor="?colorPrimary">
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    app:rippleColor="?colorPrimary"
+    app:strokeColor="@color/windowBackground"
+    app:strokeWidth="1dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
 
         <ImageView
-            android:id="@+id/album_art"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
+            android:id="@+id/art"
+            android:layout_width="120dp"
+            android:layout_height="140dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_album_art" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/album_art"
-            android:orientation="vertical">
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/windowBackground"
+            android:fontFamily="@font/nunito_sans"
+            android:maxLines="1"
+            android:padding="3dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextMed"
+            android:textSize="@dimen/text_big_med" />
 
-            <TextView
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans"
-                android:maxLines="2"
-                android:textColor="@color/colorTextHigh"
-                android:textSize="@dimen/text_big" />
-
-            <TextView
-                android:id="@+id/info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans"
-                android:maxLines="1"
-                android:textColor="@color/colorTextMed"
-                android:textSize="@dimen/text_big_med" />
-
-        </LinearLayout>
     </RelativeLayout>
-
 
 </com.google.android.material.card.MaterialCardView>

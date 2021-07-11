@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#ffffff</color>
-    <color name="black">#000000</color>
 
     <color name="red">#f44336</color>
     <color name="pink">#e91e63</color>
@@ -44,19 +43,12 @@
     <color name="blue_grey_300">#90a4ae</color>
 
     <color name="windowBackground">#fafafa</color>
-    <color name="dialogsBackground">@color/windowBackground</color>
     <color name="widgetsColor">#212121</color>
     <color name="systemBarsColor">#bfbfbf</color>
-
-    <color name="shuffleFabTint">@color/windowBackground</color>
-
-    <color name="swipeActionDeleteColor">#ffebee</color>
-    <color name="swipeActionAddColor">#e8f5e9</color>
 
     <!--  background colors -->
     <color name="colorBackgroundHigh">#FAFAFA</color>
     <color name="colorBackgroundMed">#EEEEEE</color>
-    <color name="colorBackgroundLow">#E0E0E0</color>
 
     <!--  text colors -->
     <color name="colorTextHigh">#212121</color>
