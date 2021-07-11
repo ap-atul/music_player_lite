@@ -22,11 +22,11 @@
 * Manage folders to exclude(hide)
 * Browse/ Sort/ Search albums and artists
 * Change between Dark and Light Modes
+* Create playlists by long pressing on music
 
 ### Working on
 * UI improvements
 * Performance improvements
-* Going online soon
 
 ### References
 Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
