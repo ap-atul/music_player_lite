@@ -48,7 +48,6 @@
 
     <!--  background colors -->
     <color name="colorBackgroundHigh">#FAFAFA</color>
-    <color name="colorBackgroundMed">#EEEEEE</color>
 
     <!--  text colors -->
     <color name="colorTextHigh">#212121</color>

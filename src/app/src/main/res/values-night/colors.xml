@@ -27,7 +27,6 @@
 
     <!--    background colors -->
     <color name="colorBackgroundHigh">#212121</color>
-    <color name="colorBackgroundMed">#424242</color>
 
     <!--  text colors -->
     <color name="colorTextHigh">#FAFAFA</color>

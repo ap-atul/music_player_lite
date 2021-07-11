@@ -11,7 +11,6 @@ import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
 import com.atul.musicplayerlite.R;
-import com.atul.musicplayerlite.model.Album;
 import com.atul.musicplayerlite.model.Music;
 
 import java.io.File;
@@ -167,34 +166,5 @@ public class MusicLibraryHelper {
         }
 
         return null;
-    }
-
-    public static List<Music> jsaMusicToCurrent(List<com.atul.jsa.model.Music> musicList){
-        List<Music> currMus = new ArrayList<>();
-
-        for(com.atul.jsa.model.Music music : musicList){
-            if(music.url != null) {
-                String url = music.url;
-                String title = music.title.replace("&quot;", "'");
-                String album = music.album.replace("&quot;", "'");
-                String artist = music.artist.replace("&quot;", "'");
-                currMus.add(new Music(url, artist, title, title, album, Uri.parse(music.albumArt)));
-            }
-        }
-        return currMus;
-    }
-
-    public static List<Album> jsaAlbumToCurrent(List<com.atul.jsa.model.Album> albumList){
-        List<Album> currAlb = new ArrayList<>();
-
-        for(com.atul.jsa.model.Album album: albumList){
-            List<Music> musics = jsaMusicToCurrent(album.songs);
-            if(musics.size() > 0)
-                currAlb.add(
-                        new Album(album.artist, album.name, "0", 0L, jsaMusicToCurrent(album.songs))
-                );
-        }
-
-        return currAlb;
     }
 }

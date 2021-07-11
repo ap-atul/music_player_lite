@@ -33,7 +33,6 @@ public class MPConstants {
             R.drawable.ic_artist,
             R.drawable.ic_library_music,
             R.drawable.ic_playlist,
-            R.drawable.ic_online_search,
             R.drawable.ic_settings,
     };
     public static final String SETTINGS_THEME = "shared_pref_theme";
@@ -92,13 +91,6 @@ public class MPConstants {
     public static final int SORT_ALBUM_BY_DURATION = 1;
     public static final int SORT_ALBUM_BY_SONGS = 2;
     public static MusicSelectListener musicSelectListener;
-
-    public static final String NETWORK_SONGS_KEY = "network_songs";
-    public static final String NETWORK_ALBUMS_KEY = "network_albums";
-    public static final String NETWORK_RECEIVER_ID = "com.atul.musicplayerlite.network";
-
-    public static final String DOWNLOAD_TITLE = "Downloading %s";
-    public static final String DOWNLOAD_DESC = "";
 
     public static final int DATABASE_VERSION = 1;
     public static final String MUSIC_TABLE = "music";
