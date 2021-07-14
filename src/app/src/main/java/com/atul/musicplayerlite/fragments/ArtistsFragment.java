@@ -55,6 +55,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         View view = inflater.inflate(R.layout.fragment_artists, container, false);
 
         unchangedList = viewModel.getArtists(false);
+        artistList.clear();
         artistList.addAll(unchangedList);
 
         toolbar = view.findViewById(R.id.search_toolbar);

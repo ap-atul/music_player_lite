@@ -56,6 +56,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         View view = inflater.inflate(R.layout.fragment_albums, container, false);
 
         unchangedList = viewModel.getAlbums(false);
+        albumList.clear();
         albumList.addAll(unchangedList);
 
         toolbar = view.findViewById(R.id.search_toolbar);

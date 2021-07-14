@@ -76,7 +76,7 @@ public class PlaylistFragment extends Fragment implements PlayListAdapter.PlayLi
             musicSelectListener.playQueue(musicList);
         });
 
-        database.dao().all().observe(this, playList -> {
+        database.dao().all().observe(requireActivity(), playList -> {
             playLists.clear();
             playLists.addAll(playList);
             playListAdapter.notifyDataSetChanged();
