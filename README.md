@@ -3,18 +3,12 @@
 </p>
 
 <p align="center">
-  A elegant and light weight music player for android
+  A elegant and light weight music player for android <br>
+  <a href="https://github.com/AP-Atul/music_player_lite/releases/download/v0.1/mplite.apk">Download</a> <br>
+  <a href="https://github.com/AP-Atul/music_player_lite/releases/download/v0.1/mplite_online.apk">Download Pro</a>
 </p>
 
 ---
-### Download
-* Get the debug version [here](https://github.com/AP-Atul/music_player_lite/raw/main/assets/app-debug.apk) 
-* Get the debug online version [here](https://github.com/AP-Atul/music_player_lite/raw/version-online/assets/app-debug.apk) 
-
-### Extras
-* Search music on the internet
-* Download them (todo)
-
 ### Features
 * Listen to music 😆
 * Manage the queue and shuffle/ repeat mode
@@ -22,11 +16,11 @@
 * Manage folders to exclude(hide)
 * Browse/ Sort/ Search albums and artists
 * Change between Dark and Light Modes
+* Create playlists by long pressing on music
 
 ### Working on
 * UI improvements
 * Performance improvements
-* Going online soon
 
 ### References
 Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
