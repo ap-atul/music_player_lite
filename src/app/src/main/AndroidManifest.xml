@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.atul.musicplayerlite">
+    package="com.atul.musicplayeronline">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,16 +18,16 @@
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Default">
 
-        <activity android:name=".online.ui.NetSelectedAlbum" />
-        <activity android:name=".activities.SelectedArtistActivity" />
-        <activity android:name=".activities.SelectedAlbumActivity" />
+        <activity android:name="com.atul.musicplayeronline.online.ui.NetSelectedAlbum" />
+        <activity android:name="com.atul.musicplayeronline.activities.SelectedArtistActivity" />
+        <activity android:name="com.atul.musicplayeronline.activities.SelectedAlbumActivity" />
 
         <service
-            android:name=".player.PlayerService"
+            android:name="com.atul.musicplayeronline.player.PlayerService"
             android:exported="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.atul.musicplayeronline.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/BaseTheme.Default">
             <intent-filter>
