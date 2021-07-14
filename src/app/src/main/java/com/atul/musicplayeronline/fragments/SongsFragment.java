@@ -61,6 +61,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
         unChangedList = viewModel.getSongs(false);
+        musicList.clear();
         musicList.addAll(unChangedList);
 
         toolbar = view.findViewById(R.id.search_toolbar);
