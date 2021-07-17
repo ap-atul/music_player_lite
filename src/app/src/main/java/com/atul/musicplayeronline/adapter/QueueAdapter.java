@@ -26,6 +26,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
     private final PlayerQueue playerQueue;
     private final @ColorInt
     int colorInt;
+    int defaultTint;
 
     public QueueAdapter(Context context, List<Music> musics, PlayerQueue playerQueue) {
         this.musicList = musics;
@@ -35,6 +36,8 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
                 context,
                 R.attr.colorPrimary
         );
+
+        defaultTint = context.getColor(R.color.colorTextMed);
     }
 
     @NonNull
@@ -48,12 +51,14 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.songName.setText(musicList.get(position).title);
 
-        if (playerQueue.getCurrentMusic().equals(musicList.get(position))) {
+        if (playerQueue.getCurrentMusic().title.equals(musicList.get(position).title)) {
             holder.albumName.setText(R.string.now_playing);
             holder.albumName.setTextColor(colorInt);
             holder.drag.setImageResource(R.drawable.ic_current_playing);
         } else {
             holder.albumName.setText(musicList.get(position).artist);
+            holder.albumName.setTextColor(defaultTint);
+            holder.drag.setImageResource(R.drawable.ic_drag_handle);
         }
     }
 
