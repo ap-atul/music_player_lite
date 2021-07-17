@@ -1,0 +1,9 @@
+<i>Music Player Lite</i> is an elegant and light weight music player for Android that is highly motivated by <a href='https://github.com/enricocid/Music-Player-GO' target='_blank' rel='nofollow'>Music Player GO</a>. Features include a.o.
+
+* Listen to music laughing
+* Manage the queue and shuffle/ repeat mode
+* Change colors of the app sunglasses
+* Manage folders to exclude(hide)
+* Browse/ Sort/ Search albums and artists
+* Change between Dark and Light Modes
+* Create playlists by long pressing on music
