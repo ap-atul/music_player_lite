@@ -21,7 +21,7 @@
         android:background="?android:attr/actionBarItemBackground"
         android:contentDescription="@string/image"
         android:padding="5dp"
-        android:tint="?colorOnBackground"
+        app:tint="?colorOnBackground"
         app:srcCompat="@drawable/ic_drag_handle" />
 
     <RelativeLayout
@@ -59,7 +59,7 @@
         android:background="?android:attr/actionBarItemBackground"
         android:contentDescription="@string/image"
         android:padding="5dp"
-        android:tint="?colorOnBackground"
+        app:tint="?colorOnBackground"
         app:srcCompat="@drawable/ic_close" />
 
 </LinearLayout>
