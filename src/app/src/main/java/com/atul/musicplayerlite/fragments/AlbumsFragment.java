@@ -63,7 +63,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
 
         RecyclerView recyclerView = view.findViewById(R.id.albums_layout);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         albumsAdapter = new AlbumsAdapter(albumList, this);
         recyclerView.setAdapter(albumsAdapter);
 
