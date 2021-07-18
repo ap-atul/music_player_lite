@@ -27,7 +27,7 @@
             android:textSize="@dimen/text_head"
             android:text="@string/oops"
             android:textAlignment="center"
-            android:textColor="@color/colorTextHigh"
+            android:textColor="@color/colorTextLow"
             android:fontFamily="@font/nunito_sans"/>
 
         <androidx.recyclerview.widget.RecyclerView
