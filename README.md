@@ -10,8 +10,8 @@
 ### Download
 | App/Source | Github | Sizzydroid |
 --- | --- | ---
-|Lite|[release v0.2](https://github.com/AP-Atul/music_player_lite/releases/download/v0.2/mplite.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayerlite"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
-|Online|[release v0.2](https://github.com/AP-Atul/music_player_lite/releases/download/v0.2/mplite_online.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayeronline"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
+|Lite|[release v0.3](https://github.com/AP-Atul/music_player_lite/releases/download/v0.3/mplite.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayerlite"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
+|Online|[release v0.3](https://github.com/AP-Atul/music_player_lite/releases/download/v0.3/mplite_online.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayeronline"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
 
 ### Features
 * Listen to music 😆
