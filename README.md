@@ -27,6 +27,7 @@
 * Performance improvements
 
 ### Support me
+* Download [Brave](https://brave.com/) and donate some [BATs](https://brave.com/tips/)
 * Transfer some cryptos 0xd88229d3F15c47E5D6c6350fD4851fFF998DFDb5
 * Donate on [paypal](https://paypal.me/CrankHere)
 
