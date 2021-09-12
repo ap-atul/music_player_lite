@@ -26,6 +26,10 @@
 * UI improvements
 * Performance improvements
 
+### Support me
+* Transfer some cryptos [coins](0xd88229d3F15c47E5D6c6350fD4851fFF998DFDb5)
+* Donate on [paypal](https://paypal.me/CrankHere)
+
 ### References
 Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
 
