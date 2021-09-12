@@ -27,7 +27,7 @@
 * Performance improvements
 
 ### Support me
-* Transfer some cryptos [coins](0xd88229d3F15c47E5D6c6350fD4851fFF998DFDb5)
+* Transfer some cryptos 0xd88229d3F15c47E5D6c6350fD4851fFF998DFDb5
 * Donate on [paypal](https://paypal.me/CrankHere)
 
 ### References
