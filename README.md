@@ -14,9 +14,9 @@
 |Online|[release v0.3](https://github.com/AP-Atul/music_player_lite/releases/download/v0.3/mplite_online.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayeronline"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
 
 ### Features
-* Listen to music 😆
+* Listen to music
 * Manage the queue and shuffle/ repeat mode
-* Change colors of the app 😎
+* Change colors of the app
 * Manage folders to exclude(hide)
 * Browse/ Sort/ Search albums and artists
 * Change between Dark and Light Modes
