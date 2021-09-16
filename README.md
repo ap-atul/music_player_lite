@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  A elegant and light weight music player for android <br>
+  An elegant and lightweight music player for android<br>
 </p>
 
 ---
