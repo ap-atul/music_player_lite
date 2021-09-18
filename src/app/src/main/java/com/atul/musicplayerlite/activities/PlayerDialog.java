@@ -118,6 +118,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         playerManager.seekTo(percentToPosition(seekBar.getProgress()));
+        draging = false;
     }
 
     @Override
