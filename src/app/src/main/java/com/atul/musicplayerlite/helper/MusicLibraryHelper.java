@@ -73,6 +73,7 @@ public class MusicLibraryHelper {
             String displayName = musicCursor.getString(displayNameInd);
             String album = musicCursor.getString(albumInd);
             String relativePath = musicCursor.getString(relativePathInd);
+            String absolutePath = musicCursor.getString(contentUriInd);
 
             if (VersioningHelper.isVersionQ())
                 relativePath += "/";
@@ -95,7 +96,7 @@ public class MusicLibraryHelper {
             long albumId = musicCursor.getLong(albumIdInd);
 
             musicList.add(new Music(
-                    artist, title, displayName, album, relativePath,
+                    artist, title, displayName, album, relativePath, absolutePath,
                     year, track, startFrom, dateAdded,
                     id, duration, albumId,
                     ContentUris.withAppendedId(Uri.parse(context.getResources().getString(R.string.album_art_dir)), albumId)

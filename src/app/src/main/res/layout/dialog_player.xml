@@ -24,6 +24,18 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <ImageButton
+        android:id="@+id/music_meta_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/album_art_layout"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/actionBarItemBackground"
+        android:contentDescription="@string/image"
+        android:padding="5dp"
+        app:tint="?colorOnBackground"
+        app:srcCompat="@drawable/ic_music_meta_edit" />
+
     <LinearLayout
         android:id="@+id/progress_layout"
         android:layout_width="match_parent"

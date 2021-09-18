@@ -319,8 +319,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     private void initMediaPlayer() {
-        Music music = playerQueue.getCurrentMusic();
-
         if (mediaPlayer != null) {
             mediaPlayer.reset();
         } else {
@@ -338,20 +336,12 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
 
         tryToGetAudioFocus();
-        Uri trackUri = null;
-
-        if (music.url == null) {
-            trackUri = ContentUris.withAppendedId(
-                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    playerQueue.getCurrentMusic().id);
-        }
+        Uri trackUri = ContentUris.withAppendedId(
+                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                playerQueue.getCurrentMusic().id);
 
         try {
-            if(music.url != null)
-                mediaPlayer.setDataSource(music.url);
-            else
-                mediaPlayer.setDataSource(context, trackUri);
-
+            mediaPlayer.setDataSource(context, trackUri);
             mediaPlayer.prepareAsync();
             setPlayerState(PlayerListener.State.PLAYING);
 

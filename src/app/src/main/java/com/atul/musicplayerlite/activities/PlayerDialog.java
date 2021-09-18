@@ -1,6 +1,7 @@
 package com.atul.musicplayerlite.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
+import com.atul.musicplayerlite.metadata.MetadataActivity;
 import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.player.PlayerListener;
 import com.atul.musicplayerlite.player.PlayerManager;
@@ -31,6 +33,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private final ImageButton prevControl;
     private final ImageButton nextControl;
     private final ImageButton playPauseControl;
+    private final ImageButton editMetadata;
     private final TextView songName;
     private final TextView songAlbum;
     private final TextView currentDuration;
@@ -58,7 +61,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         currentDuration = findViewById(R.id.current_duration);
         totalDuration = findViewById(R.id.total_duration);
         songProgress = findViewById(R.id.song_progress);
-        currentDuration.setText(getContext().getString(R.string.zero_time));
+        editMetadata = findViewById(R.id.music_meta_edit);
 
         setUpUi();
         setUpListeners();
@@ -71,6 +74,9 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         playPauseControl.setOnClickListener(this);
         nextControl.setOnClickListener(this);
         shuffleControl.setOnClickListener(this);
+        editMetadata.setOnClickListener(this);
+
+        currentDuration.setText(getContext().getString(R.string.zero_time));
     }
 
     private void setUpUi() {
@@ -161,6 +167,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         else if (id == R.id.control_prev) playerManager.playPrev();
         else if (id == R.id.control_next) playerManager.playNext();
         else if (id == R.id.control_play_pause) playerManager.playPause();
+        else if (id == R.id.music_meta_edit) updateMetadata();
 
         setUpUi();
     }
@@ -171,5 +178,12 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     private void setShuffle() {
         playerQueue.setShuffle((!playerQueue.isShuffle()));
+    }
+
+    private void updateMetadata(){
+        getContext().startActivity(new Intent(
+                getContext(),
+                MetadataActivity.class
+        ).putExtra("music", playerManager.getCurrentMusic()));
     }
 }

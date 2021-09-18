@@ -8,8 +8,6 @@ import com.atul.musicplayerlite.helper.ListHelper;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
-
 public class Music implements Parcelable {
 
     public String artist;
@@ -17,6 +15,7 @@ public class Music implements Parcelable {
     public String displayName;
     public String album;
     public String relativePath;
+    public String absolutePath;
     public String albumArt;
     public int year;
     public int track;
@@ -25,26 +24,8 @@ public class Music implements Parcelable {
     public long id;
     public long duration;
     public long albumId;
-    public String url; // for online
 
-    public Music(String url, String artist, String title, String displayName, String album, Uri albumArt) {
-        this.url = url;
-        this.artist = ListHelper.ifNull(artist);
-        this.title = ListHelper.ifNull(title);
-        this.displayName = ListHelper.ifNull(displayName);
-        this.album = ListHelper.ifNull(album);
-        this.relativePath = ListHelper.ifNull(relativePath);
-        this.year = 0;
-        this.track = 0;
-        this.startFrom = 0;
-        this.dateAdded =  -1;
-        this.id = 0;
-        this.duration = 0;
-        this.albumId = new Random().nextLong();
-        this.albumArt = albumArt.toString();
-    }
-
-    public Music(String artist, String title, String displayName, String album, String relativePath,
+    public Music(String artist, String title, String displayName, String album, String relativePath, String absolutePath,
                  int year, int track, int startFrom, long dateAdded,
                  long id, long duration, long albumId,
                  Uri albumArt) {
@@ -53,6 +34,7 @@ public class Music implements Parcelable {
         this.displayName = ListHelper.ifNull(displayName);
         this.album = ListHelper.ifNull(album);
         this.relativePath = ListHelper.ifNull(relativePath);
+        this.absolutePath = ListHelper.ifNull(absolutePath);
         this.year = year;
         this.track = track;
         this.startFrom = startFrom;
@@ -77,7 +59,6 @@ public class Music implements Parcelable {
         id = in.readLong();
         duration = in.readLong();
         albumId = in.readLong();
-        url = in.readString();
     }
 
     public static final Creator<Music> CREATOR = new Creator<Music>() {
@@ -108,7 +89,6 @@ public class Music implements Parcelable {
                 ", id=" + id +
                 ", duration=" + duration +
                 ", albumId=" + albumId +
-                ", url=" + url +
                 ", albumArt=" + albumArt +
                 '}';
     }
@@ -133,6 +113,5 @@ public class Music implements Parcelable {
         dest.writeLong(id);
         dest.writeLong(duration);
         dest.writeLong(albumId);
-        dest.writeString(url);
     }
 }
