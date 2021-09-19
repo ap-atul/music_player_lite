@@ -23,8 +23,8 @@ import java.util.Locale;
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
 
     private final List<Music> musicList;
+    private final PlayListListener playListListener;
     public MusicSelectListener listener;
-    private PlayListListener playListListener;
 
     public SongsAdapter(MusicSelectListener listener, PlayListListener playListListener, List<Music> musics) {
         this.listener = listener;
@@ -48,7 +48,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
                         musicList.get(position).album)
         );
 
-        if(musicList.get(position).dateAdded == -1)
+        if (musicList.get(position).dateAdded == -1)
             holder.songHistory.setVisibility(View.GONE);
         else
             holder.songHistory.setText(
@@ -60,6 +60,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
         if (holder.state)
             Glide.with(holder.albumArt.getContext())
                     .load(musicList.get(position).albumArt)
+                    .skipMemoryCache(true)
                     .placeholder(R.drawable.ic_album_art)
                     .into(holder.albumArt);
     }
@@ -92,7 +93,9 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
             });
 
             itemView.findViewById(R.id.root_layout).setOnLongClickListener(v -> {
-                playListListener.option(itemView.getContext(), musicList.get(getAdapterPosition())); return true;});
+                playListListener.option(itemView.getContext(), musicList.get(getAdapterPosition()));
+                return true;
+            });
         }
     }
 }

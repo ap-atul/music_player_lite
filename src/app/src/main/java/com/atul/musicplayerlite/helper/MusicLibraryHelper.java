@@ -7,14 +7,20 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.webkit.MimeTypeMap;
 
 import com.atul.musicplayerlite.R;
 import com.atul.musicplayerlite.model.Music;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,42 +36,42 @@ public class MusicLibraryHelper {
         List<Music> musicList = new ArrayList<>();
 
         if (VersioningHelper.isVersionQ())
-            collection = MediaStore.Audio.AudioColumns.BUCKET_DISPLAY_NAME;
+            collection = MediaStore.Audio.Media.BUCKET_DISPLAY_NAME;
         else
-            collection = MediaStore.Audio.AudioColumns.DATA;
+            collection = MediaStore.Audio.Media.DATA;
 
         String[] projection = new String[]{
-                MediaStore.Audio.AudioColumns.ARTIST,
-                MediaStore.Audio.AudioColumns.YEAR,
-                MediaStore.Audio.AudioColumns.TRACK,
-                MediaStore.Audio.AudioColumns.TITLE,
-                MediaStore.Audio.AudioColumns.DISPLAY_NAME,
-                MediaStore.Audio.AudioColumns.DURATION,  // error from android side, it works < 29
-                MediaStore.Audio.AudioColumns.ALBUM_ID,
-                MediaStore.Audio.AudioColumns.ALBUM,
+                MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.YEAR,
+                MediaStore.Audio.Media.TRACK,
+                MediaStore.Audio.Media.TITLE,
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DURATION,  // error from android side, it works < 29
+                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.ALBUM,
                 collection,
-                MediaStore.Audio.AudioColumns._ID,
-                MediaStore.Audio.AudioColumns.DATE_MODIFIED,
-                MediaStore.Audio.AudioColumns.DATA
+                MediaStore.Audio.Media._ID,
+                MediaStore.Audio.Media.DATE_MODIFIED,
+                MediaStore.Audio.Media.DATA
         };
 
-        String selection = MediaStore.Audio.AudioColumns.IS_MUSIC + " = 1";
+        String selection = MediaStore.Audio.Media.IS_MUSIC + " = 1";
         String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
         @SuppressLint("Recycle")
         Cursor musicCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder);
 
-        int artistInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ARTIST);
-        int yearInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.YEAR);
-        int trackInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TRACK);
-        int titleInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.TITLE);
-        int displayNameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DISPLAY_NAME);
-        int durationInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DURATION);
-        int albumIdInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM_ID);
-        int albumInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.ALBUM);
+        int artistInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+        int yearInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.YEAR);
+        int trackInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TRACK);
+        int titleInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE);
+        int displayNameInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME);
+        int durationInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
+        int albumIdInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID);
+        int albumInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM);
         int relativePathInd = musicCursor.getColumnIndexOrThrow(collection);
-        int idInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns._ID);
-        int dateModifiedInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATE_MODIFIED);
-        int contentUriInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.AudioColumns.DATA);
+        int idInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID);
+        int dateModifiedInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_MODIFIED);
+        int contentUriInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
 
         while (musicCursor.moveToNext()) {
             String artist = musicCursor.getString(artistInd);
@@ -122,6 +128,49 @@ public class MusicLibraryHelper {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static File getPathFromUri(Context context, Uri uri) throws IOException {
+        String fileName = getFileName(context, uri);
+        File file = new File(context.getExternalCacheDir(), fileName);
+
+        if (file.createNewFile()) {
+            OutputStream outputStream = new FileOutputStream(file);
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            FileUtils.copy(inputStream, outputStream); //Simply reads input to output stream
+            outputStream.flush();
+        }
+
+        return file;
+    }
+
+    public static String getFileName(Context context, Uri uri) {
+        String fileName = getFileNameFromCursor(context, uri);
+        if (fileName == null) {
+            String fileExtension = getFileExtension(context, uri);
+            fileName = "temp_file" + (fileExtension != null ? "." + fileExtension : "");
+        } else if (!fileName.contains(".")) {
+            String fileExtension = getFileExtension(context, uri);
+            fileName = fileName + "." + fileExtension;
+        }
+        return fileName;
+    }
+
+    public static String getFileExtension(Context context, Uri uri) {
+        String fileType = context.getContentResolver().getType(uri);
+        return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType);
+    }
+
+    public static String getFileNameFromCursor(Context context, Uri uri) {
+        Cursor fileCursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
+        String fileName = null;
+        if (fileCursor != null && fileCursor.moveToFirst()) {
+            int cIndex = fileCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+            if (cIndex != -1) {
+                fileName = fileCursor.getString(cIndex);
+            }
+        }
+        return fileName;
     }
 
     public static String formatDuration(long duration) {

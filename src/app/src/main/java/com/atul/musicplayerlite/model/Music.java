@@ -51,6 +51,7 @@ public class Music implements Parcelable {
         displayName = in.readString();
         album = in.readString();
         relativePath = in.readString();
+        absolutePath = in.readString();
         albumArt = in.readString();
         year = in.readInt();
         track = in.readInt();
@@ -82,6 +83,7 @@ public class Music implements Parcelable {
                 ", displayName='" + displayName + '\'' +
                 ", album='" + album + '\'' +
                 ", relativePath='" + relativePath + '\'' +
+                ", absolutePath='" + absolutePath + '\'' +
                 ", year=" + year +
                 ", track=" + track +
                 ", startFrom=" + startFrom +
@@ -105,6 +107,7 @@ public class Music implements Parcelable {
         dest.writeString(displayName);
         dest.writeString(album);
         dest.writeString(relativePath);
+        dest.writeString(absolutePath);
         dest.writeString(albumArt);
         dest.writeInt(year);
         dest.writeInt(track);

@@ -40,7 +40,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private final TextView totalDuration;
     private final SeekBar songProgress;
 
-    private Boolean draging = false;
+    private Boolean dragging = false;
 
     public PlayerDialog(@NonNull Context context, PlayerManager playerManager) {
         super(context);
@@ -118,13 +118,13 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-        draging = true;
+        dragging = true;
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         playerManager.seekTo(percentToPosition(seekBar.getProgress()));
-        draging = false;
+        dragging = false;
     }
 
     @Override
@@ -142,7 +142,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     @Override
     public void onPositionChanged(int position) {
-        if (!draging)
+        if (!dragging)
             songProgress.setProgress(position);
     }
 
