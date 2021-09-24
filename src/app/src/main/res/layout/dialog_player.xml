@@ -29,12 +29,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/album_art_layout"
-        android:layout_marginTop="20dp"
+        android:layout_alignBottom="@id/album_art_layout"
+        android:layout_marginStart="-10dp"
         android:background="?android:attr/actionBarItemBackground"
         android:contentDescription="@string/image"
         android:padding="5dp"
-        app:tint="?colorOnBackground"
-        app:srcCompat="@drawable/ic_music_meta_edit" />
+        app:srcCompat="@drawable/ic_edit_metadata"
+        app:tint="?colorOnBackground" />
 
     <LinearLayout
         android:id="@+id/progress_layout"
@@ -123,8 +124,8 @@
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
             android:padding="5dp"
-            app:tint="?colorOnBackground"
-            app:srcCompat="@drawable/ic_controls_repeat" />
+            app:srcCompat="@drawable/ic_controls_repeat"
+            app:tint="?colorOnBackground" />
 
         <ImageButton
             android:id="@+id/control_prev"
@@ -134,8 +135,8 @@
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
             android:padding="5dp"
-            app:tint="?colorOnBackground"
-            app:srcCompat="@drawable/ic_controls_prev" />
+            app:srcCompat="@drawable/ic_controls_prev"
+            app:tint="?colorOnBackground" />
 
         <ImageButton
             android:id="@+id/control_play_pause"
@@ -145,8 +146,8 @@
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
             android:padding="5dp"
-            app:tint="?colorOnBackground"
-            app:srcCompat="@drawable/ic_controls_play" />
+            app:srcCompat="@drawable/ic_controls_play"
+            app:tint="?colorOnBackground" />
 
         <ImageButton
             android:id="@+id/control_next"
@@ -156,8 +157,8 @@
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
             android:padding="5dp"
-            app:tint="?colorOnBackground"
-            app:srcCompat="@drawable/ic_controls_next" />
+            app:srcCompat="@drawable/ic_controls_next"
+            app:tint="?colorOnBackground" />
 
         <ImageButton
             android:id="@+id/control_shuffle"
@@ -167,12 +168,13 @@
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
             android:padding="5dp"
-            app:tint="?colorOnBackground"
-            app:srcCompat="@drawable/ic_controls_shuffle" />
+            app:srcCompat="@drawable/ic_controls_shuffle"
+            app:tint="?colorOnBackground" />
 
     </LinearLayout>
 
     <TextView
+        android:id="@+id/audio_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/controls_layout"

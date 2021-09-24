@@ -6,6 +6,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaExtractor;
+import android.media.MediaFormat;
 import android.net.Uri;
 import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
@@ -216,5 +218,31 @@ public class MusicLibraryHelper {
         }
 
         return null;
+    }
+
+    public static int[] getBitSampleRates(Music music) {
+        try {
+            MediaExtractor extractor = new MediaExtractor();
+            extractor.setDataSource(music.absolutePath);
+
+            MediaFormat format = extractor.getTrackFormat(0);
+            int sample = format.getInteger(MediaFormat.KEY_SAMPLE_RATE);
+            int bitrate = format.getInteger(MediaFormat.KEY_BIT_RATE);
+            int rate = Math.abs(bitrate / 1000);
+
+            return new int[]{
+                    sample,
+                    normalizeRate(rate)
+            };
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private static int normalizeRate(int rate) {
+        return (rate > 320) ? 320 : 120;
     }
 }

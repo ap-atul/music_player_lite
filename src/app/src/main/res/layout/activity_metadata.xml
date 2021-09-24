@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/search_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:collapseIcon="@drawable/ic_back"
@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical">
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/album_art_layout"
@@ -53,7 +52,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter new title">
+                android:hint="@string/enter_new_title">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title"
@@ -69,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Enter new display name">
+                android:hint="@string/enter_new_display_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name"
@@ -85,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Enter new artist name">
+                android:hint="@string/enter_new_artist_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/artist"
@@ -101,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Enter new album name">
+                android:hint="@string/enter_new_album_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/album"
@@ -117,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:hint="Enter new year">
+                android:hint="@string/enter_new_year">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/year"
@@ -133,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:text="Update" />
+                android:text="@string/update" />
 
         </LinearLayout>
     </LinearLayout>

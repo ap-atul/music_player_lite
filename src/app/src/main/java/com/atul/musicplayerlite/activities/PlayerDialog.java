@@ -38,6 +38,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private final TextView songAlbum;
     private final TextView currentDuration;
     private final TextView totalDuration;
+    private final TextView songDetails;
     private final SeekBar songProgress;
 
     private Boolean dragging = false;
@@ -62,9 +63,19 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         totalDuration = findViewById(R.id.total_duration);
         songProgress = findViewById(R.id.song_progress);
         editMetadata = findViewById(R.id.music_meta_edit);
+        songDetails = findViewById(R.id.audio_details);
 
         setUpUi();
         setUpListeners();
+    }
+
+    private void setUpAudioDetails() {
+        int[] rates = MusicLibraryHelper.getBitSampleRates(playerManager.getCurrentMusic());
+        if(rates[0] >= 0){
+            songDetails.setText(
+                    String.format(Locale.getDefault(),
+                            "%s kHz • %s kbps", rates[0], rates[1]));
+        }
     }
 
     private void setUpListeners() {
@@ -82,6 +93,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private void setUpUi() {
         Music music = playerManager.getCurrentMusic();
 
+        songDetails.setText(R.string.music_bitrate_freq);
         songName.setText(music.title);
         songAlbum.setText(String.format(Locale.getDefault(), "%s • %s",
                 music.artist, music.album));
@@ -105,6 +117,9 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         if (playerManager.getCurrentPosition() < 100)
             currentDuration.setText(MusicLibraryHelper
                     .formatDurationTimeStyle(percentToPosition(playerManager.getCurrentPosition())));
+
+
+        setUpAudioDetails();
     }
 
     private int percentToPosition(int percent) {
@@ -180,7 +195,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         playerQueue.setShuffle((!playerQueue.isShuffle()));
     }
 
-    private void updateMetadata(){
+    private void updateMetadata() {
         getContext().startActivity(new Intent(
                 getContext(),
                 MetadataActivity.class

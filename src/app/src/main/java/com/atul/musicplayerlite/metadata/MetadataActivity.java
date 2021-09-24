@@ -3,12 +3,6 @@ package com.atul.musicplayerlite.metadata;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,7 +13,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -30,10 +23,7 @@ import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.helper.ThemeHelper;
 import com.atul.musicplayerlite.model.Music;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -45,10 +35,7 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.images.AndroidArtwork;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class MetadataActivity extends AppCompatActivity {
 
@@ -84,6 +71,7 @@ public class MetadataActivity extends AppCompatActivity {
         year = findViewById(R.id.year);
         albumArt = findViewById(R.id.album_art);
         MaterialButton update = findViewById(R.id.update);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar);
 
         if (music != null) {
             title.setText(music.title);
@@ -103,16 +91,8 @@ public class MetadataActivity extends AppCompatActivity {
         }
 
         update.setOnClickListener(v -> updateAudioTag());
+        toolbar.setNavigationOnClickListener(v -> finish());
         albumArt.setOnClickListener(v -> getImageFromStorage.launch("image/*"));
-    }
-
-    private void initAllData() {
-        metadata.displayName = ifNullEmpty(displayName);
-        metadata.title = ifNullEmpty(title);
-        metadata.artist = ifNullEmpty(artist);
-        metadata.album = ifNullEmpty(album);
-        metadata.year = ifNullEmpty(year);
-
     }
 
     private String ifNullEmpty(TextInputEditText e) {
@@ -120,7 +100,11 @@ public class MetadataActivity extends AppCompatActivity {
     }
 
     private void updateAudioTag() {
-        initAllData();
+        metadata.displayName = ifNullEmpty(displayName);
+        metadata.title = ifNullEmpty(title);
+        metadata.artist = ifNullEmpty(artist);
+        metadata.album = ifNullEmpty(album);
+        metadata.year = ifNullEmpty(year);
 
         try {
 
@@ -140,30 +124,29 @@ public class MetadataActivity extends AppCompatActivity {
             if (metadata.artist != null)
                 tag.setField(FieldKey.ARTIST, metadata.artist);
 
-            if (metadata.year != null)
+            if (metadata.year != null) {
+                Log.d(MPConstants.DEBUG_TAG, metadata.year);
+                tag.setField(FieldKey.ORIGINAL_YEAR, metadata.year);
                 tag.setField(FieldKey.YEAR, metadata.year);
+            }
 
             if (metadata.albumArt != null) {
                 File albumArtFile = MusicLibraryHelper.getPathFromUri(this, metadata.albumArt);
                 if(albumArtFile.exists()) {
                     if (tag.getFirstArtwork() != null) tag.deleteArtworkField();
                     tag.setField(AndroidArtwork.createArtworkFromFile(albumArtFile));
+
+                    new Thread(() -> Glide.get(MetadataActivity.this).clearDiskCache()).start();
                 }
             }
 
             audio.setTag(tag);
             audio.commit();
 
-            if (FileUtils.deleteQuietly(originalFile)) {
-                Log.d(MPConstants.DEBUG_TAG, "DONE");
+            if (FileUtils.deleteQuietly(originalFile))
                 FileUtils.moveFile(audio.getFile(), originalFile);
 
-                Log.d(MPConstants.DEBUG_TAG, "CHECK:: " + originalFile.getAbsolutePath());
-            }
-
-            MediaScannerConnection.scanFile(this, new String[]{
-                    originalFile.getAbsolutePath()
-            }, null, (path, uri) -> Log.d(MPConstants.DEBUG_TAG, "SCAN DONE"));
+            updateMetadata();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -171,9 +154,6 @@ public class MetadataActivity extends AppCompatActivity {
     }
 
     private void updateMetadata() {
-
-
-        Log.d(MPConstants.DEBUG_TAG, metadata.toString());
 
         Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, metadata.id);
         ContentResolver resolver = getApplicationContext().getContentResolver();
@@ -198,9 +178,6 @@ public class MetadataActivity extends AppCompatActivity {
         if (metadata.year != null)
             updatedSongDetails.put(MediaStore.Audio.Media.YEAR, metadata.year);
 
-        if (metadata.albumArt != null)
-            updateAlbum();
-
         int updates = resolver.update(
                 uri,
                 updatedSongDetails,
@@ -213,25 +190,6 @@ public class MetadataActivity extends AppCompatActivity {
             Toast.makeText(this, "Song details are updated", Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(this, "Song updates failed", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void updateAlbum() {
-        Uri uri = ContentUris.withAppendedId(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, metadata.albumId);
-        ContentResolver resolver = getApplicationContext().getContentResolver();
-
-        String selection = MediaStore.Audio.Albums._ID + " = ?";
-        String[] selectionArgs = new String[]{String.valueOf(metadata.albumId)};
-
-        ContentValues albumUpdate = new ContentValues();
-        albumUpdate.put(MediaStore.Audio.Media.ALBUM, metadata.albumArt.toString());
-
-        int updates = resolver.update(
-                uri,
-                albumUpdate,
-                selection,
-                selectionArgs
-        );
 
     }
 
