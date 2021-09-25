@@ -21,6 +21,7 @@
 * Browse/ Sort/ Search albums and artists
 * Change between Dark and Light Modes
 * Create playlists by long pressing on music
+* Equalizer
 
 ### Working on
 * UI improvements
