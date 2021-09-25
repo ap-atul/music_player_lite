@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void playQueue(List<Music> musicList) {
-        if(musicList.size() > 0) {
+        if (musicList.size() > 0) {
             playerManager.setMusicList(musicList);
             setPlayerView();
         }
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void addToQueue(List<Music> music) {
-        if(music.size() > 0) {
+        if (music.size() > 0) {
             if (playerManager != null && playerManager.isPlaying())
                 playerManager.addMusicQueue(music);
             else if (playerManager != null)

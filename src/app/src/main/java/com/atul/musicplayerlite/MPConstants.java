@@ -92,9 +92,8 @@ public class MPConstants {
     public static final int SORT_ALBUM_BY_TITLE = 0;
     public static final int SORT_ALBUM_BY_DURATION = 1;
     public static final int SORT_ALBUM_BY_SONGS = 2;
-    public static MusicSelectListener musicSelectListener;
-
     public static final int DATABASE_VERSION = 1;
     public static final String MUSIC_TABLE = "music";
     public static final String DATABASE_NAME = "playlist";
+    public static MusicSelectListener musicSelectListener;
 }

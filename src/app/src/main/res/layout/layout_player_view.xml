@@ -99,8 +99,8 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                app:tint="?colorOnBackground"
-                app:srcCompat="@drawable/ic_controls_play" />
+                app:srcCompat="@drawable/ic_controls_play"
+                app:tint="?colorOnBackground" />
 
             <ImageButton
                 android:id="@+id/control_queue"
@@ -112,8 +112,8 @@
                 android:paddingTop="5dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="5dp"
-                app:tint="?colorOnBackground"
-                app:srcCompat="@drawable/ic_music_queue" />
+                app:srcCompat="@drawable/ic_music_queue"
+                app:tint="?colorOnBackground" />
 
 
         </LinearLayout>

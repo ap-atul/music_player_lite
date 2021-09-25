@@ -110,7 +110,7 @@ public class PlaylistFragment extends Fragment implements PlayListAdapter.PlayLi
                 return true;
             } else if (id == R.id.menu_delete_playlist) {
 
-                if(playList != null) {
+                if (playList != null) {
                     new MaterialAlertDialogBuilder(requireContext())
                             .setMessage("Are you sure you want to delete this playlist?")
                             .setPositiveButton("Delete", (dia, which) -> {
@@ -125,7 +125,7 @@ public class PlaylistFragment extends Fragment implements PlayListAdapter.PlayLi
     }
 
     private void deletePlaylist() {
-        if(playList != null) {
+        if (playList != null) {
             musicList.clear();
             Toast.makeText(requireContext(), "Playlist deleted successfully", Toast.LENGTH_SHORT).show();
             PlayListDatabase.databaseExecutor.execute(() -> database.dao().delete(playList));

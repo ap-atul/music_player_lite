@@ -54,7 +54,8 @@ public class PlayerQueue {
     public void next() {
         if (repeat) return;
         if (shuffle) currentPosition = random.nextInt(currentQueue.size());
-        else currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
+        else
+            currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
     }
 
     public void prev() {

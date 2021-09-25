@@ -48,6 +48,10 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyView
         return playLists.size();
     }
 
+    public interface PlayListListener {
+        void click(PlayList playList);
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private final ImageView art;
@@ -63,9 +67,5 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyView
             itemView.findViewById(R.id.art_layout).setOnClickListener(v ->
                     playListListener.click(playLists.get(getAdapterPosition())));
         }
-    }
-
-    public interface PlayListListener {
-        void click(PlayList playList);
     }
 }

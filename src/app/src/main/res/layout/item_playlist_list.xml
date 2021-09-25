@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="5dp"
-    android:clickable="true"
-    android:focusable="true"
     android:background="?selectableItemBackground"
-    android:id="@+id/root_layout">
+    android:clickable="true"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
         android:fontFamily="@font/nunito_sans"
         android:maxLines="2"
         android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:paddingTop="15dp"
+        android:paddingEnd="10dp"
         android:paddingBottom="15dp"
         android:textColor="@color/colorTextHigh"
-        app:drawableStartCompat="@drawable/ic_queue_add"
-        android:drawablePadding="10dp"
-        android:textSize="@dimen/text_big" />
+        android:textSize="@dimen/text_big"
+        app:drawableStartCompat="@drawable/ic_queue_add" />
 
 </RelativeLayout>

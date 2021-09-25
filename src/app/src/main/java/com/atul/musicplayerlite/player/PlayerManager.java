@@ -41,14 +41,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private final AudioManager audioManager;
     private final List<PlayerListener> playerListeners = new ArrayList<>();
     private final PlayerQueue playerQueue;
+    private final MutableLiveData<Integer> progressPercent = new MutableLiveData<>();
     private int playerState;
     private MediaPlayer mediaPlayer;
     private NotificationReceiver notificationReceiver;
     private PlayerNotificationManager notificationManager;
     private int currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
     private boolean playOnFocusGain;
-    private final MutableLiveData<Integer> progressPercent = new MutableLiveData<>();
-
     private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
 
@@ -187,6 +186,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
         if (!mediaPlayer.isPlaying())
             initMediaPlayer();  // play when ready
+    }
+
+    public int getAudioSessionId() {
+        return (mediaPlayer != null) ? mediaPlayer.getAudioSessionId() : -1;
     }
 
     public void detachService() {

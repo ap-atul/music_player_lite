@@ -18,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Blue">
+        <activity android:name=".equalizer.EqualizerActivity" />
         <activity android:name=".metadata.MetadataActivity" />
         <activity android:name=".activities.SelectedArtistActivity" />
         <activity android:name=".activities.SelectedAlbumActivity" />

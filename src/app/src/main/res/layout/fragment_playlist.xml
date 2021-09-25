@@ -19,24 +19,24 @@
             app:titleTextColor="?android:attr/textColorPrimary" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/oops_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="@dimen/text_head"
+            android:fontFamily="@font/nunito_sans"
             android:text="@string/oops"
             android:textAlignment="center"
             android:textColor="@color/colorTextLow"
-            android:fontFamily="@font/nunito_sans"/>
+            android:textSize="@dimen/text_head"
+            android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlist_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/search_toolbar"
-            android:orientation="horizontal"
-            android:background="?colorOnPrimary"/>
+            android:background="?colorOnPrimary"
+            android:orientation="horizontal" />
 
         <RelativeLayout
             android:id="@+id/divider"

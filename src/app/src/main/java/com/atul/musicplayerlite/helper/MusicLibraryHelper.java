@@ -239,7 +239,7 @@ public class MusicLibraryHelper {
             e.printStackTrace();
         }
 
-        return null;
+        return new int[]{0, 0};
     }
 
     private static int normalizeRate(int rate) {

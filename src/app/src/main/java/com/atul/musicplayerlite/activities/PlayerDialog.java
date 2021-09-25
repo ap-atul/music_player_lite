@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.atul.musicplayerlite.R;
+import com.atul.musicplayerlite.equalizer.EqualizerActivity;
 import com.atul.musicplayerlite.helper.MusicLibraryHelper;
 import com.atul.musicplayerlite.metadata.MetadataActivity;
 import com.atul.musicplayerlite.model.Music;
@@ -34,6 +35,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private final ImageButton nextControl;
     private final ImageButton playPauseControl;
     private final ImageButton editMetadata;
+    private final ImageButton equalizer;
     private final TextView songName;
     private final TextView songAlbum;
     private final TextView currentDuration;
@@ -64,6 +66,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         songProgress = findViewById(R.id.song_progress);
         editMetadata = findViewById(R.id.music_meta_edit);
         songDetails = findViewById(R.id.audio_details);
+        equalizer = findViewById(R.id.music_equalizer);
 
         setUpUi();
         setUpListeners();
@@ -71,7 +74,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     private void setUpAudioDetails() {
         int[] rates = MusicLibraryHelper.getBitSampleRates(playerManager.getCurrentMusic());
-        if(rates[0] >= 0){
+        if (rates[0] >= 0) {
             songDetails.setText(
                     String.format(Locale.getDefault(),
                             "%s kHz • %s kbps", rates[0], rates[1]));
@@ -86,6 +89,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         nextControl.setOnClickListener(this);
         shuffleControl.setOnClickListener(this);
         editMetadata.setOnClickListener(this);
+        equalizer.setOnClickListener(this);
 
         currentDuration.setText(getContext().getString(R.string.zero_time));
     }
@@ -183,6 +187,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         else if (id == R.id.control_next) playerManager.playNext();
         else if (id == R.id.control_play_pause) playerManager.playPause();
         else if (id == R.id.music_meta_edit) updateMetadata();
+        else if (id == R.id.music_equalizer) startEqualizer();
 
         setUpUi();
     }
@@ -200,5 +205,12 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
                 getContext(),
                 MetadataActivity.class
         ).putExtra("music", playerManager.getCurrentMusic()));
+    }
+
+    private void startEqualizer() {
+        getContext().startActivity(new Intent(
+                getContext(),
+                EqualizerActivity.class
+        ).putExtra("session", playerManager.getAudioSessionId()));
     }
 }

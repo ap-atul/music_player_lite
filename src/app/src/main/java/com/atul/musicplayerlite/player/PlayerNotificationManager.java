@@ -99,7 +99,7 @@ public class PlayerNotificationManager {
 
     @SuppressLint("RestrictedApi")
     public void updateNotification() {
-        if(notificationBuilder == null)
+        if (notificationBuilder == null)
             return;
 
         notificationBuilder.setOngoing(playerService.getPlayerManager().isPlaying());

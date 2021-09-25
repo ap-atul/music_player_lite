@@ -25,7 +25,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumsFragment extends Fragment implements AlbumSelectListener, SearchView.OnQueryTextListener{
+public class AlbumsFragment extends Fragment implements AlbumSelectListener, SearchView.OnQueryTextListener {
 
     private final List<Album> albumList = new ArrayList<>();
     private AlbumsAdapter albumsAdapter;

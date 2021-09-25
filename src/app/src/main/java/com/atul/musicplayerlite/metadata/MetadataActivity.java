@@ -132,7 +132,7 @@ public class MetadataActivity extends AppCompatActivity {
 
             if (metadata.albumArt != null) {
                 File albumArtFile = MusicLibraryHelper.getPathFromUri(this, metadata.albumArt);
-                if(albumArtFile.exists()) {
+                if (albumArtFile.exists()) {
                     if (tag.getFirstArtwork() != null) tag.deleteArtworkField();
                     tag.setField(AndroidArtwork.createArtworkFromFile(albumArtFile));
 

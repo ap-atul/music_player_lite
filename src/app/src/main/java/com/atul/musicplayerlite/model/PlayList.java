@@ -14,19 +14,6 @@ import java.util.List;
 
 @Entity(tableName = MPConstants.MUSIC_TABLE)
 public class PlayList implements Parcelable {
-    @NonNull
-    @PrimaryKey
-    public String title = "";
-
-    public List<Music> musics;
-
-    public PlayList(){}
-
-    protected PlayList(Parcel in) {
-        title = in.readString();
-        musics = in.createTypedArrayList(Music.CREATOR);
-    }
-
     public static final Creator<PlayList> CREATOR = new Creator<PlayList>() {
         @Override
         public PlayList createFromParcel(Parcel in) {
@@ -38,6 +25,18 @@ public class PlayList implements Parcelable {
             return new PlayList[size];
         }
     };
+    @NonNull
+    @PrimaryKey
+    public String title = "";
+    public List<Music> musics;
+
+    public PlayList() {
+    }
+
+    protected PlayList(Parcel in) {
+        title = in.readString();
+        musics = in.createTypedArrayList(Music.CREATOR);
+    }
 
     @Override
     public int describeContents() {

@@ -9,7 +9,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.atul.musicplayerlite.MPConstants;
-import com.atul.musicplayerlite.model.Music;
 import com.atul.musicplayerlite.model.PlayList;
 
 import java.util.List;

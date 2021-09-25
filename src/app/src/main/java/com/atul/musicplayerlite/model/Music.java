@@ -10,6 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class Music implements Parcelable {
 
+    public static final Creator<Music> CREATOR = new Creator<Music>() {
+        @Override
+        public Music createFromParcel(Parcel in) {
+            return new Music(in);
+        }
+
+        @Override
+        public Music[] newArray(int size) {
+            return new Music[size];
+        }
+    };
     public String artist;
     public String title;
     public String displayName;
@@ -61,18 +72,6 @@ public class Music implements Parcelable {
         duration = in.readLong();
         albumId = in.readLong();
     }
-
-    public static final Creator<Music> CREATOR = new Creator<Music>() {
-        @Override
-        public Music createFromParcel(Parcel in) {
-            return new Music(in);
-        }
-
-        @Override
-        public Music[] newArray(int size) {
-            return new Music[size];
-        }
-    };
 
     @NotNull
     @Override

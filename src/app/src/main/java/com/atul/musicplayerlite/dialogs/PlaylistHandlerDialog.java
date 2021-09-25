@@ -38,7 +38,7 @@ public class PlaylistHandlerDialog extends BottomSheetDialog {
         playListView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         database = PlayListDatabase.getDatabase(context);
-        database.dao().all().observeForever( playList -> {
+        database.dao().all().observeForever(playList -> {
             PlayListAdapter adapter = new PlayListAdapter(playList);
             playListView.setAdapter(adapter);
         });
