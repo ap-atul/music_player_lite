@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/album_art_layout"
         android:layout_toEndOf="@id/album_art_layout"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageButton

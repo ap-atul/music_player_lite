@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.atul.musicplayerlite">
+    package="com.atul.musicplayer">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,19 +18,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BaseTheme.Blue">
-        <activity android:name=".equalizer.EqualizerActivity" />
-        <activity android:name=".metadata.MetadataActivity" />
-        <activity android:name=".activities.SelectedArtistActivity" />
-        <activity android:name=".activities.SelectedAlbumActivity" />
+        <activity android:name="com.atul.musicplayer.activities.SelectedArtistActivity" />
+        <activity android:name="com.atul.musicplayer.activities.SelectedAlbumActivity" />
 
         <service
-            android:name=".player.PlayerService"
-            android:exported="false" />
+            android:name="com.atul.musicplayer.player.PlayerService" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.atul.musicplayer.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/BaseTheme.Default">
+            android:theme="@style/BaseTheme.Default"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.MUSIC_PLAYER" />
@@ -44,8 +42,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:scheme="content" />
-                <data android:mimeType="audio/*" />
             </intent-filter>
         </activity>
 
