@@ -72,8 +72,7 @@ public class PlaylistFragment extends Fragment implements PlayListAdapter.PlayLi
         recyclerView.setAdapter(adapter);
 
         shuffleControl.setOnClickListener(v -> {
-            musicSelectListener.setShuffleMode(true);
-            musicSelectListener.playQueue(musicList);
+            musicSelectListener.playQueue(musicList, true);
         });
 
         database.dao().all().observe(requireActivity(), playList -> {
@@ -216,8 +215,7 @@ public class PlaylistFragment extends Fragment implements PlayListAdapter.PlayLi
                         }).setNegativeButton("Cancel", (dia, which) -> dia.dismiss());
 
                 itemView.findViewById(R.id.root_layout).setOnClickListener(v -> {
-                    listener.setShuffleMode(false);
-                    listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size()));
+                    listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size()), false);
                 });
 
                 itemView.findViewById(R.id.root_layout).setOnLongClickListener(v -> {

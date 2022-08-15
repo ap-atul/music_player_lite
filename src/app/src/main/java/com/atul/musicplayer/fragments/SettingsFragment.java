@@ -135,9 +135,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         if (id == R.id.accent_option) {
             int visibility = (accentView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
             accentView.setVisibility(visibility);
-        }
-
-        else if (id == R.id.album_options)
+        } else if (id == R.id.album_options)
             setAlbumRequest();
 
         else if (id == R.id.album_switch)
@@ -146,9 +144,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         else if (id == R.id.theme_mode_option) {
             int mode = chipLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
             chipLayout.setVisibility(mode);
-        }
-
-        else if (id == R.id.night_chip)
+        } else if (id == R.id.night_chip)
             selectTheme(AppCompatDelegate.MODE_NIGHT_YES);
 
         else if (id == R.id.light_chip)

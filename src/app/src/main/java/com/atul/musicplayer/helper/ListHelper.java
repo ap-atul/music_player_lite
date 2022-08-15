@@ -117,68 +117,68 @@ public class ListHelper {
     public static String ifNull(String val) {
         return val == null ? "" : val;
     }
-}
 
-class SongComparator implements Comparator<Music> {
-    private final int mode;
+    public static class SongComparator implements Comparator<Music> {
+        private final int mode;
 
-    public SongComparator(int mode) {
-        this.mode = mode;
+        public SongComparator(int mode) {
+            this.mode = mode;
+        }
+
+        @Override
+        public int compare(Music m1, Music m2) {
+            if (mode == MPConstants.SORT_MUSIC_BY_TITLE)
+                return m1.title.compareTo(m2.title);
+
+            else if (mode == MPConstants.SORT_MUSIC_BY_DATE_ADDED)
+                return Long.compare(m2.dateAdded, m1.dateAdded);
+
+            return 0;
+        }
     }
 
-    @Override
-    public int compare(Music m1, Music m2) {
-        if (mode == MPConstants.SORT_MUSIC_BY_TITLE)
-            return m1.title.compareTo(m2.title);
+    static class ArtistComparator implements Comparator<Artist> {
+        private final int mode;
 
-        else if (mode == MPConstants.SORT_MUSIC_BY_DATE_ADDED)
-            return Long.compare(m2.dateAdded, m1.dateAdded);
+        public ArtistComparator(int mode) {
+            this.mode = mode;
+        }
 
-        return 0;
-    }
-}
+        @Override
+        public int compare(Artist a1, Artist a2) {
+            if (mode == MPConstants.SORT_ARTIST_BY_NAME)
+                return a1.name.compareTo(a2.name);
 
-class ArtistComparator implements Comparator<Artist> {
-    private final int mode;
+            else if (mode == MPConstants.SORT_ARTIST_BY_SONGS)
+                return Integer.compare(a2.songCount, a1.songCount);
 
-    public ArtistComparator(int mode) {
-        this.mode = mode;
-    }
+            else if (mode == MPConstants.SORT_ARTIST_BY_ALBUMS)
+                return Integer.compare(a2.albumCount, a1.albumCount);
 
-    @Override
-    public int compare(Artist a1, Artist a2) {
-        if (mode == MPConstants.SORT_ARTIST_BY_NAME)
-            return a1.name.compareTo(a2.name);
-
-        else if (mode == MPConstants.SORT_ARTIST_BY_SONGS)
-            return Integer.compare(a2.songCount, a1.songCount);
-
-        else if (mode == MPConstants.SORT_ARTIST_BY_ALBUMS)
-            return Integer.compare(a2.albumCount, a1.albumCount);
-
-        return 0;
-    }
-}
-
-class AlbumComparator implements Comparator<Album> {
-    private final int mode;
-
-    public AlbumComparator(int mode) {
-        this.mode = mode;
+            return 0;
+        }
     }
 
-    @Override
-    public int compare(Album a1, Album a2) {
-        if (mode == MPConstants.SORT_ALBUM_BY_TITLE)
-            return a1.title.compareTo(a2.title);
+    public static class AlbumComparator implements Comparator<Album> {
+        private final int mode;
 
-        else if (mode == MPConstants.SORT_ALBUM_BY_SONGS)
-            return Integer.compare(a2.music.size(), a1.music.size());
+        public AlbumComparator(int mode) {
+            this.mode = mode;
+        }
 
-        else if (mode == MPConstants.SORT_ALBUM_BY_DURATION)
-            return Long.compare(a2.duration, a1.duration);
+        @Override
+        public int compare(Album a1, Album a2) {
+            if (mode == MPConstants.SORT_ALBUM_BY_TITLE)
+                return a1.title.compareTo(a2.title);
 
-        return 0;
+            else if (mode == MPConstants.SORT_ALBUM_BY_SONGS)
+                return Integer.compare(a2.music.size(), a1.music.size());
+
+            else if (mode == MPConstants.SORT_ALBUM_BY_DURATION)
+                return Long.compare(a2.duration, a1.duration);
+
+            return 0;
+        }
     }
 }
 

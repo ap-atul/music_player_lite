@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.net.Uri;
@@ -130,6 +131,14 @@ public class MusicLibraryHelper {
         } catch (IOException e) {
             return null;
         }
+    }
+
+    public static int getDominantColorFromThumbnail(Bitmap bitmap) {
+        if (bitmap == null) return Color.BLACK;
+        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
+        final int color = newBitmap.getPixel(0, 0);
+        newBitmap.recycle();
+        return color;
     }
 
     public static File getPathFromUri(Context context, Uri uri) throws IOException {

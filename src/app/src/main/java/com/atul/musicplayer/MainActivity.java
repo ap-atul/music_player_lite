@@ -32,6 +32,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -101,7 +102,10 @@ public class MainActivity extends AppCompatActivity
         tabs.setupWithViewPager(viewPager);
 
         for (int i = 0; i < tabs.getTabCount(); i++) {
-            tabs.getTabAt(i).setIcon(MPConstants.TAB_ICONS[i]);
+            TabLayout.Tab tab = tabs.getTabAt(i);
+            if (tab != null) {
+                tab.setIcon(MPConstants.TAB_ICONS[i]);
+            }
         }
     }
 
@@ -165,7 +169,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void playQueue(List<Music> musicList) {
+    public void playQueue(List<Music> musicList, boolean shuffle) {
+        if (shuffle) {
+            Collections.shuffle(musicList);
+        }
+
         if (musicList.size() > 0) {
             playerManager.setMusicList(musicList);
             setPlayerView();
@@ -173,20 +181,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void addToQueue(List<Music> music) {
-        if (music.size() > 0) {
+    public void addToQueue(List<Music> musicList) {
+        if (musicList.size() > 0) {
             if (playerManager != null && playerManager.isPlaying())
-                playerManager.addMusicQueue(music);
+                playerManager.addMusicQueue(musicList);
             else if (playerManager != null)
-                playerManager.setMusicList(music);
+                playerManager.setMusicList(musicList);
 
             setPlayerView();
         }
-    }
-
-    @Override
-    public void setShuffleMode(boolean mode) {
-        playerManager.getPlayerQueue().setShuffle(mode);
     }
 
     @Override

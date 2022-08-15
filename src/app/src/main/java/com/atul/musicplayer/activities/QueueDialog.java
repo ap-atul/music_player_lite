@@ -35,5 +35,6 @@ public class QueueDialog extends BottomSheetDialog {
         touchHelper.attachToRecyclerView(queueLayout);
 
         queueLayout.setAdapter(queueAdapter);
+        queueLayout.scrollToPosition(queue.getCurrentPosition());
     }
 }

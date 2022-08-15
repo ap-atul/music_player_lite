@@ -75,8 +75,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
 
         ExtendedFloatingActionButton shuffleControl = findViewById(R.id.shuffle_button);
         shuffleControl.setOnClickListener(v -> {
-            musicSelectListener.setShuffleMode(true);
-            musicSelectListener.playQueue(musicList);
+            musicSelectListener.playQueue(musicList, true);
         });
 
         setUpOptions();

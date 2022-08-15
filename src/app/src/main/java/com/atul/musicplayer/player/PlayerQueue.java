@@ -2,6 +2,7 @@ package com.atul.musicplayer.player;
 
 import com.atul.musicplayer.model.Music;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -9,6 +10,7 @@ import java.util.Random;
 public class PlayerQueue {
     private final Random random = new Random();
     private List<Music> currentQueue;
+    private List<Integer> played;
     private boolean shuffle = false;
     private boolean repeat = false;
     private int currentPosition = 0;
@@ -38,8 +40,16 @@ public class PlayerQueue {
     }
 
     public void setCurrentQueue(List<Music> currentQueue) {
+        this.played = new ArrayList<>();
         this.currentQueue = currentQueue;
-        this.currentPosition = (shuffle) ? random.nextInt(currentQueue.size()) : 0;
+        this.currentPosition = 0;
+        if (this.shuffle) {
+            Collections.shuffle(currentQueue);
+        }
+    }
+
+    public int getCurrentPosition() {
+        return currentPosition;
     }
 
     public Music getCurrentMusic() {
@@ -52,14 +62,25 @@ public class PlayerQueue {
     }
 
     public void next() {
-        if (repeat) return;
-        if (shuffle) currentPosition = random.nextInt(currentQueue.size());
-        else
-            currentPosition = isCurrentPositionOutOfBound(currentPosition + 1) ? 0 : ++currentPosition;
+        played.add(currentPosition);
+        if (!repeat) {
+            currentPosition = (shuffle)
+                    ? random.nextInt(currentQueue.size())
+                    : isCurrentPositionOutOfBound(currentPosition + 1)
+                    ? 0
+                    : ++currentPosition;
+        }
     }
 
     public void prev() {
-        currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
+        if (played.size() == 0) {
+            currentPosition = 0;
+        } else {
+            int lastPosition = played.size() - 1;
+            currentPosition = played.get(lastPosition);
+            played.remove(lastPosition);
+        }
+//        currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
     }
 
     public void removeMusicFromQueue(int position) {

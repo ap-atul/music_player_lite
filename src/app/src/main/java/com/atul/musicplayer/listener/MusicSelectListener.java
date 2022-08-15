@@ -5,9 +5,7 @@ import com.atul.musicplayer.model.Music;
 import java.util.List;
 
 public interface MusicSelectListener {
-    void playQueue(List<Music> musicList);
+    void playQueue(List<Music> musicList, boolean shuffle);
 
-    void addToQueue(List<Music> music);
-
-    void setShuffleMode(boolean mode);
+    void addToQueue(List<Music> musicList);
 }
