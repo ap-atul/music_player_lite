@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/view_pager_title"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <include layout="@layout/layout_player_view" />
@@ -27,6 +28,7 @@
             android:layout_height="45dp"
             android:layout_weight="0"
             android:background="@color/colorBackgroundHigh"
+            android:contentDescription="@string/tab_layout_title"
             app:tabIconTint="@color/tab_color"
             app:tabIndicator="@drawable/tab_indicator"
             app:tabIndicatorAnimationMode="linear"

@@ -26,7 +26,7 @@ public abstract class PlayListDatabase extends RoomDatabase {
             synchronized (PlayListDatabase.class) {
                 if (INSTANCE == null)
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            PlayListDatabase.class, MPConstants.DATABASE_NAME)
+                                    PlayListDatabase.class, MPConstants.DATABASE_NAME)
                             .fallbackToDestructiveMigration()
                             .build();
             }

@@ -1,5 +1,13 @@
 package com.atul.musicplayer.player;
 
+import static com.atul.musicplayer.MPConstants.CHANNEL_ID;
+import static com.atul.musicplayer.MPConstants.CLOSE_ACTION;
+import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
+import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
+import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
+import static com.atul.musicplayer.MPConstants.PREV_ACTION;
+import static com.atul.musicplayer.MPConstants.REQUEST_CODE;
+
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -8,7 +16,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -20,14 +27,6 @@ import com.atul.musicplayer.MainActivity;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.helper.MusicLibraryHelper;
 import com.atul.musicplayer.model.Music;
-
-import static com.atul.musicplayer.MPConstants.CHANNEL_ID;
-import static com.atul.musicplayer.MPConstants.CLOSE_ACTION;
-import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
-import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
-import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
-import static com.atul.musicplayer.MPConstants.PREV_ACTION;
-import static com.atul.musicplayer.MPConstants.REQUEST_CODE;
 
 public class PlayerNotificationManager {
 
@@ -49,15 +48,6 @@ public class PlayerNotificationManager {
         pauseIntent.setAction(action);
 
         return PendingIntent.getBroadcast(playerService, REQUEST_CODE, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private int getDominantColor(Bitmap bitmap) {
-        if (bitmap == null) return Color.BLACK;
-
-        Bitmap newBitmap = Bitmap.createScaledBitmap(bitmap, 1, 1, true);
-        final int color = newBitmap.getPixel(0, 0);
-        newBitmap.recycle();
-        return color;
     }
 
     public Notification createNotification() {
@@ -82,7 +72,7 @@ public class PlayerNotificationManager {
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
                 .setProgress(100, playerService.getPlayerManager().getCurrentPosition(), true)
-                .setColor(getDominantColor(albumArt))
+                .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
                 .setColorized(false)
                 .setContentIntent(contentIntent)
                 .setAutoCancel(true)
@@ -113,7 +103,7 @@ public class PlayerNotificationManager {
 
         notificationBuilder
                 .setLargeIcon(albumArt)
-                .setColor(getDominantColor(albumArt));
+                .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt));
 
         notificationBuilder
                 .setContentTitle(song.title)

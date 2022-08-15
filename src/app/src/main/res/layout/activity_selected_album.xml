@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -44,7 +45,8 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/image"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_album_art" />
+                    android:src="@drawable/ic_album_art"
+                    tools:ignore="ImageContrastCheck" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -101,11 +103,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:contentDescription="@string/image"
+        android:contentDescription="@string/shuffle_button"
         android:textColor="@color/widgetsColor"
         app:backgroundTint="@color/windowBackground"
         app:icon="@drawable/ic_controls_shuffle"
         app:iconTint="@color/widgetsColor"
-        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        tools:ignore="RedundantDescriptionCheck" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -11,13 +11,13 @@ android {
             keyPassword 'musicplayerlite'
         }
     }
-    compileSdkVersion 33
+    compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.atul.musicplayer"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 30
         versionCode 4
         versionName "0.4"
 

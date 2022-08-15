@@ -1,7 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingStart="10dp"
+    android:paddingTop="30dp"
+    android:paddingEnd="10dp"
     android:paddingBottom="30dp">
 
     <com.google.android.material.card.MaterialCardView
@@ -11,12 +16,12 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="10dp">
+        app:cardElevation="15dp">
 
         <ImageView
             android:id="@+id/album_art"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/image"
             android:scaleType="centerCrop"
@@ -27,34 +32,47 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/album_art_layout"
+        android:layout_alignTop="@id/album_art_layout"
         android:layout_toEndOf="@id/album_art_layout"
-        android:visibility="gone"
         android:orientation="vertical">
 
         <ImageButton
-            android:id="@+id/music_equalizer"
+            android:id="@+id/music_queue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
+            android:minHeight="49dp"
             android:padding="5dp"
-            app:srcCompat="@drawable/ic_equalizer"
-            app:tint="?colorOnBackground" />
+            app:srcCompat="@drawable/ic_music_queue"
+            app:tint="?colorOnBackground"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
-        <ImageButton
-            android:id="@+id/music_meta_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="?android:attr/actionBarItemBackground"
-            android:contentDescription="@string/image"
-            android:padding="5dp"
-            app:srcCompat="@drawable/ic_edit_metadata"
-            app:tint="?colorOnBackground" />
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/music_equalizer"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="5dp"-->
+        <!--            android:layout_marginBottom="5dp"-->
+        <!--            android:background="?android:attr/actionBarItemBackground"-->
+        <!--            android:contentDescription="@string/image"-->
+        <!--            android:padding="5dp"-->
+        <!--            app:srcCompat="@drawable/ic_equalizer"-->
+        <!--            app:tint="?colorOnBackground" />-->
+
+        <!--        <ImageButton-->
+        <!--            android:id="@+id/music_meta_edit"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="5dp"-->
+        <!--            android:layout_marginBottom="5dp"-->
+        <!--            android:background="?android:attr/actionBarItemBackground"-->
+        <!--            android:contentDescription="@string/image"-->
+        <!--            android:padding="5dp"-->
+        <!--            app:srcCompat="@drawable/ic_edit_metadata"-->
+        <!--            app:tint="?colorOnBackground" />-->
 
     </LinearLayout>
 
@@ -144,6 +162,7 @@
             android:layout_weight="1"
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
+            android:minHeight="48dp"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_controls_repeat"
             app:tint="?colorOnBackground" />
@@ -155,6 +174,7 @@
             android:layout_weight="1"
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
+            android:minHeight="48dp"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_controls_prev"
             app:tint="?colorOnBackground" />
@@ -166,6 +186,7 @@
             android:layout_weight="1"
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
+            android:minHeight="48dp"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_controls_play"
             app:tint="?colorOnBackground" />
@@ -177,6 +198,7 @@
             android:layout_weight="1"
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
+            android:minHeight="48dp"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_controls_next"
             app:tint="?colorOnBackground" />
@@ -188,6 +210,7 @@
             android:layout_weight="1"
             android:background="?android:attr/actionBarItemBackground"
             android:contentDescription="@string/image"
+            android:minHeight="48dp"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_controls_shuffle"
             app:tint="?colorOnBackground" />

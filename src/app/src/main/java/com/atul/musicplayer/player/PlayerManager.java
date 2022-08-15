@@ -1,5 +1,16 @@
 package com.atul.musicplayer.player;
 
+import static com.atul.musicplayer.MPConstants.AUDIO_FOCUSED;
+import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
+import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
+import static com.atul.musicplayer.MPConstants.CLOSE_ACTION;
+import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
+import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
+import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
+import static com.atul.musicplayer.MPConstants.PREV_ACTION;
+import static com.atul.musicplayer.MPConstants.VOLUME_DUCK;
+import static com.atul.musicplayer.MPConstants.VOLUME_NORMAL;
+
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -22,17 +33,6 @@ import com.atul.musicplayer.model.Music;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static com.atul.musicplayer.MPConstants.AUDIO_FOCUSED;
-import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
-import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
-import static com.atul.musicplayer.MPConstants.CLOSE_ACTION;
-import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
-import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
-import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
-import static com.atul.musicplayer.MPConstants.PREV_ACTION;
-import static com.atul.musicplayer.MPConstants.VOLUME_DUCK;
-import static com.atul.musicplayer.MPConstants.VOLUME_NORMAL;
 
 public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
