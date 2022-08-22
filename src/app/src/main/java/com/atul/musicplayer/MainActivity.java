@@ -4,6 +4,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -15,17 +17,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.atul.musicplayer.activities.PlayerDialog;
 import com.atul.musicplayer.activities.QueueDialog;
 import com.atul.musicplayer.adapter.MainPagerAdapter;
+import com.atul.musicplayer.helper.MusicLibraryHelper;
 import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
 import com.atul.musicplayer.model.Music;
 import com.atul.musicplayer.player.PlayerBuilder;
 import com.atul.musicplayer.player.PlayerListener;
 import com.atul.musicplayer.player.PlayerManager;
+import com.atul.musicplayer.viewmodel.MainViewModel;
+import com.atul.musicplayer.viewmodel.MainViewModelFactory;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -51,6 +57,7 @@ public class MainActivity extends AppCompatActivity
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
     private boolean albumState;
+    private MainViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,9 @@ public class MainActivity extends AppCompatActivity
         AppCompatDelegate.setDefaultNightMode(MPPreferences.getThemeMode(getApplicationContext()));
         setContentView(R.layout.activity_main);
         MPConstants.musicSelectListener = this;
+
+        viewModel = new ViewModelProvider(this, new MainViewModelFactory()).get(MainViewModel.class);
+        fetchMusicList();
 
         if (hasReadStoragePermission(MainActivity.this))
             setUpUiElements();
@@ -87,6 +97,14 @@ public class MainActivity extends AppCompatActivity
             playerView.setVisibility(View.VISIBLE);
             onMusicSet(playerManager.getCurrentMusic());
         }
+    }
+
+    private void fetchMusicList() {
+        new Handler().post(() -> {
+            Log.d(MPConstants.DEBUG_TAG, "running inside a thread");
+            List<Music> musicList = MusicLibraryHelper.fetchMusicLibrary(MainActivity.this);
+            viewModel.setSongsList(musicList);
+        });
     }
 
     public void setUpUiElements() {

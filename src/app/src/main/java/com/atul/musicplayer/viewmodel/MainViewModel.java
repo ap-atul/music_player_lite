@@ -1,11 +1,13 @@
 package com.atul.musicplayer.viewmodel;
 
-import android.content.Context;
+import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.atul.musicplayer.App;
+import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.MPPreferences;
-import com.atul.musicplayer.helper.MusicLibraryHelper;
 import com.atul.musicplayer.model.Album;
 import com.atul.musicplayer.model.Artist;
 import com.atul.musicplayer.model.Folder;
@@ -21,135 +23,143 @@ import java.util.Set;
 
 public class MainViewModel extends ViewModel {
 
-    public List<Music> songsList = new ArrayList<>();
-    public List<Album> albumList = new ArrayList<>();
-    public List<Artist> artistList = new ArrayList<>();
-    public List<Folder> folderList = new ArrayList<>();
+    public MutableLiveData<List<Music>> songsList;
+    public MutableLiveData<List<Album>> albumList;
+    public MutableLiveData<List<Artist>> artistList;
+    public MutableLiveData<List<Folder>> folderList;
 
-    public MainViewModel(Context context) {
-        initSongList(context);
+    public MainViewModel() {
     }
 
-    private void initSongList(Context context) {
-        Set<String> excludedFolderList = MPPreferences.getExcludedFolders(context);
-        List<Music> musicList = MusicLibraryHelper.fetchMusicLibrary(context);
-        HashMap<String, Folder> map = new HashMap<>();
+    public MutableLiveData<List<Music>> getSongsList() {
+        if (songsList != null) return songsList;
+        return songsList = new MutableLiveData<>();
+    }
 
-        for (Music music : musicList) {
+    public MutableLiveData<List<Album>> getAlbumList() {
+        if (albumList != null) return albumList;
+        return albumList = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<List<Artist>> getArtistList() {
+        if (artistList != null) return artistList;
+        return artistList = new MutableLiveData<>();
+    }
+
+    public MutableLiveData<List<Folder>> getFolderList() {
+        if (folderList != null) return folderList;
+        return folderList = new MutableLiveData<>();
+    }
+
+    private void parseFolderList(List<Music> songsList) {
+        HashMap<String, Folder> map = new HashMap<>();
+        List<Folder> folders = new ArrayList<>();
+
+        for(Music music: songsList) {
             Folder folder;
-            if (map.containsKey(music.relativePath)) {
+            if(map.containsKey(music.relativePath)) {
                 folder = map.get(music.relativePath);
                 assert folder != null;
                 folder.songsCount += 1;
             } else {
                 folder = new Folder(1, music.relativePath);
-                folderList.add(folder);
+                folders.add(folder);
             }
             map.put(music.relativePath, folder);
         }
 
+        Collections.sort(folders, new FolderComparator());
+        if(folderList == null)
+            folderList = new MutableLiveData<>();
+        folderList.setValue(folders);
+    }
+
+    private void parseAlbumList(List<Music> songsList) {
+        HashMap<String, Album> albumMap = new HashMap<>();
+
+        for (Music music : songsList) {
+            if (albumMap.containsKey(music.album)) {
+                Album album = albumMap.get(music.album);
+                assert album != null;
+                album.duration += music.duration;
+                album.music.add(music);
+
+                albumMap.put(music.album, album);
+            } else {
+                List<Music> list = new ArrayList<>();
+                list.add(music);
+                Album album = new Album(music.artist, music.album, String.valueOf(music.year), music.duration, list);
+                albumMap.put(music.album, album);
+            }
+        }
+
+        List<Album> albums = new ArrayList<>(albumMap.values());
+        Collections.sort(albums, new AlbumComparator());
+
+        if(albumList == null)
+            albumList = new MutableLiveData<>();
+        albumList.setValue(albums);
+
+        parseArtistList(albums);
+    }
+
+    private void parseArtistList(List<Album> albums) {
+        HashMap<String, Artist> artistMap = new HashMap<>();
+
+        for (Album album : albums) {
+            if (artistMap.containsKey(album.artist)) {
+                Artist artist = artistMap.get(album.artist);
+                assert artist != null;
+
+                artist.albums.add(album);
+                artist.songCount += album.music.size();
+                artist.albumCount += 1;
+                artistMap.put(album.artist, artist);
+
+            } else {
+                List<Album> list = new ArrayList<>();
+                list.add(album);
+
+                Artist artist = new Artist(album.artist, list, album.music.size(), list.size());
+                artistMap.put(album.artist, artist);
+            }
+        }
+
+        List<Artist> artists = new ArrayList<>(artistMap.values());
+        Collections.sort(artists, new ArtistComparator());
+
+        if(artistList == null)
+            artistList = new MutableLiveData<>();
+        artistList.setValue(artists);
+    }
+
+    public void setSongsList(List<Music> musicList) {
+        initSongList(musicList);
+        Log.d(MPConstants.DEBUG_TAG, "Got " + musicList.size() + " songs from database");
+    }
+
+    private void initSongList(List<Music> musicList) {
+        Set<String> excludedFolderList = MPPreferences.getExcludedFolders(App.getContext());
+        List<Music> songs = new ArrayList<>();
+
         for (Music music : musicList) {
             if (!excludedFolderList.contains(music.relativePath))
-                songsList.add(music);
+                songs.add(music);
         }
 
-        Collections.sort(songsList, new SongComparator());
-    }
-
-    public List<Music> getSongs(boolean reverse) {
-        if (reverse)
-            Collections.reverse(songsList);
-
-        return songsList;
-    }
-
-    public List<Album> getAlbums(boolean reverse) {
-        if (albumList.size() == 0) {
-
-            HashMap<String, Album> map = new HashMap<>();
-            albumList = new ArrayList<>();
-
-            for (Music music : songsList) {
-                if (map.containsKey(music.album)) {
-                    Album album = map.get(music.album);
-                    assert album != null;
-                    album.duration += music.duration;
-                    album.music.add(music);
-
-                    map.put(music.album, album);
-
-                } else {
-                    List<Music> list = new ArrayList<>();
-                    list.add(music);
-                    Album album = new Album(music.artist, music.album, String.valueOf(music.year), music.duration, list);
-                    map.put(music.album, album);
-                }
-            }
-
-            for (String k : map.keySet()) {
-                albumList.add(map.get(k));
-            }
+        Collections.sort(songs, new SongComparator());
+        if(songsList == null) {
+            songsList = new MutableLiveData<>();
         }
-        Collections.sort(albumList, new AlbumComparator());
-        if (reverse)
-            Collections.reverse(albumList);
+        songsList.setValue(songs);
 
-        return albumList;
-    }
-
-    public List<Artist> getArtists(boolean reverse) {
-        if (artistList.size() == 0) {
-
-            HashMap<String, Artist> map = new HashMap<>();
-            artistList = new ArrayList<>();
-            albumList = getAlbums(false);
-
-            for (Album album : albumList) {
-                if (map.containsKey(album.artist)) {
-                    Artist artist = map.get(album.artist);
-                    assert artist != null;
-
-                    artist.albums.add(album);
-                    artist.songCount += album.music.size();
-                    artist.albumCount += 1;
-                    map.put(album.artist, artist);
-
-                } else {
-                    List<Album> list = new ArrayList<>();
-                    list.add(album);
-
-                    Artist artist = new Artist(album.artist, list, album.music.size(), list.size());
-                    map.put(album.artist, artist);
-                }
-            }
-
-            for (String k : map.keySet()) {
-                artistList.add(map.get(k));
-            }
-        }
-
-        Collections.sort(artistList, new ArtistComparator());
-        if (reverse)
-            Collections.reverse(artistList);
-
-        return artistList;
-    }
-
-    public List<Folder> getFolders(boolean reverse) {
-        Collections.sort(folderList, new FolderComparator());
-        if (reverse)
-            Collections.reverse(folderList);
-
-        return folderList;
+        parseFolderList(songs);
+        parseAlbumList(songs);
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        songsList = null;
-        albumList = null;
-        artistList = null;
-        folderList = null;
     }
 }
 

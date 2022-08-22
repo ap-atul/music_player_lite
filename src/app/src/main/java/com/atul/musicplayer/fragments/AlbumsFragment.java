@@ -46,7 +46,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity(),
-                new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
+                new MainViewModelFactory()).get(MainViewModel.class);
     }
 
     @Override
@@ -55,10 +55,6 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
 
         View view = inflater.inflate(R.layout.fragment_albums, container, false);
 
-        unchangedList = viewModel.getAlbums(false);
-        albumList.clear();
-        albumList.addAll(unchangedList);
-
         toolbar = view.findViewById(R.id.search_toolbar);
 
         RecyclerView recyclerView = view.findViewById(R.id.albums_layout);
@@ -66,6 +62,14 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         albumsAdapter = new AlbumsAdapter(albumList, this);
         recyclerView.setAdapter(albumsAdapter);
+
+        viewModel.getAlbumList().observe(requireActivity(), albums -> {
+            if(unchangedList.size() == 0) {
+                unchangedList = albums;
+                albumList.clear();
+                albumList.addAll(unchangedList);
+            }
+        });
 
         setUpOptions();
         return view;

@@ -28,7 +28,6 @@ import com.atul.musicplayer.viewmodel.MainViewModelFactory;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
@@ -39,6 +38,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private LinearLayout chipLayout;
     private ImageView currentThemeMode;
 
+    private List<Folder> folderList;
     private MaterialToolbar toolbar;
     private FolderDialog folderDialog;
 
@@ -52,7 +52,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory()).get(MainViewModel.class);
     }
 
     @Override
@@ -60,6 +60,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        viewModel.getFolderList().observe(requireActivity(), folders -> folderList = folders);
 
         SwitchMaterial switchMaterial = view.findViewById(R.id.album_switch);
         accentView = view.findViewById(R.id.accent_view);
@@ -170,13 +172,16 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showFolderSelectionDialog() {
-        List<Folder> folderList = new ArrayList<>(viewModel.getFolders(false));
-        folderDialog = new FolderDialog(requireActivity(), folderList);
-        folderDialog.show();
+        if(folderList != null ) {
+            folderDialog = new FolderDialog(requireActivity(), folderList);
+            folderDialog.show();
 
-        folderDialog.setOnDismissListener(dialog ->
-                ThemeHelper.applySettings(requireActivity())
-        );
+            folderDialog.setOnDismissListener(dialog ->
+                    ThemeHelper.applySettings(requireActivity())
+            );
+        } else {
+            Toast.makeText(requireActivity(), "Folder list missing", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void selectTheme(int theme) {

@@ -2,6 +2,7 @@ package com.atul.musicplayer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.adapter.SongsAdapter;
 import com.atul.musicplayer.dialogs.SongOptionDialog;
@@ -51,7 +53,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity(),
-                new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
+                new MainViewModelFactory()).get(MainViewModel.class);
     }
 
     @Override
@@ -60,14 +62,9 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
-        unChangedList = viewModel.getSongs(false);
-        musicList.clear();
-        musicList.addAll(unChangedList);
-
         toolbar = view.findViewById(R.id.search_toolbar);
 
         shuffleControl = view.findViewById(R.id.shuffle_button);
-        shuffleControl.setText(String.valueOf(musicList.size()));
 
         RecyclerView recyclerView = view.findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -78,8 +75,22 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
             listener.playQueue(musicList, true);
         });
 
+        viewModel.getSongsList().observe(requireActivity(), this::setUpUi);
+
         setUpOptions();
         return view;
+    }
+
+    private void setUpUi(List<Music> songList) {
+        if(unChangedList.size() == 0) {
+            unChangedList = songList;
+            musicList.clear();
+            musicList.addAll(unChangedList);
+
+            Log.d(MPConstants.DEBUG_TAG, songList.size() + " got in shufffle");
+        }
+
+        shuffleControl.setText(String.valueOf(songList.size()));
     }
 
     private void setUpOptions() {

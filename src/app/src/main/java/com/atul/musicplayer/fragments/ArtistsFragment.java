@@ -45,7 +45,7 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory(requireActivity())).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory()).get(MainViewModel.class);
     }
 
     @Override
@@ -54,10 +54,6 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
 
         View view = inflater.inflate(R.layout.fragment_artists, container, false);
 
-        unchangedList = viewModel.getArtists(false);
-        artistList.clear();
-        artistList.addAll(unchangedList);
-
         toolbar = view.findViewById(R.id.search_toolbar);
 
         RecyclerView recyclerView = view.findViewById(R.id.artist_layout);
@@ -65,6 +61,12 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         artistAdapter = new ArtistAdapter(this, artistList);
         recyclerView.setAdapter(artistAdapter);
+
+        viewModel.getArtistList().observe(requireActivity(), artists -> {
+            unchangedList = artists;
+            artistList.clear();
+            artistList.addAll(unchangedList);
+        });
 
         setUpOptions();
         return view;

@@ -1,17 +1,13 @@
 package com.atul.musicplayer.viewmodel;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 public class MainViewModelFactory implements ViewModelProvider.Factory {
 
-    private final Context application;
 
-    public MainViewModelFactory(Context application) {
-        this.application = application;
+    public MainViewModelFactory() {
     }
 
     @SuppressWarnings("unchecked") // lint hide
@@ -19,7 +15,7 @@ public class MainViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MainViewModel.class))
-            return (T) new MainViewModel(application);
+            return (T) new MainViewModel();
 
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
