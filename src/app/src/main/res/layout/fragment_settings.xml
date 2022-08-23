@@ -36,7 +36,8 @@
                 android:text="@string/ui"
                 android:textColor="?colorPrimary"
                 android:textSize="@dimen/text_big_med"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <LinearLayout
                 android:id="@+id/theme_mode_option"
@@ -240,7 +241,8 @@
                 android:text="@string/general"
                 android:textColor="?colorPrimary"
                 android:textSize="@dimen/text_medium"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="TextContrastCheck" />
 
             <LinearLayout
                 android:id="@+id/folder_options"

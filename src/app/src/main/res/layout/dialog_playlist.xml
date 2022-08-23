@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,7 +21,8 @@
             android:text="@string/playlists"
             android:textColor="?colorPrimary"
             android:textSize="@dimen/text_medium"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -32,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:inputType="text" />
+                android:inputType="text"
+                tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,7 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_margin="5dp"
-            android:text="@string/add" />
+            android:text="@string/add"
+            tools:ignore="TextContrastCheck" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlist_layout"

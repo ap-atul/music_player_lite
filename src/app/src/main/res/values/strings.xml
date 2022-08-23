@@ -3,6 +3,7 @@
 
 
     <string name="image">image</string>
+    <string name="shuffle_button">Shuffle</string>
     <string name="album_art_dir">content://media/external/audio/albumart</string>
     <string name="music_bitrate_freq">44100 kHz • 320 kbps</string>
     <string name="search">Search</string>
@@ -51,6 +52,8 @@
     <string name="enter_new_year">Enter new year</string>
     <string name="update">Update</string>
     <string name="caution_metadata">Caution: There could be some issues if the file is invalid from the start! Also some changes might not reflect</string>
+    <string name="view_pager_title">Main page</string>
+    <string name="tab_layout_title">Bottom horizontal menu</string>
 
 
 </resources>

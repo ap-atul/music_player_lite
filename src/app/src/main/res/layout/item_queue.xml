@@ -20,6 +20,8 @@
         android:layout_gravity="center_vertical"
         android:background="?android:attr/actionBarItemBackground"
         android:contentDescription="@string/image"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:padding="5dp"
         app:srcCompat="@drawable/ic_drag_handle"
         app:tint="?colorOnBackground" />
@@ -58,6 +60,8 @@
         android:layout_gravity="center_vertical"
         android:background="?android:attr/actionBarItemBackground"
         android:contentDescription="@string/image"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
         android:padding="5dp"
         app:srcCompat="@drawable/ic_close"
         app:tint="?colorOnBackground" />

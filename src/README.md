@@ -23,8 +23,21 @@
 * Create playlists by long pressing on music
 
 ### Working on
-* UI improvements
-* Performance improvements
+#### Updated on Aug 15
+
+- [x] Fix shuffle playlist and in player option
+- [x] Fix accessibility issue pointed by play store
+- [x] Improve initial parsing of all music files
+- [ ] Add auto list updates and setting updates without restart
+- [ ] Add feature to edit the filename (or include in tag editor?)
+- [ ] Support API version 33 (multiple api changes to do)
+- [ ] Complete Material Design ?
+- [ ] Blacklist ?
+- [ ] Fix equalizer and tag editor (not working good enough)
+- [ ] Fix service termination on app close
+- [ ] Add feature of sleep timer
+- [ ] Improve UI
+
 
 ### References
 Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
