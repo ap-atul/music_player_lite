@@ -32,6 +32,7 @@
 
 - [x] Fix shuffle playlist and in player option
 - [x] Fix accessibility issue pointed by play store
+- [x] Fix repeated album arts for unknown albums
 - [ ] Improve initial parsing of all music files
 - [ ] Add auto list updates and setting updates without restart
 - [ ] Add feature to edit the filename (or include in tag editor?)
