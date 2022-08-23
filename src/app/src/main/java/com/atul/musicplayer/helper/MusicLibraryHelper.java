@@ -10,20 +10,14 @@ import android.graphics.Color;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.net.Uri;
-import android.os.FileUtils;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.webkit.MimeTypeMap;
 
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.model.Music;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,11 +98,15 @@ public class MusicLibraryHelper {
             long duration = musicCursor.getLong(durationInd);
             long albumId = musicCursor.getLong(albumIdInd);
 
+            Uri albumArt = Uri.parse("");
+            if(!relativePath.contains(album)) {
+                albumArt = ContentUris.withAppendedId(Uri.parse(context.getResources().getString(R.string.album_art_dir)), albumId);
+            }
+
             musicList.add(new Music(
                     artist, title, displayName, album, relativePath, absolutePath,
                     year, track, startFrom, dateAdded,
-                    id, duration, albumId,
-                    ContentUris.withAppendedId(Uri.parse(context.getResources().getString(R.string.album_art_dir)), albumId)
+                    id, duration, albumId, albumArt
             ));
         }
 
@@ -139,49 +137,6 @@ public class MusicLibraryHelper {
         final int color = newBitmap.getPixel(0, 0);
         newBitmap.recycle();
         return color;
-    }
-
-    public static File getPathFromUri(Context context, Uri uri) throws IOException {
-        String fileName = getFileName(context, uri);
-        File file = new File(context.getExternalCacheDir(), fileName);
-
-        if (file.createNewFile()) {
-            OutputStream outputStream = new FileOutputStream(file);
-            InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            FileUtils.copy(inputStream, outputStream); //Simply reads input to output stream
-            outputStream.flush();
-        }
-
-        return file;
-    }
-
-    public static String getFileName(Context context, Uri uri) {
-        String fileName = getFileNameFromCursor(context, uri);
-        if (fileName == null) {
-            String fileExtension = getFileExtension(context, uri);
-            fileName = "temp_file" + (fileExtension != null ? "." + fileExtension : "");
-        } else if (!fileName.contains(".")) {
-            String fileExtension = getFileExtension(context, uri);
-            fileName = fileName + "." + fileExtension;
-        }
-        return fileName;
-    }
-
-    public static String getFileExtension(Context context, Uri uri) {
-        String fileType = context.getContentResolver().getType(uri);
-        return MimeTypeMap.getSingleton().getExtensionFromMimeType(fileType);
-    }
-
-    public static String getFileNameFromCursor(Context context, Uri uri) {
-        Cursor fileCursor = context.getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null);
-        String fileName = null;
-        if (fileCursor != null && fileCursor.moveToFirst()) {
-            int cIndex = fileCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-            if (cIndex != -1) {
-                fileName = fileCursor.getString(cIndex);
-            }
-        }
-        return fileName;
     }
 
     public static String formatDuration(long duration) {

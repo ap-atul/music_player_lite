@@ -41,28 +41,32 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.songName.setText(musicList.get(position).title);
+        Music music = musicList.get(position);
+
+        holder.songName.setText(music.title);
         holder.albumName.setText(
                 String.format(Locale.getDefault(), "%s • %s",
-                        musicList.get(position).artist,
-                        musicList.get(position).album)
+                        music.artist,
+                        music.album)
         );
 
-        if (musicList.get(position).dateAdded == -1)
+        if (music.dateAdded == -1)
             holder.songHistory.setVisibility(View.GONE);
         else
             holder.songHistory.setText(
                     String.format(Locale.getDefault(), "%s • %s",
-                            MusicLibraryHelper.formatDuration(musicList.get(position).duration),
-                            MusicLibraryHelper.formatDate(musicList.get(position).dateAdded))
+                            MusicLibraryHelper.formatDuration(music.duration),
+                            MusicLibraryHelper.formatDate(music.dateAdded))
             );
 
-        if (holder.state)
+        if (holder.state && !music.albumArt.equals("")) {
             Glide.with(holder.albumArt.getContext())
-                    .load(musicList.get(position).albumArt)
-                    .skipMemoryCache(true)
+                    .load(music.albumArt)
                     .placeholder(R.drawable.ic_album_art)
                     .into(holder.albumArt);
+        } else if(music.albumArt.equals("")) {
+            holder.albumArt.setImageResource(R.drawable.ic_album_art);
+        }
     }
 
     @Override

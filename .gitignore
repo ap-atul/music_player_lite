@@ -9,6 +9,7 @@
 
 # Java class files
 *.class
+release/
 
 # Generated files
 bin/
