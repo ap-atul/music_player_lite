@@ -2,7 +2,6 @@ package com.atul.musicplayer.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.adapter.SongsAdapter;
 import com.atul.musicplayer.dialogs.SongOptionDialog;
@@ -86,8 +84,6 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
             unChangedList = songList;
             musicList.clear();
             musicList.addAll(unChangedList);
-
-            Log.d(MPConstants.DEBUG_TAG, songList.size() + " got in shufffle");
         }
 
         shuffleControl.setText(String.valueOf(songList.size()));

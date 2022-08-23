@@ -1,12 +1,9 @@
 package com.atul.musicplayer.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.atul.musicplayer.App;
-import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.model.Album;
 import com.atul.musicplayer.model.Artist;
@@ -135,7 +132,6 @@ public class MainViewModel extends ViewModel {
 
     public void setSongsList(List<Music> musicList) {
         initSongList(musicList);
-        Log.d(MPConstants.DEBUG_TAG, "Got " + musicList.size() + " songs from database");
     }
 
     private void initSongList(List<Music> musicList) {

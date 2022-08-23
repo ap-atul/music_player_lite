@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -101,7 +100,6 @@ public class MainActivity extends AppCompatActivity
 
     private void fetchMusicList() {
         new Handler().post(() -> {
-            Log.d(MPConstants.DEBUG_TAG, "running inside a thread");
             List<Music> musicList = MusicLibraryHelper.fetchMusicLibrary(MainActivity.this);
             viewModel.setSongsList(musicList);
         });
