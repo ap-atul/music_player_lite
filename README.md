@@ -47,7 +47,7 @@
 ### Support me
 
 - Download [Brave](https://brave.com/) and donate some [BATs](https://brave.com/tips/)
-- Transfer some cryptos 0xd88229d3F15c47E5D6c6350fD4851fFF998DFDb5
+- Transfer some cryptos 0x7c98C2DEc5038f00A2cbe8b7A64089f9c0b51991
 - Donate on [paypal](https://paypal.me/CrankHere)
 
 ### References
