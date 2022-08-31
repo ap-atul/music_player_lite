@@ -7,22 +7,36 @@
 </p>
 
 ---
+
 ### Download
-| App/Source | Github | Sizzydroid |
---- | --- | ---
-|Lite|[release v0.2](https://github.com/AP-Atul/music_player_lite/releases/download/v0.2/mplite.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayerlite"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
-|Online|[release v0.2](https://github.com/AP-Atul/music_player_lite/releases/download/v0.2/mplite_online.apk)| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayeronline"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
+
+| Lite                                                                                                                                                                                               | Online                                                                                                                                                                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Github release v0.6](https://github.com/AP-Atul/music_player_lite/releases/download/v0.6/mplite.apk)                                                                                              | [Github release v0.3](https://github.com/AP-Atul/music_player_lite/releases/download/v0.3/mplite_online.apk)                                                                             |
+| <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayer"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a>                 | <a href="https://apt.izzysoft.de/fdroid/index/apk/com.atul.musicplayeronline"><img src="https://github.com/AP-Atul/music_player_lite/raw/main/assets/IzzyOnDroid.png" width="200px"></a> |
+| <a href="https://play.google.com/store/apps/details?id=com.atul.musicplayer"><img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" width="200px"></a> |                                                                                                                                                                                          |
 
 ### Features
-* Listen to music
-* Manage the queue and shuffle/ repeat mode
-* Change colors of the app
-* Manage folders to exclude(hide)
-* Browse/ Sort/ Search albums and artists
-* Change between Dark and Light Modes
-* Create playlists by long pressing on music
+
+- No Ads forever
+- Listen to music
+- Simple and modern design
+- Blazing fast performance and minimal battery usage
+- Manage the queue and shuffle/ repeat mode
+- Change the accent of the app
+- Manage folders to exclude(hide)
+- Automatic scanning of media files
+- Browse/ Sort/ Search albums and artists
+- Change between Dark and Light Modes
+- Create playlists by long pressing on music
+- Easily search songs by keywords
+- Lock screen controls and play in the notification bar
+- Headset controls
+- Listen to music
+- Sleep timer
 
 ### Working on
+
 #### Updated on Aug 31
 
 - [x] Fix shuffle playlist and in player option
@@ -41,9 +55,8 @@
 - [ ] Fix service termination on app close
 - [ ] Improve UI
 
-
 ### References
-Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
 
+Highly motivated by [Music Player GO](https://github.com/enricocid/Music-Player-GO)
 
 #### Any contribution is highly welcomed
