@@ -84,6 +84,9 @@ public class MPConstants {
             R.color.grey_300,
             R.color.blue_grey_300
     );
+    public static final List<Integer> MINUTES_LIST = Arrays.asList(
+            5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 65, 70, 75, 80, 85, 90, 95, 100
+    );
     public static final int SORT_MUSIC_BY_TITLE = 0;
     public static final int SORT_MUSIC_BY_DATE_ADDED = 1;
     public static final int SORT_ARTIST_BY_NAME = 0;

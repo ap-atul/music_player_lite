@@ -50,6 +50,20 @@
             app:tint="?colorOnBackground"
             tools:ignore="DuplicateSpeakableTextCheck" />
 
+        <ImageButton
+            android:id="@+id/sleep_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="?android:attr/actionBarItemBackground"
+            android:contentDescription="@string/image"
+            android:minHeight="49dp"
+            android:padding="5dp"
+            app:srcCompat="@drawable/ic_sleep_timer"
+            app:tint="?colorOnBackground"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
         <!--        <ImageButton-->
         <!--            android:id="@+id/music_equalizer"-->
         <!--            android:layout_width="wrap_content"-->

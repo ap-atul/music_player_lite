@@ -16,7 +16,7 @@
         android:fontFamily="@font/nunito_sans_semibold"
         android:letterSpacing="0.2"
         android:text="@string/options"
-        android:textColor="#1976D2"
+        android:textColor="?colorPrimary"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold" />
 

@@ -18,42 +18,43 @@
             android:layout_margin="10dp"
             android:fontFamily="@font/nunito_sans_semibold"
             android:letterSpacing="0.2"
-            android:text="@string/playlists"
+            android:text="@string/sleep_time_help"
             android:textColor="?colorPrimary"
             android:textSize="@dimen/text_medium"
             android:textStyle="bold"
             tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sleep_timer_minutes_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/enter_new_playlist_name">
+            android:hint="@string/sleep_timer_textbox_placeholder">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/new_playlist_name"
+                android:id="@+id/sleep_timer_minutes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:inputType="text"
+                android:inputType="number"
                 tools:ignore="TextContrastCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/minutes_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp" />
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/new_playlist"
+            android:id="@+id/add_sleep_timer"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:text="@string/add"
             tools:ignore="TextContrastCheck" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/playlist_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="5dp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

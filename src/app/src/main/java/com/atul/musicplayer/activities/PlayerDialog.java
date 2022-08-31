@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.helper.MusicLibraryHelper;
+import com.atul.musicplayer.listener.PlayerDialogListener;
 import com.atul.musicplayer.model.Music;
 import com.atul.musicplayer.player.PlayerListener;
 import com.atul.musicplayer.player.PlayerManager;
@@ -23,6 +24,7 @@ import java.util.Locale;
 public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBarChangeListener, PlayerListener, View.OnClickListener {
 
     private final PlayerManager playerManager;
+    private final PlayerDialogListener playerDialogListener;
     private final PlayerQueue playerQueue;
 
     private final ImageView albumArt;
@@ -32,6 +34,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     private final ImageButton nextControl;
     private final ImageButton playPauseControl;
     private final ImageButton musicQueue;
+    private final ImageButton sleepTimer;
     private final TextView songName;
     private final TextView songAlbum;
     private final TextView currentDuration;
@@ -41,10 +44,11 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     private Boolean dragging = false;
 
-    public PlayerDialog(@NonNull Context context, PlayerManager playerManager) {
+    public PlayerDialog(@NonNull Context context, PlayerManager playerManager, PlayerDialogListener listener) {
         super(context);
         setContentView(R.layout.dialog_player);
 
+        this.playerDialogListener = listener;
         this.playerManager = playerManager;
         this.playerManager.attachListener(this);
         playerQueue = playerManager.getPlayerQueue();
@@ -62,9 +66,17 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         songProgress = findViewById(R.id.song_progress);
         songDetails = findViewById(R.id.audio_details);
         musicQueue = findViewById(R.id.music_queue);
+        sleepTimer = findViewById(R.id.sleep_timer);
 
         setUpUi();
         setUpListeners();
+
+        this.setOnCancelListener(dialogInterface -> detachListener());
+        this.setOnDismissListener(dialogInterface -> detachListener());
+    }
+
+    private void detachListener () {
+        playerManager.detachListener(this);
     }
 
     private void setUpAudioDetails() {
@@ -84,6 +96,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         nextControl.setOnClickListener(this);
         shuffleControl.setOnClickListener(this);
         musicQueue.setOnClickListener(this);
+        sleepTimer.setOnClickListener(this);
 
         currentDuration.setText(getContext().getString(R.string.zero_time));
     }
@@ -179,7 +192,8 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         else if (id == R.id.control_prev) playerManager.playPrev();
         else if (id == R.id.control_next) playerManager.playNext();
         else if (id == R.id.control_play_pause) playerManager.playPause();
-        else if (id == R.id.music_queue) setUpQueueDialog();
+        else if (id == R.id.music_queue) this.playerDialogListener.queueOptionSelect();
+        else if (id == R.id.sleep_timer) this.playerDialogListener.sleepTimerOptionSelect();
 
         setUpUi();
     }
@@ -190,13 +204,5 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     private void setShuffle() {
         playerQueue.setShuffle((!playerQueue.isShuffle()));
-    }
-
-    private void setUpQueueDialog() {
-        QueueDialog queueDialog = new QueueDialog(getContext(), playerManager.getPlayerQueue());
-        queueDialog.setOnDismissListener(v -> this.show());
-
-        this.dismiss();
-        queueDialog.show();
     }
 }

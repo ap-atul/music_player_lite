@@ -125,6 +125,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         playerListeners.add(playerListener);
     }
 
+    public void detachListener(PlayerListener playerListener) {
+        playerListeners.remove(playerListener);
+    }
+
     private void setPlayerState(@PlayerListener.State int state) {
         playerState = state;
         for (PlayerListener listener : playerListeners) {
@@ -204,9 +208,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        playNext();
         for (PlayerListener listener : playerListeners)
             listener.onPlaybackCompleted();
-        playNext();
     }
 
     @Override

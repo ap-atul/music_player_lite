@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
@@ -16,15 +17,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.atul.musicplayer.activities.PlayerDialog;
 import com.atul.musicplayer.activities.QueueDialog;
 import com.atul.musicplayer.adapter.MainPagerAdapter;
+import com.atul.musicplayer.dialogs.SleepTimerDialog;
+import com.atul.musicplayer.dialogs.SleepTimerDisplayDialog;
 import com.atul.musicplayer.helper.MusicLibraryHelper;
 import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
+import com.atul.musicplayer.listener.PlayerDialogListener;
+import com.atul.musicplayer.listener.SleepTimerSetListener;
 import com.atul.musicplayer.model.Music;
 import com.atul.musicplayer.player.PlayerBuilder;
 import com.atul.musicplayer.player.PlayerListener;
@@ -42,7 +48,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements MusicSelectListener, PlayerListener, View.OnClickListener {
+        implements MusicSelectListener, PlayerListener, View.OnClickListener, SleepTimerSetListener, PlayerDialogListener {
 
     private RelativeLayout playerView;
     private ImageView albumArt;
@@ -57,6 +63,9 @@ public class MainActivity extends AppCompatActivity
     private PlayerManager playerManager;
     private boolean albumState;
     private MainViewModel viewModel;
+    public static boolean isSleepTimerRunning;
+    public static MutableLiveData<Long> sleepTimerTick;
+    private static CountDownTimer sleepTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,19 +273,92 @@ public class MainActivity extends AppCompatActivity
             playerManager.playPause();
 
         else if (id == R.id.control_queue)
-            setUpQueueDialog();
+            setUpQueueDialogHeadless();
 
         else if (id == R.id.player_layout)
             setUpPlayerDialog();
     }
 
     private void setUpPlayerDialog() {
-        playerDialog = new PlayerDialog(this, playerManager);
+        playerDialog = new PlayerDialog(this, playerManager, this);
+
         playerDialog.show();
     }
 
+    @Override
+    public void setTimer(int minutes) {
+        if(!isSleepTimerRunning) {
+            isSleepTimerRunning = true;
+            sleepTimer = new CountDownTimer(minutes * 60 * 1000L, 1000) {
+                @Override
+                public void onTick(long l) {
+                    if(sleepTimerTick == null) sleepTimerTick = new MutableLiveData<>();
+                    sleepTimerTick.postValue(l);
+                }
+
+                @Override
+                public void onFinish() {
+                    isSleepTimerRunning = false;
+                    playerManager.pauseMediaPlayer();
+                }
+            }.start();
+        }
+    }
+
+    @Override
+    public void cancelTimer() {
+        if(isSleepTimerRunning && sleepTimer != null) {
+            isSleepTimerRunning = false;
+            sleepTimer.cancel();
+        }
+    }
+
+    @Override
+    public MutableLiveData<Long> getTick() {
+        return sleepTimerTick;
+    }
+
+
+    @Override
+    public void queueOptionSelect() {
+        setUpQueueDialog();
+    }
+
+    @Override
+    public void sleepTimerOptionSelect() {
+        setUpSleepTimerDialog();
+    }
+
     private void setUpQueueDialog() {
-        queueDialog = new QueueDialog(this, playerManager.getPlayerQueue());
+        queueDialog = new QueueDialog(MainActivity.this, playerManager.getPlayerQueue());
+        queueDialog.setOnDismissListener(v -> playerDialog.show());
+
+        playerDialog.dismiss();
         queueDialog.show();
+    }
+
+    private void setUpQueueDialogHeadless() {
+        queueDialog = new QueueDialog(MainActivity.this, playerManager.getPlayerQueue());
+        queueDialog.show();
+    }
+
+    private void setUpSleepTimerDialog () {
+        if(MainActivity.isSleepTimerRunning) {
+            setUpSleepTimerDisplayDialog();
+            return;
+        }
+        SleepTimerDialog sleepTimerDialog = new SleepTimerDialog(MainActivity.this, this);
+        sleepTimerDialog.setOnDismissListener(v -> playerDialog.show());
+
+        playerDialog.dismiss();
+        sleepTimerDialog.show();
+    }
+
+    private void setUpSleepTimerDisplayDialog() {
+        SleepTimerDisplayDialog sleepTimerDisplayDialog = new SleepTimerDisplayDialog(MainActivity.this, this);
+        sleepTimerDisplayDialog.setOnDismissListener(v -> playerDialog.show());
+
+        playerDialog.dismiss();
+        sleepTimerDisplayDialog.show();
     }
 }
