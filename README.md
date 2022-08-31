@@ -23,7 +23,7 @@
 * Create playlists by long pressing on music
 
 ### Working on
-#### Updated on Aug 15
+#### Updated on Aug 31
 
 - [x] Fix shuffle playlist and in player option
 - [x] Fix accessibility issue pointed by play store
