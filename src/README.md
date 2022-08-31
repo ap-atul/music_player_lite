@@ -31,6 +31,7 @@
 - [x] Add feature of sleep timer
 - [x] Removed unnecessary listeners, mem usage improvements
 - [x] UI bug fix in dialog of playlist selector
+- [x] Removed default track ordering for albums (so for all songs at initial stage)
 - [ ] Add auto list updates and setting updates without restart
 - [ ] Add feature to edit the filename (or include in tag editor?)
 - [ ] Support API version 33 (multiple api changes to do)

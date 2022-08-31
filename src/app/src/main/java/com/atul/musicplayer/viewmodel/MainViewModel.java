@@ -169,7 +169,7 @@ class AlbumComparator implements Comparator<Album> {
 class SongComparator implements Comparator<Music> {
     @Override
     public int compare(Music m1, Music m2) {
-        return m1.title.compareTo(m2.title);
+        return Long.compare(m1.track, m2.track);
     }
 }
 
