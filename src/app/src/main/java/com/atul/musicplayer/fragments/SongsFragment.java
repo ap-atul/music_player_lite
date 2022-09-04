@@ -69,10 +69,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
         songsAdapter = new SongsAdapter(listener, this, musicList);
         recyclerView.setAdapter(songsAdapter);
 
-        shuffleControl.setOnClickListener(v -> {
-            listener.playQueue(musicList, true);
-        });
-
+        shuffleControl.setOnClickListener(v -> listener.playQueue(musicList, true));
         viewModel.getSongsList().observe(requireActivity(), this::setUpUi);
 
         setUpOptions();
@@ -80,12 +77,9 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     private void setUpUi(List<Music> songList) {
-        if(unChangedList.size() == 0) {
-            unChangedList = songList;
-            musicList.clear();
-            musicList.addAll(unChangedList);
-        }
-
+        unChangedList = songList;
+        musicList.clear();
+        musicList.addAll(unChangedList);
         shuffleControl.setText(String.valueOf(songList.size()));
     }
 

@@ -34,6 +34,7 @@
     <string name="general">GENERAL</string>
     <string name="folder_option_sub">songs from these folders won\'t show up</string>
     <string name="folder_option_title">Select folders to exclude</string>
+    <string name="folder_dialog_title">EXCLUDE FOLDERS</string>
     <string name="github">GitHub</string>
     <string name="zero_time">00:00</string>
     <string name="refresh_title">Refresh media library for new content</string>

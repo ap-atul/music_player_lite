@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity
         new Handler().post(() -> {
             List<Music> musicList = MusicLibraryHelper.fetchMusicLibrary(MainActivity.this);
             viewModel.setSongsList(musicList);
+            viewModel.parseFolderList(musicList);
         });
     }
 
@@ -215,6 +216,11 @@ public class MainActivity extends AppCompatActivity
 
             setPlayerView();
         }
+    }
+
+    @Override
+    public void refreshMediaLibrary() {
+        fetchMusicList();
     }
 
     @Override

@@ -126,7 +126,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void detachListener(PlayerListener playerListener) {
-        playerListeners.remove(playerListener);
+        if(playerListeners.size()  > 2 ) {
+            playerListeners.remove(playerListener);
+        }
     }
 
     private void setPlayerState(@PlayerListener.State int state) {

@@ -41,6 +41,7 @@ public class MPConstants {
     public static final String SETTINGS_ALBUM_REQUEST = "shared_pref_album_request";
     public static final String SETTINGS_THEME_MODE = "shared_pref_theme_mode";
     public static final String SETTINGS_EXCLUDED_FOLDER = "shared_pref_excluded_folders";
+    public static final String EXCLUDED_FOLDER_SEPARATOR = ":::";
     public static final List<Integer> ACCENT_LIST = Arrays.asList(
             R.color.red,
             R.color.pink,

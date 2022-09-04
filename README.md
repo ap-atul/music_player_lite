@@ -37,7 +37,7 @@
 
 ### Working on
 
-#### Updated on Aug 31
+#### Updated on Sept 4
 
 - [x] Fix shuffle playlist and in player option
 - [x] Fix accessibility issue pointed by play store
@@ -46,7 +46,8 @@
 - [x] Removed unnecessary listeners, mem usage improvements
 - [x] UI bug fix in dialog of playlist selector
 - [x] Removed default track ordering for albums (so for all songs at initial stage)
-- [ ] Add auto list updates and setting updates without restart
+- [x] Add auto list updates and setting updates without restart
+- [x] Changed Folder selection dialog ui, and bug fixes
 - [ ] Add feature to edit the filename (or include in tag editor?)
 - [ ] Support API version 33 (multiple api changes to do)
 - [ ] Complete Material Design ?

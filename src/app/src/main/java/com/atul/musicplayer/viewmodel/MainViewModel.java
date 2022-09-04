@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 
 public class MainViewModel extends ViewModel {
@@ -48,7 +47,7 @@ public class MainViewModel extends ViewModel {
         return folderList = new MutableLiveData<>();
     }
 
-    private void parseFolderList(List<Music> songsList) {
+    public void parseFolderList(List<Music> songsList) {
         HashMap<String, Folder> map = new HashMap<>();
         List<Folder> folders = new ArrayList<>();
 
@@ -71,7 +70,7 @@ public class MainViewModel extends ViewModel {
         folderList.setValue(folders);
     }
 
-    private void parseAlbumList(List<Music> songsList) {
+    public void parseAlbumList(List<Music> songsList) {
         HashMap<String, Album> albumMap = new HashMap<>();
 
         for (Music music : songsList) {
@@ -96,11 +95,9 @@ public class MainViewModel extends ViewModel {
         if(albumList == null)
             albumList = new MutableLiveData<>();
         albumList.setValue(albums);
-
-        parseArtistList(albums);
     }
 
-    private void parseArtistList(List<Album> albums) {
+    public void parseArtistList(List<Album> albums) {
         HashMap<String, Artist> artistMap = new HashMap<>();
 
         for (Album album : albums) {
@@ -131,11 +128,7 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setSongsList(List<Music> musicList) {
-        initSongList(musicList);
-    }
-
-    private void initSongList(List<Music> musicList) {
-        Set<String> excludedFolderList = MPPreferences.getExcludedFolders(App.getContext());
+        List<String> excludedFolderList = MPPreferences.getExcludedFolders(App.getContext());
         List<Music> songs = new ArrayList<>();
 
         for (Music music : musicList) {
@@ -148,9 +141,6 @@ public class MainViewModel extends ViewModel {
             songsList = new MutableLiveData<>();
         }
         songsList.setValue(songs);
-
-        parseFolderList(songs);
-        parseAlbumList(songs);
     }
 
     @Override
