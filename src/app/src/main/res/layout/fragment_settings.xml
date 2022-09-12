@@ -338,6 +338,52 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/review_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_rate_review"
+                    app:tint="?colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/rate_title"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/rate_subtitle"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_big_med" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>
