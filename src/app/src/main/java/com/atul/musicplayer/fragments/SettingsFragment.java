@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayer.App;
 import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
@@ -26,12 +25,8 @@ import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.model.Folder;
 import com.atul.musicplayer.viewmodel.MainViewModel;
 import com.atul.musicplayer.viewmodel.MainViewModelFactory;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.google.android.play.core.review.ReviewInfo;
-import com.google.android.play.core.review.ReviewManager;
-import com.google.android.play.core.review.ReviewManagerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +42,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private List<Folder> folderList;
     private MaterialToolbar toolbar;
     private FolderDialog folderDialog;
-
-    private ReviewManager reviewManager;
-    private ReviewInfo reviewInfo;
 
     public SettingsFragment() {
     }
@@ -109,14 +101,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.review_options).setOnClickListener(this);
 
         setUpOptions();
-
-        reviewManager = ReviewManagerFactory.create(App.getContext());
-        Task<ReviewInfo> request = reviewManager.requestReviewFlow();
-        request.addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                reviewInfo = task.getResult();
-            }
-        });
 
         return view;
 
@@ -224,12 +208,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setUpRateReview () {
-        if(reviewInfo == null) {
-            Toast.makeText(getContext(), "Review service is not yet available", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        Task<Void> flow = reviewManager.launchReviewFlow(requireActivity(), reviewInfo);
-        flow.addOnCompleteListener(task -> {});
+        startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(MPConstants.PLAY_STORE_LINK)));
     }
 }

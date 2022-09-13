@@ -18,8 +18,8 @@ android {
         applicationId "com.atul.musicplayer"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 7
-        versionName "0.7"
+        versionCode 8
+        versionName "0.8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -52,8 +52,6 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
-    implementation 'com.google.android.play:review:2.0.0'
 
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'

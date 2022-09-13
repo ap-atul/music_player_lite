@@ -100,4 +100,6 @@ public class MPConstants {
     public static final String MUSIC_TABLE = "music";
     public static final String DATABASE_NAME = "playlist";
     public static MusicSelectListener musicSelectListener;
+
+    public static final String PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.atul.musicplayer";
 }
