@@ -41,15 +41,15 @@ public class PlayerBuilder {
         return playerManager;
     }
 
-    private void bindService() {
+    public void bindService() {
         context.bindService(new Intent(context, PlayerService.class), serviceConnection, Context.BIND_AUTO_CREATE);
         context.startService(new Intent(context, PlayerService.class));
     }
 
-//    public void unBindService() {
-//        if (playerManager != null) {
-//            playerManager.detachService();
-//            context.unbindService(serviceConnection);
-//        }
-//    }
+    public void unBindService() {
+        if (playerManager != null) {
+            playerManager.detachService();
+            context.unbindService(serviceConnection);
+        }
+    }
 }

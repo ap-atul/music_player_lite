@@ -32,6 +32,22 @@ public class MainViewModel extends ViewModel {
         return songsList = new MutableLiveData<>();
     }
 
+    public void setSongsList(List<Music> musicList) {
+        List<String> excludedFolderList = MPPreferences.getExcludedFolders(App.getContext());
+        List<Music> songs = new ArrayList<>();
+
+        for (Music music : musicList) {
+            if (!excludedFolderList.contains(music.relativePath))
+                songs.add(music);
+        }
+
+        Collections.sort(songs, new SongComparator());
+        if (songsList == null) {
+            songsList = new MutableLiveData<>();
+        }
+        songsList.setValue(songs);
+    }
+
     public MutableLiveData<List<Album>> getAlbumList() {
         if (albumList != null) return albumList;
         return albumList = new MutableLiveData<>();
@@ -51,9 +67,9 @@ public class MainViewModel extends ViewModel {
         HashMap<String, Folder> map = new HashMap<>();
         List<Folder> folders = new ArrayList<>();
 
-        for(Music music: songsList) {
+        for (Music music : songsList) {
             Folder folder;
-            if(map.containsKey(music.relativePath)) {
+            if (map.containsKey(music.relativePath)) {
                 folder = map.get(music.relativePath);
                 assert folder != null;
                 folder.songsCount += 1;
@@ -65,7 +81,7 @@ public class MainViewModel extends ViewModel {
         }
 
         Collections.sort(folders, new FolderComparator());
-        if(folderList == null)
+        if (folderList == null)
             folderList = new MutableLiveData<>();
         folderList.setValue(folders);
     }
@@ -92,7 +108,7 @@ public class MainViewModel extends ViewModel {
         List<Album> albums = new ArrayList<>(albumMap.values());
         Collections.sort(albums, new AlbumComparator());
 
-        if(albumList == null)
+        if (albumList == null)
             albumList = new MutableLiveData<>();
         albumList.setValue(albums);
     }
@@ -122,25 +138,9 @@ public class MainViewModel extends ViewModel {
         List<Artist> artists = new ArrayList<>(artistMap.values());
         Collections.sort(artists, new ArtistComparator());
 
-        if(artistList == null)
+        if (artistList == null)
             artistList = new MutableLiveData<>();
         artistList.setValue(artists);
-    }
-
-    public void setSongsList(List<Music> musicList) {
-        List<String> excludedFolderList = MPPreferences.getExcludedFolders(App.getContext());
-        List<Music> songs = new ArrayList<>();
-
-        for (Music music : musicList) {
-            if (!excludedFolderList.contains(music.relativePath))
-                songs.add(music);
-        }
-
-        Collections.sort(songs, new SongComparator());
-        if(songsList == null) {
-            songsList = new MutableLiveData<>();
-        }
-        songsList.setValue(songs);
     }
 
     @Override

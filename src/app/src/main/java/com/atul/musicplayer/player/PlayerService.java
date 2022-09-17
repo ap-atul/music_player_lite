@@ -94,7 +94,7 @@ public class PlayerService extends Service {
     private void configureMediaSession() {
         Intent mediaButtonIntent = new Intent(Intent.ACTION_MEDIA_BUTTON);
         ComponentName mediaButtonReceiverComponentName = new ComponentName(this, PlayerManager.NotificationReceiver.class);
-        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, 0);
+        PendingIntent mediaButtonReceiverPendingIntent = PendingIntent.getBroadcast(this, 0, mediaButtonIntent, PendingIntent.FLAG_IMMUTABLE);
 
         mediaSessionCompat = new MediaSessionCompat(this, MPConstants.MEDIA_SESSION_TAG, mediaButtonReceiverComponentName, mediaButtonReceiverPendingIntent);
         mediaSessionCompat.setActive(true);

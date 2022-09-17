@@ -20,7 +20,7 @@ import java.util.List;
 
 public class FolderDialog extends BottomSheetDialog {
 
-    private List<String> exclusionFolders;
+    private final List<String> exclusionFolders;
 
     public FolderDialog(@NonNull Context context, List<Folder> folderList) {
         super(context);
@@ -46,8 +46,8 @@ public class FolderDialog extends BottomSheetDialog {
         recyclerView.setAdapter(adapter);
     }
 
-    private void addToExcluded(String name ){
-        if(!exclusionFolders.contains(name)) {
+    private void addToExcluded(String name) {
+        if (!exclusionFolders.contains(name)) {
             exclusionFolders.add(name);
         }
         MPPreferences.storeExcludedFolders(App.getContext(), exclusionFolders);
@@ -90,6 +90,12 @@ public class FolderDialog extends BottomSheetDialog {
             return folderList.size();
         }
 
+        public interface FolderExclusionListListener {
+            void add(String name);
+
+            void remove(String name);
+        }
+
         class MyViewHolder extends RecyclerView.ViewHolder {
 
             private final CheckBox folderSelect;
@@ -107,11 +113,6 @@ public class FolderDialog extends BottomSheetDialog {
                     }
                 });
             }
-        }
-
-        public interface FolderExclusionListListener {
-            void add(String name);
-            void remove(String name);
         }
     }
 }

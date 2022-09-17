@@ -47,7 +47,7 @@ public class PlayerNotificationManager {
         final Intent pauseIntent = new Intent();
         pauseIntent.setAction(action);
 
-        return PendingIntent.getBroadcast(playerService, REQUEST_CODE, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(playerService, REQUEST_CODE, pauseIntent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     public Notification createNotification() {
@@ -62,7 +62,7 @@ public class PlayerNotificationManager {
         openPlayerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent contentIntent = PendingIntent.getActivity(playerService, REQUEST_CODE,
-                openPlayerIntent, 0);
+                openPlayerIntent, PendingIntent.FLAG_IMMUTABLE);
 
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(), song.albumArt);
 
@@ -81,9 +81,9 @@ public class PlayerNotificationManager {
                 .addAction(notificationAction(PLAY_PAUSE_ACTION))
                 .addAction(notificationAction(NEXT_ACTION))
                 .addAction(notificationAction(CLOSE_ACTION))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2));
 
-        notificationBuilder.setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2));
         return notificationBuilder.build();
     }
 
@@ -103,12 +103,11 @@ public class PlayerNotificationManager {
 
         notificationBuilder
                 .setLargeIcon(albumArt)
-                .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt));
-
-        notificationBuilder
+                .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
                 .setColorized(false)
+                .setAutoCancel(true)
                 .setSubText(song.album);
 
 
@@ -145,9 +144,7 @@ public class PlayerNotificationManager {
                             playerService.getString(R.string.app_name),
                             NotificationManager.IMPORTANCE_LOW);
 
-            notificationChannel.setDescription(
-                    playerService.getString(R.string.app_name));
-
+            notificationChannel.setDescription(playerService.getString(R.string.app_name));
             notificationChannel.enableLights(false);
             notificationChannel.enableVibration(false);
             notificationChannel.setShowBadge(false);

@@ -50,6 +50,9 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements MusicSelectListener, PlayerListener, View.OnClickListener, SleepTimerSetListener, PlayerDialogListener {
 
+    public static boolean isSleepTimerRunning;
+    public static MutableLiveData<Long> sleepTimerTick;
+    private static CountDownTimer sleepTimer;
     private RelativeLayout playerView;
     private ImageView albumArt;
     private TextView songName;
@@ -58,14 +61,10 @@ public class MainActivity extends AppCompatActivity
     private LinearProgressIndicator progressIndicator;
     private PlayerDialog playerDialog;
     private QueueDialog queueDialog;
-
     private PlayerBuilder playerBuilder;
     private PlayerManager playerManager;
     private boolean albumState;
     private MainViewModel viewModel;
-    public static boolean isSleepTimerRunning;
-    public static MutableLiveData<Long> sleepTimerTick;
-    private static CountDownTimer sleepTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,17 +174,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        // TODO:: Fix this, the ideal behaviour is that when the app closes
-        //      the service is stopped from the foreground, but still lives
-        //      and on coming back to app, it works.
-
-        // TODO:: Current error is that the service unbinds, when we start the app
-        //       from notification or by launcher it works ok, but after selecting the
-        //      theme(changing the theme) or clicking the navigation button on toolbar
-        //      the service dies too, sometimes it dies also by clicking on the
-        //      notification.
-//        playerBuilder.unBindService();
+        playerBuilder.unBindService();
 
         if (playerDialog != null)
             playerDialog.dismiss();
@@ -293,12 +282,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void setTimer(int minutes) {
-        if(!isSleepTimerRunning) {
+        if (!isSleepTimerRunning) {
             isSleepTimerRunning = true;
             sleepTimer = new CountDownTimer(minutes * 60 * 1000L, 1000) {
                 @Override
                 public void onTick(long l) {
-                    if(sleepTimerTick == null) sleepTimerTick = new MutableLiveData<>();
+                    if (sleepTimerTick == null) sleepTimerTick = new MutableLiveData<>();
                     sleepTimerTick.postValue(l);
                 }
 
@@ -313,7 +302,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void cancelTimer() {
-        if(isSleepTimerRunning && sleepTimer != null) {
+        if (isSleepTimerRunning && sleepTimer != null) {
             isSleepTimerRunning = false;
             sleepTimer.cancel();
         }
@@ -348,8 +337,8 @@ public class MainActivity extends AppCompatActivity
         queueDialog.show();
     }
 
-    private void setUpSleepTimerDialog () {
-        if(MainActivity.isSleepTimerRunning) {
+    private void setUpSleepTimerDialog() {
+        if (MainActivity.isSleepTimerRunning) {
             setUpSleepTimerDisplayDialog();
             return;
         }

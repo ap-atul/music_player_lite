@@ -27,15 +27,15 @@ public class SleepTimerDisplayDialog extends BottomSheetDialog {
         MaterialButton close = findViewById(R.id.close_dialog);
         MaterialButton stop = findViewById(R.id.stop_sleep_timer);
 
-        if(timerView != null) {
+        if (timerView != null) {
             this.sleepTimerSetListener.getTick().observe((LifecycleOwner) context, tick ->
                     timerView.setText(getTimeRemaining(tick)));
         }
 
-        if(close != null)
+        if (close != null)
             close.setOnClickListener(v -> this.dismiss());
 
-        if(stop != null)
+        if (stop != null)
             stop.setOnClickListener(v -> {
                 sleepTimerSetListener.cancelTimer();
                 this.dismiss();

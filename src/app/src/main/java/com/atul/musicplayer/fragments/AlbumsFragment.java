@@ -72,7 +72,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         return view;
     }
 
-    private void setUpAlbumListView (List<Album> albums) {
+    private void setUpAlbumListView(List<Album> albums) {
         unchangedList = albums;
         albumList.clear();
         albumList.addAll(unchangedList);

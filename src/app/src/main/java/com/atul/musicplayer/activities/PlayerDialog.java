@@ -75,7 +75,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         this.setOnDismissListener(dialogInterface -> detachListener());
     }
 
-    private void detachListener () {
+    private void detachListener() {
         playerManager.detachListener(this);
     }
 

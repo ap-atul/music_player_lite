@@ -126,7 +126,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void detachListener(PlayerListener playerListener) {
-        if(playerListeners.size()  > 2 ) {
+        if (playerListeners.size() > 2) {
             playerListeners.remove(playerListener);
         }
     }
@@ -390,7 +390,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                         break;
 
                     case CLOSE_ACTION:
-                        playerService.stopSelf();
+                        release();
                         break;
 
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:

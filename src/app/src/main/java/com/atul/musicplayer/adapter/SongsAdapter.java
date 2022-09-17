@@ -64,7 +64,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
                     .load(music.albumArt)
                     .placeholder(R.drawable.ic_album_art)
                     .into(holder.albumArt);
-        } else if(music.albumArt.equals("")) {
+        } else if (music.albumArt.equals("")) {
             holder.albumArt.setImageResource(R.drawable.ic_album_art);
         }
     }

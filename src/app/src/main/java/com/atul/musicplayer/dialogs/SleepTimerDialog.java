@@ -53,17 +53,17 @@ public class SleepTimerDialog extends BottomSheetDialog implements MinuteSelectL
             }
         });
 
-        if(minuteListView != null) {
+        if (minuteListView != null) {
             minuteListView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             minuteListView.setAdapter(new SleepTimerAdapter(this));
         }
 
-        if(addSleepTimerButton == null) {
+        if (addSleepTimerButton == null) {
             return;
         }
 
         addSleepTimerButton.setOnClickListener(v -> {
-            if(minutesEditText.getText() == null || minutesEditText.getText().toString().length() == 0) {
+            if (minutesEditText.getText() == null || minutesEditText.getText().toString().length() == 0) {
                 minutesLayout.setError("Please enter minutes for the timer");
                 return;
             }

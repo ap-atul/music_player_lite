@@ -99,7 +99,7 @@ public class MusicLibraryHelper {
             long albumId = musicCursor.getLong(albumIdInd);
 
             Uri albumArt = Uri.parse("");
-            if(!relativePath.contains(album)) {
+            if (!relativePath.contains(album)) {
                 albumArt = ContentUris.withAppendedId(Uri.parse(context.getResources().getString(R.string.album_art_dir)), albumId);
             }
 
