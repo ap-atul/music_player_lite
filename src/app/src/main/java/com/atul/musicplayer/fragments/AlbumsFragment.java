@@ -63,10 +63,10 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
         albumsAdapter = new AlbumsAdapter(albumList, this);
         recyclerView.setAdapter(albumsAdapter);
 
+        viewModel.getAlbumList().observe(requireActivity(), this::setUpAlbumListView);
         viewModel.getSongsList().observe(requireActivity(), songs -> {
             viewModel.parseAlbumList(songs);
         });
-        viewModel.getAlbumList().observe(requireActivity(), this::setUpAlbumListView);
 
         setUpOptions();
         return view;
@@ -74,8 +74,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
 
     private void setUpAlbumListView(List<Album> albums) {
         unchangedList = albums;
-        albumList.clear();
-        albumList.addAll(unchangedList);
+        updateAdapter(unchangedList);
     }
 
     private void setUpOptions() {

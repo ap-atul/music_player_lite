@@ -62,13 +62,12 @@ public class ArtistsFragment extends Fragment implements SearchView.OnQueryTextL
         artistAdapter = new ArtistAdapter(this, artistList);
         recyclerView.setAdapter(artistAdapter);
 
-        viewModel.getAlbumList().observe(requireActivity(), albums ->
-                viewModel.parseArtistList(albums));
         viewModel.getArtistList().observe(requireActivity(), artists -> {
             unchangedList = artists;
-            artistList.clear();
-            artistList.addAll(unchangedList);
+            updateAdapter(unchangedList);
         });
+        viewModel.getAlbumList().observe(requireActivity(), albums ->
+                viewModel.parseArtistList(albums));
 
         setUpOptions();
         return view;

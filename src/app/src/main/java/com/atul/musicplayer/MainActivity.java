@@ -75,10 +75,11 @@ public class MainActivity extends AppCompatActivity
         MPConstants.musicSelectListener = this;
 
         viewModel = new ViewModelProvider(this, new MainViewModelFactory()).get(MainViewModel.class);
-        fetchMusicList();
 
-        if (hasReadStoragePermission(MainActivity.this))
+        if (hasReadStoragePermission(MainActivity.this)) {
+            fetchMusicList();
             setUpUiElements();
+        }
         else
             manageStoragePermission(MainActivity.this);
 
@@ -174,7 +175,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        playerBuilder.unBindService();
+        if(playerBuilder != null)
+            playerBuilder.unBindService();
 
         if (playerDialog != null)
             playerDialog.dismiss();
