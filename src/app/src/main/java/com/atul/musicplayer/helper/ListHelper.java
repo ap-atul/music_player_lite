@@ -10,16 +10,17 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import kotlin.collections.CollectionsKt;
-
 public class ListHelper {
 
     public static List<Music> searchMusicByName(List<Music> list, String query) {
-        List<Music> newList = new ArrayList<>(list);
-        return CollectionsKt.filter(newList, music ->
-                (music.title.toLowerCase().contains(query) || music.displayName.toLowerCase().contains(query)) ||
-                        (music.artist.toLowerCase().contains(query) || music.album.toLowerCase().contains(query))
-        );
+        List<Music> filterList = new ArrayList<>();
+        for(Music m: list) {
+            if ((m.title.toLowerCase().contains(query) || m.displayName.toLowerCase().contains(query)) ||
+                    (m.artist.toLowerCase().contains(query) || m.album.toLowerCase().contains(query))) {
+                filterList.add(m);
+            }
+        }
+        return filterList;
     }
 
     public static List<Music> sortMusicByDateAdded(List<Music> list, boolean reverse) {
@@ -43,9 +44,13 @@ public class ListHelper {
     }
 
     public static List<Artist> searchArtistByName(List<Artist> artistList, String query) {
-        List<Artist> list = new ArrayList<>(artistList);
-        return CollectionsKt.filter(list, artist ->
-                artist.name.toLowerCase().contains(query));
+        List<Artist> filterList = new ArrayList<>();
+        for(Artist a : artistList) {
+            if(a.name.toLowerCase().contains(query)) {
+                filterList.add(a);
+            }
+        }
+        return filterList;
     }
 
     public static List<Artist> sortArtistByName(List<Artist> artistList, boolean reverse) {
@@ -79,9 +84,13 @@ public class ListHelper {
     }
 
     public static List<Album> searchByAlbumName(List<Album> albumList, String query) {
-        List<Album> list = new ArrayList<>(albumList);
-        return CollectionsKt.filter(list, album ->
-                album.title.toLowerCase().contains(query) || album.artist.toLowerCase().equals(query));
+        List<Album> filterList = new ArrayList<>();
+        for(Album a: albumList) {
+            if(a.title.toLowerCase().contains(query) || a.artist.toLowerCase().equals(query)) {
+                filterList.add(a);
+            }
+        }
+        return filterList;
     }
 
     public static List<Album> sortAlbumByName(List<Album> albumList, boolean reverse) {
