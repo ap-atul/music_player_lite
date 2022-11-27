@@ -1,6 +1,5 @@
 package com.atul.musicplayer.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -14,11 +13,9 @@ import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.adapter.HorizontalAlbumsAdapter;
 import com.atul.musicplayer.adapter.SongsAdapter;
-import com.atul.musicplayer.dialogs.SongOptionDialog;
 import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.listener.AlbumSelectListener;
 import com.atul.musicplayer.listener.MusicSelectListener;
-import com.atul.musicplayer.listener.PlayListListener;
 import com.atul.musicplayer.model.Album;
 import com.atul.musicplayer.model.Artist;
 import com.atul.musicplayer.model.Music;
@@ -29,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class SelectedArtistActivity extends AppCompatActivity implements AlbumSelectListener, PlayListListener {
+public class SelectedArtistActivity extends AppCompatActivity implements AlbumSelectListener {
 
     private final
     MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
@@ -64,7 +61,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
 
         songsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         musicList.addAll(defAlbum.music);
-        songsAdapter = new SongsAdapter(musicSelectListener, this, musicList);
+        songsAdapter = new SongsAdapter(musicSelectListener,  musicList);
         songsRecyclerView.setAdapter(songsAdapter);
 
         albumsRecyclerView.setLayoutManager(
@@ -74,9 +71,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         albumsRecyclerView.setAdapter(albumsAdapter);
 
         ExtendedFloatingActionButton shuffleControl = findViewById(R.id.shuffle_button);
-        shuffleControl.setOnClickListener(v -> {
-            musicSelectListener.playQueue(musicList, true);
-        });
+        shuffleControl.setOnClickListener(v -> musicSelectListener.playQueue(musicList, true));
 
         setUpOptions();
     }
@@ -106,11 +101,5 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
         albumTitle.setText(album.title);
         albumSongsCount.setText(String.format(Locale.getDefault(), "%d Songs",
                 album.music.size()));
-    }
-
-    @Override
-    public void option(Context context, Music music) {
-        SongOptionDialog dialog = new SongOptionDialog(context, music);
-        dialog.show();
     }
 }

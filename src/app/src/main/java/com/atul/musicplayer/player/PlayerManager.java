@@ -22,13 +22,11 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.model.Music;
 
 import java.util.ArrayList;
@@ -273,7 +271,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             setPlayerState(PlayerListener.State.PAUSED);
         } else {
             if (mediaPlayer == null) {
-                Log.d(MPConstants.DEBUG_TAG, "will this happen");
                 initMediaPlayer();
             }
             mediaPlayer.start();

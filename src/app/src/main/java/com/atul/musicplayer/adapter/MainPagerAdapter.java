@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.atul.musicplayer.fragments.AlbumsFragment;
 import com.atul.musicplayer.fragments.ArtistsFragment;
-import com.atul.musicplayer.fragments.PlaylistFragment;
 import com.atul.musicplayer.fragments.SettingsFragment;
 import com.atul.musicplayer.fragments.SongsFragment;
 import com.atul.musicplayer.listener.MusicSelectListener;
@@ -32,7 +31,6 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         fragments.add(SongsFragment.newInstance(selectListener));
         fragments.add(ArtistsFragment.newInstance());
         fragments.add(AlbumsFragment.newInstance());
-        fragments.add(PlaylistFragment.newInstance());
         fragments.add(SettingsFragment.newInstance());
     }
 

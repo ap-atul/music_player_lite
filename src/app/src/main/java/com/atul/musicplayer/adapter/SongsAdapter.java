@@ -13,7 +13,6 @@ import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.helper.MusicLibraryHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
-import com.atul.musicplayer.listener.PlayListListener;
 import com.atul.musicplayer.model.Music;
 import com.bumptech.glide.Glide;
 
@@ -23,13 +22,11 @@ import java.util.Locale;
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
 
     private final List<Music> musicList;
-    private final PlayListListener playListListener;
     public MusicSelectListener listener;
 
-    public SongsAdapter(MusicSelectListener listener, PlayListListener playListListener, List<Music> musics) {
+    public SongsAdapter(MusicSelectListener listener, List<Music> musics) {
         this.listener = listener;
         this.musicList = musics;
-        this.playListListener = playListListener;
     }
 
     @NonNull
@@ -93,11 +90,6 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
 
             itemView.findViewById(R.id.root_layout).setOnClickListener(v ->
                     listener.playQueue(musicList.subList(getAdapterPosition(), musicList.size()), false));
-
-            itemView.findViewById(R.id.root_layout).setOnLongClickListener(v -> {
-                playListListener.option(itemView.getContext(), musicList.get(getAdapterPosition()));
-                return true;
-            });
         }
     }
 }

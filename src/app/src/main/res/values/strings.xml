@@ -41,17 +41,11 @@
     <string name="refresh_subtitle">we look into every corner for some new tunes you got</string>
     <string name="rate_title">Rate the app</string>
     <string name="rate_subtitle">let everyone know what you feel about the app</string>
-    <string name="options">OPTIONS</string>
-    <string name="add_to_playlist">Add to playlist</string>
-    <string name="playlists">PLAYLISTS</string>
     <string name="sleep_time_help">SLEEP TIMER</string>
-    <string name="enter_new_playlist_name">Enter new name for playlist</string>
     <string name="sleep_timer_textbox_placeholder">Enter minutes to sleep in</string>
     <string name="add">add</string>
     <string name="stop">stop</string>
     <string name="cancel">Cancel</string>
-    <string name="delete_playlist">Delete playlist</string>
-    <string name="oops">Your don\'t have any playlist yet! \n Go ahead create one. 😈</string>
     <string name="view_pager_title">Main page</string>
     <string name="tab_layout_title">Bottom horizontal menu</string>
 

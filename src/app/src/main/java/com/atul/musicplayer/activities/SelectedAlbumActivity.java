@@ -1,6 +1,5 @@
 package com.atul.musicplayer.activities;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,19 +13,16 @@ import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.adapter.SongsAdapter;
-import com.atul.musicplayer.dialogs.SongOptionDialog;
 import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
-import com.atul.musicplayer.listener.PlayListListener;
 import com.atul.musicplayer.model.Album;
-import com.atul.musicplayer.model.Music;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.Locale;
 
-public class SelectedAlbumActivity extends AppCompatActivity implements PlayListListener {
+public class SelectedAlbumActivity extends AppCompatActivity {
 
     private final
     MusicSelectListener musicSelectListener = MPConstants.musicSelectListener;
@@ -57,11 +53,9 @@ public class SelectedAlbumActivity extends AppCompatActivity implements PlayList
 
         RecyclerView recyclerView = findViewById(R.id.songs_layout);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new SongsAdapter(musicSelectListener, this, album.music));
+        recyclerView.setAdapter(new SongsAdapter(musicSelectListener, album.music));
 
-        shuffleControl.setOnClickListener(v -> {
-            musicSelectListener.playQueue(album.music, true);
-        });
+        shuffleControl.setOnClickListener(v -> musicSelectListener.playQueue(album.music, true));
 
         setAlbumDataToUi();
         setUpOptions();
@@ -96,11 +90,5 @@ public class SelectedAlbumActivity extends AppCompatActivity implements PlayList
                     .load(album.music.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)
                     .into(albumArt);
-    }
-
-    @Override
-    public void option(Context context, Music music) {
-        SongOptionDialog dialog = new SongOptionDialog(context, music);
-        dialog.show();
     }
 }

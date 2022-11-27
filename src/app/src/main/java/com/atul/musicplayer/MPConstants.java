@@ -21,8 +21,6 @@ public class MPConstants {
     public static final String CHANNEL_ID = "com.atul.musicplayerlite.CHANNEL_ID";
     public static final int REQUEST_CODE = 100;
 
-    public static final int IMAGE_REQ_CODE = 444;
-
     public static final float VOLUME_DUCK = 0.2f;
     public static final float VOLUME_NORMAL = 1.0f;
     public static final int AUDIO_NO_FOCUS_NO_DUCK = 0;
@@ -33,7 +31,6 @@ public class MPConstants {
             R.drawable.ic_music_note,
             R.drawable.ic_artist,
             R.drawable.ic_library_music,
-            R.drawable.ic_playlist,
             R.drawable.ic_settings,
     };
     public static final String SETTINGS_THEME = "shared_pref_theme";
@@ -95,9 +92,6 @@ public class MPConstants {
     public static final int SORT_ALBUM_BY_TITLE = 0;
     public static final int SORT_ALBUM_BY_DURATION = 1;
     public static final int SORT_ALBUM_BY_SONGS = 2;
-    public static final int DATABASE_VERSION = 1;
-    public static final String MUSIC_TABLE = "music";
-    public static final String DATABASE_NAME = "playlist";
     public static final String PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=com.atul.musicplayer";
     public static MusicSelectListener musicSelectListener;
 }
