@@ -4,9 +4,10 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.atul.musicplayer.helper.ListHelper;
 
-import org.jetbrains.annotations.NotNull;
 
 public class Music implements Parcelable {
 
@@ -73,7 +74,7 @@ public class Music implements Parcelable {
         albumId = in.readLong();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "Music{" +

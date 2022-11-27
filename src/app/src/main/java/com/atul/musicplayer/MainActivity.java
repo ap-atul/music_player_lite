@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity
         if (hasReadStoragePermission(MainActivity.this)) {
             fetchMusicList();
             setUpUiElements();
-        }
-        else
+        } else
             manageStoragePermission(MainActivity.this);
 
         albumState = MPPreferences.getAlbumRequest(this);
@@ -175,7 +174,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(playerBuilder != null)
+        if (playerBuilder != null)
             playerBuilder.unBindService();
 
         if (playerDialog != null)

@@ -11,10 +11,10 @@
         android:id="@+id/control_select_folder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:fontFamily="@font/nunito_sans"
         android:maxLines="1"
         android:textColor="@color/colorTextHigh"
-        android:textSize="@dimen/text_big_med"
-        android:layout_gravity="center_vertical" />
+        android:textSize="@dimen/text_big_med" />
 
 </LinearLayout>

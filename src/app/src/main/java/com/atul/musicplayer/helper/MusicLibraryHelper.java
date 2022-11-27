@@ -1,6 +1,5 @@
 package com.atul.musicplayer.helper;
 
-import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -54,7 +53,7 @@ public class MusicLibraryHelper {
 
         String selection = MediaStore.Audio.Media.IS_MUSIC + " = 1";
         String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
-        @SuppressLint("Recycle")
+
         Cursor musicCursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder);
 
         int artistInd = musicCursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);

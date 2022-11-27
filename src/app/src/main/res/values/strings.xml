@@ -52,13 +52,6 @@
     <string name="cancel">Cancel</string>
     <string name="delete_playlist">Delete playlist</string>
     <string name="oops">Your don\'t have any playlist yet! \n Go ahead create one. 😈</string>
-    <string name="enter_new_title">Enter new title</string>
-    <string name="enter_new_display_name">Enter new display name</string>
-    <string name="enter_new_artist_name">Enter new artist name</string>
-    <string name="enter_new_album_name">Enter new album name</string>
-    <string name="enter_new_year">Enter new year</string>
-    <string name="update">Update</string>
-    <string name="caution_metadata">Caution: There could be some issues if the file is invalid from the start! Also some changes might not reflect</string>
     <string name="view_pager_title">Main page</string>
     <string name="tab_layout_title">Bottom horizontal menu</string>
 

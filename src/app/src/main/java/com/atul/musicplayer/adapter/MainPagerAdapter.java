@@ -1,5 +1,6 @@
 package com.atul.musicplayer.adapter;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -11,8 +12,6 @@ import com.atul.musicplayer.fragments.PlaylistFragment;
 import com.atul.musicplayer.fragments.SettingsFragment;
 import com.atul.musicplayer.fragments.SongsFragment;
 import com.atul.musicplayer.listener.MusicSelectListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         fragments.add(SettingsFragment.newInstance());
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         return fragments.get(position);

@@ -28,9 +28,9 @@
             android:id="@+id/time_remaining"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
             android:layout_margin="15dp"
             android:fontFamily="@font/nunito_sans"
+            android:gravity="center_horizontal"
             android:letterSpacing="0.2"
             android:textColor="@color/colorTextHigh"
             android:textSize="26sp"
@@ -39,8 +39,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="end"
             android:layout_marginTop="20dp"
+            android:gravity="end"
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
