@@ -3,7 +3,6 @@ package com.atul.musicplayer.player;
 import static com.atul.musicplayer.MPConstants.AUDIO_FOCUSED;
 import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
 import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
-import static com.atul.musicplayer.MPConstants.CLOSE_ACTION;
 import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
 import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
@@ -23,11 +22,13 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.model.Music;
 
 import java.util.ArrayList;
@@ -102,7 +103,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         intentFilter.addAction(PREV_ACTION);
         intentFilter.addAction(PLAY_PAUSE_ACTION);
         intentFilter.addAction(NEXT_ACTION);
-        intentFilter.addAction(CLOSE_ACTION);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
@@ -272,17 +272,29 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             mediaPlayer.pause();
             setPlayerState(PlayerListener.State.PAUSED);
         } else {
+            if (mediaPlayer == null) {
+                Log.d(MPConstants.DEBUG_TAG, "will this happen");
+                initMediaPlayer();
+            }
             mediaPlayer.start();
             setPlayerState(PlayerListener.State.PLAYING);
         }
     }
 
     public void release() {
-        mediaObserver.stop();
-        playerService.stopForeground(true);
-        playerService.stopSelf();
-        mediaPlayer.release();
-        mediaPlayer = null;
+        if (mediaObserver != null) {
+            mediaObserver.stop();
+        }
+
+        if (playerService != null) {
+            playerService.stopForeground(true);
+            playerService.stopSelf();
+        }
+
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
 
         for (PlayerListener playerListener : playerListeners)
             playerListener.onRelease();
@@ -345,17 +357,19 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         }
 
         tryToGetAudioFocus();
-        Uri trackUri = ContentUris.withAppendedId(
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                playerQueue.getCurrentMusic().id);
+        Music currentMusic = playerQueue.getCurrentMusic();
+        if (currentMusic != null) {
+            Uri trackUri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, currentMusic.id);
 
-        try {
-            mediaPlayer.setDataSource(context, trackUri);
-            mediaPlayer.prepareAsync();
-            setPlayerState(PlayerListener.State.PLAYING);
+            try {
+                mediaPlayer.setDataSource(context, trackUri);
+                mediaPlayer.prepareAsync();
+                setPlayerState(PlayerListener.State.PLAYING);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -387,10 +401,6 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
                     case NEXT_ACTION:
                         playNext();
-                        break;
-
-                    case CLOSE_ACTION:
-                        release();
                         break;
 
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:

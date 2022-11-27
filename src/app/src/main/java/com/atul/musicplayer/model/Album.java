@@ -3,9 +3,10 @@ package com.atul.musicplayer.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.atul.musicplayer.helper.ListHelper;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class Album implements Parcelable {
         }
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String toString() {
         return "Album{" +

@@ -168,8 +168,10 @@ public class PlayerService extends Service {
 
     @Override
     public void onDestroy() {
-        playerManager.unregisterActionsReceiver();
-        playerManager.release();
+        if (playerManager != null) {
+            playerManager.unregisterActionsReceiver();
+            playerManager.release();
+        }
         notificationManager = null;
         playerManager = null;
 
