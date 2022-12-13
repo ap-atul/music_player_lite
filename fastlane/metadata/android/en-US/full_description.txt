@@ -1,4 +1,6 @@
-<i>Music Player Lite</i> An elegant and light weight music player
+An elegant and light weight music player
+
+Features
 
 - No Ads forever
 - Listen to music
@@ -10,9 +12,9 @@
 - Automatic scanning of media files
 - Browse/ Sort/ Search albums and artists
 - Change between Dark and Light Modes
-- Create playlists by long pressing on music
 - Easily search songs by keywords
 - Lock screen controls and play in the notification bar
 - Headset controls
 - Listen to music
 - Sleep timer
+
