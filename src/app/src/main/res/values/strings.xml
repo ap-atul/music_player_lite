@@ -5,7 +5,6 @@
     <string name="image">image</string>
     <string name="shuffle_button">Shuffle</string>
     <string name="album_art_dir">content://media/external/audio/albumart</string>
-    <string name="music_bitrate_freq">44100 kHz • 320 kbps</string>
     <string name="search">Search</string>
     <string name="filter">Filter</string>
     <string name="a_z">A-Z</string>
