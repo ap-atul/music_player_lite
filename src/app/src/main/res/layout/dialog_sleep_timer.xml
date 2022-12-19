@@ -28,6 +28,7 @@
             android:id="@+id/sleep_timer_minutes_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:hint="@string/sleep_timer_textbox_placeholder">
 
             <com.google.android.material.textfield.TextInputEditText

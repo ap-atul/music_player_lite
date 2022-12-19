@@ -19,7 +19,6 @@ import com.atul.musicplayer.helper.ListHelper;
 import com.atul.musicplayer.listener.AlbumSelectListener;
 import com.atul.musicplayer.model.Album;
 import com.atul.musicplayer.viewmodel.MainViewModel;
-import com.atul.musicplayer.viewmodel.MainViewModelFactory;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
@@ -45,8 +44,7 @@ public class AlbumsFragment extends Fragment implements AlbumSelectListener, Sea
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity(),
-                new MainViewModelFactory()).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @Override

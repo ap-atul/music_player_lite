@@ -80,7 +80,6 @@ public class PlayerQueue {
             currentPosition = played.get(lastPosition);
             played.remove(lastPosition);
         }
-//        currentPosition = isCurrentPositionOutOfBound(currentPosition - 1) ? currentQueue.size() - 1 : --currentPosition;
     }
 
     public void removeMusicFromQueue(int position) {

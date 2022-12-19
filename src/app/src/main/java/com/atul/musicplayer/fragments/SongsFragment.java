@@ -17,7 +17,6 @@ import com.atul.musicplayer.helper.ListHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
 import com.atul.musicplayer.model.Music;
 import com.atul.musicplayer.viewmodel.MainViewModel;
-import com.atul.musicplayer.viewmodel.MainViewModelFactory;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
@@ -47,8 +46,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity(),
-                new MainViewModelFactory()).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @Override

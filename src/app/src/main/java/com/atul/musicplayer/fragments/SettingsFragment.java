@@ -24,7 +24,6 @@ import com.atul.musicplayer.adapter.AccentAdapter;
 import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.model.Folder;
 import com.atul.musicplayer.viewmodel.MainViewModel;
-import com.atul.musicplayer.viewmodel.MainViewModelFactory;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
@@ -53,7 +52,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(requireActivity(), new MainViewModelFactory()).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
     }
 
     @Override

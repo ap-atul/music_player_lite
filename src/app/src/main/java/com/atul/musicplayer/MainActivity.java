@@ -36,7 +36,6 @@ import com.atul.musicplayer.player.PlayerBuilder;
 import com.atul.musicplayer.player.PlayerListener;
 import com.atul.musicplayer.player.PlayerManager;
 import com.atul.musicplayer.viewmodel.MainViewModel;
-import com.atul.musicplayer.viewmodel.MainViewModelFactory;
 import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         MPConstants.musicSelectListener = this;
 
-        viewModel = new ViewModelProvider(this, new MainViewModelFactory()).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         if (hasReadStoragePermission(MainActivity.this)) {
             fetchMusicList();
@@ -137,8 +136,7 @@ public class MainActivity extends AppCompatActivity
     public void manageStoragePermission(Activity context) {
         if (!hasReadStoragePermission(context)) {
             // required a dialog?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE) ||
-                    ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 new MaterialAlertDialogBuilder(context)
                         .setTitle("Requesting permission")
                         .setMessage("Enable storage permission for accessing the media files.")
@@ -150,15 +148,14 @@ public class MainActivity extends AppCompatActivity
 
     public boolean hasReadStoragePermission(Activity context) {
         return (
-                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
         );
     }
 
     public void askReadStoragePermission(Activity context) {
         ActivityCompat.requestPermissions(
                 context,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                 MPConstants.PERMISSION_READ_STORAGE
         );
     }
