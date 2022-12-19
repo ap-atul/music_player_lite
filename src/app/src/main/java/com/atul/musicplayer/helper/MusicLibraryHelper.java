@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 
+import com.atul.musicplayer.MPConstants;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.model.Music;
 
@@ -96,6 +97,11 @@ public class MusicLibraryHelper {
             long id = musicCursor.getLong(idInd);
             long duration = musicCursor.getLong(durationInd);
             long albumId = musicCursor.getLong(albumIdInd);
+
+            // skip songs smaller than 20 secs
+            if(duration < MPConstants.TWENTY_SECONDS_IN_MS){
+                continue;
+            }
 
             Uri albumArt = Uri.parse("");
             if (!relativePath.contains(album)) {

@@ -11,6 +11,7 @@ public class MPConstants {
     public static final String GITHUB_REPO_URL = "https://github.com/AP-Atul/music_player_lite";
 
     public static final int PERMISSION_READ_STORAGE = 1009;
+    public static final long TWENTY_SECONDS_IN_MS = 20000;
 
     public static final String MEDIA_SESSION_TAG = "com.atul.musicplayerlite.MediaSession";
 
