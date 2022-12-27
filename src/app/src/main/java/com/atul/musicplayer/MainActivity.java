@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity
             manageStoragePermission(MainActivity.this);
 
         albumState = MPPreferences.getAlbumRequest(this);
-        MPConstants.musicSelectListener = this;
 
         MaterialCardView playerLayout = findViewById(R.id.player_layout);
         albumArt = findViewById(R.id.albumArt);
@@ -274,7 +273,6 @@ public class MainActivity extends AppCompatActivity
 
     private void setUpPlayerDialog() {
         playerDialog = new PlayerDialog(this, playerManager, this);
-
         playerDialog.show();
     }
 
@@ -324,7 +322,11 @@ public class MainActivity extends AppCompatActivity
 
     private void setUpQueueDialog() {
         queueDialog = new QueueDialog(MainActivity.this, playerManager.getPlayerQueue());
-        queueDialog.setOnDismissListener(v -> playerDialog.show());
+        queueDialog.setOnDismissListener(v -> {
+            if(!this.isDestroyed()) {
+                playerDialog.show();
+            }
+        });
 
         playerDialog.dismiss();
         queueDialog.show();
@@ -341,7 +343,9 @@ public class MainActivity extends AppCompatActivity
             return;
         }
         SleepTimerDialog sleepTimerDialog = new SleepTimerDialog(MainActivity.this, this);
-        sleepTimerDialog.setOnDismissListener(v -> playerDialog.show());
+        sleepTimerDialog.setOnDismissListener(v -> {
+            if(!this.isDestroyed()) playerDialog.show();
+        });
 
         playerDialog.dismiss();
         sleepTimerDialog.show();
@@ -349,7 +353,9 @@ public class MainActivity extends AppCompatActivity
 
     private void setUpSleepTimerDisplayDialog() {
         SleepTimerDisplayDialog sleepTimerDisplayDialog = new SleepTimerDisplayDialog(MainActivity.this, this);
-        sleepTimerDisplayDialog.setOnDismissListener(v -> playerDialog.show());
+        sleepTimerDisplayDialog.setOnDismissListener(v -> {
+            if(!this.isDestroyed()) playerDialog.show();
+        });
 
         playerDialog.dismiss();
         sleepTimerDisplayDialog.show();
