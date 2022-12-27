@@ -104,6 +104,9 @@ public class PlayerService extends Service {
 
     private boolean handleMediaButtonEvent(Intent mediaButtonEvent) {
         boolean isSuccess = false;
+        if (mediaButtonEvent == null) {
+            return false;
+        }
 
         KeyEvent keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
 
