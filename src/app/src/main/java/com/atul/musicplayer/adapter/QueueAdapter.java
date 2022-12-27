@@ -24,6 +24,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
 
     private final List<Music> musicList;
     private final PlayerQueue playerQueue;
+    private final Music currentMusic;
     private final @ColorInt
     int colorInt;
     int defaultTint;
@@ -31,6 +32,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
     public QueueAdapter(Context context, List<Music> musics, PlayerQueue playerQueue) {
         this.musicList = musics;
         this.playerQueue = playerQueue;
+        this.currentMusic = playerQueue.getCurrentMusic();
 
         colorInt = ThemeHelper.resolveColorAttr(
                 context,
@@ -51,7 +53,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.songName.setText(musicList.get(position).title);
 
-        if (playerQueue.getCurrentMusic().title.equals(musicList.get(position).title)) {
+        if (currentMusic.title.equals(musicList.get(position).title)) {
             holder.albumName.setText(R.string.now_playing);
             holder.albumName.setTextColor(colorInt);
             holder.drag.setImageResource(R.drawable.ic_current_playing);
@@ -106,9 +108,17 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
             drag = itemView.findViewById(R.id.control_drag);
 
             itemView.findViewById(R.id.control_close).setOnClickListener(v -> {
-                musicList.remove(getAdapterPosition());
-                playerQueue.removeMusicFromQueue(getAdapterPosition());
-                notifyDataSetChanged();
+                int position = getAdapterPosition();
+
+                if(position >= 0 && position < musicList.size()) {
+                    boolean isPlaying = currentMusic.title.equals(musicList.get(position).title);
+
+                    if (!isPlaying) {
+                        musicList.remove(position);
+                        playerQueue.removeMusicFromQueue(position);
+                        notifyItemRemoved(position);
+                    }
+                }
             });
         }
     }
