@@ -84,7 +84,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public PlayerManager(@NonNull PlayerService playerService) {
         this.playerService = playerService;
         this.context = playerService.getApplicationContext();
-        this.playerQueue = new PlayerQueue();
+        this.playerQueue = PlayerQueue.getInstance();
         this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         Observer<Integer> progressObserver = percent -> {

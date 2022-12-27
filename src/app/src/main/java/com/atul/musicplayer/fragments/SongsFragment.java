@@ -127,7 +127,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     private void updateAdapter(List<Music> list) {
         musicList.clear();
         musicList.addAll(list);
-        songsAdapter.notifyDataSetChanged();
+        songsAdapter.notifyItemRangeInserted(0, musicList.size());
 
         shuffleControl.setText(String.valueOf(musicList.size()));
     }

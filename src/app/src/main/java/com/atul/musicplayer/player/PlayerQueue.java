@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class PlayerQueue {
+    private static PlayerQueue instance = null;
     private final Random random = new Random();
     private List<Music> currentQueue;
     private List<Integer> played;
@@ -15,8 +16,15 @@ public class PlayerQueue {
     private boolean repeat = false;
     private int currentPosition = 0;
 
+    public static PlayerQueue getInstance() {
+        if (instance == null) {
+            instance = new PlayerQueue();
+        }
+        return instance;
+    }
+
     private boolean isCurrentPositionOutOfBound(int pos) {
-        return pos >= currentQueue.size() || pos <= 0;
+        return pos >= currentQueue.size() || pos < 0;
     }
 
     public boolean isShuffle() {
@@ -85,6 +93,8 @@ public class PlayerQueue {
     public void removeMusicFromQueue(int position) {
         if (!isCurrentPositionOutOfBound(position)) {
             currentQueue.remove(position);
+            if(currentPosition > position)
+                currentPosition -= 1;
         }
     }
 
