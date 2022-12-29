@@ -19,7 +19,7 @@
 ### Community
 Join the community of discord!
 
-<a href="https://discord.gg/96wsWZ6M">
+<a href="https://discord.gg/6CQ6u64dca">
   <img src="https://img.shields.io/badge/Discord-5663ed?style=for-the-badge&logo=discord&logoColor=white" alt="Join discord community" width="150px"  />
 </a>
 
