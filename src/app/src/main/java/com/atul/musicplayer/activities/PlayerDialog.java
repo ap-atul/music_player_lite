@@ -81,7 +81,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     private void setUpAudioDetails() {
         int[] rates = MusicLibraryHelper.getBitSampleRates(playerManager.getCurrentMusic());
-        if (rates[0] >= 0 && rates[1] >= 0) {
+        if (rates[0] > 0 && rates[1] > 0) {
             songDetails.setText(
                     String.format(Locale.getDefault(),
                             "%s kHz • %s kbps", rates[0], rates[1]));
