@@ -61,7 +61,11 @@ public class ThemeHelper {
     }
 
     public static Integer getTheme(Integer accentColor) {
-        return getThemeMap().get(accentColor);
+        Integer theme = getThemeMap().get(accentColor);
+        if(theme == null) {
+            return getThemeMap().get(R.color.blue);
+        }
+        return theme;
     }
 
     public static void applySettings(Activity activity) {

@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(getApplicationContext())));
-        AppCompatDelegate.setDefaultNightMode(MPPreferences.getThemeMode(getApplicationContext()));
+        setTheme(ThemeHelper.getTheme(MPPreferences.getTheme(MainActivity.this)));
+        AppCompatDelegate.setDefaultNightMode(MPPreferences.getThemeMode(MainActivity.this));
         setContentView(R.layout.activity_main);
         MPConstants.musicSelectListener = this;
 
