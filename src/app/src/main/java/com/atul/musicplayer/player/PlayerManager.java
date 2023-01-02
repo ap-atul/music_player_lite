@@ -84,7 +84,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public PlayerManager(@NonNull PlayerService playerService) {
         this.playerService = playerService;
         this.context = playerService.getApplicationContext();
-        this.playerQueue = new PlayerQueue();
+        this.playerQueue = PlayerQueue.getInstance();
         this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
         Observer<Integer> progressObserver = percent -> {
@@ -174,7 +174,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void setMusicList(List<Music> musicList) {
-        playerQueue.setCurrentQueue(musicList);
+        playerQueue.setCurrentQueue(new ArrayList<>(musicList));
         initMediaPlayer(); // play now
     }
 
@@ -186,7 +186,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void addMusicQueue(List<Music> musicList) {
-        playerQueue.addMusicListToQueue(musicList);
+        playerQueue.addMusicListToQueue(new ArrayList<>(musicList));
 
         if (!mediaPlayer.isPlaying())
             initMediaPlayer();  // play when ready
