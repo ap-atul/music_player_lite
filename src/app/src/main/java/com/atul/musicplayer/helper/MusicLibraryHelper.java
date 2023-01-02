@@ -205,10 +205,8 @@ public class MusicLibraryHelper {
             };
 
         } catch (Exception e) {
-            e.printStackTrace();
+            return new int[]{0, 0};
         }
-
-        return new int[]{0, 0};
     }
 
     private static int normalizeRate(int rate) {
