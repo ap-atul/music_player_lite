@@ -194,7 +194,6 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
         else if (id == R.id.music_queue) this.playerDialogListener.queueOptionSelect();
         else if (id == R.id.sleep_timer) this.playerDialogListener.sleepTimerOptionSelect();
 
-        setUpUi();
     }
 
     private void setRepeat() {
