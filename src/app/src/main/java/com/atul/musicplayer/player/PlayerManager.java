@@ -174,7 +174,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void setMusicList(List<Music> musicList) {
-        playerQueue.setCurrentQueue(musicList);
+        playerQueue.setCurrentQueue(new ArrayList<>(musicList));
         initMediaPlayer(); // play now
     }
 
@@ -186,7 +186,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void addMusicQueue(List<Music> musicList) {
-        playerQueue.addMusicListToQueue(musicList);
+        playerQueue.addMusicListToQueue(new ArrayList<>(musicList));
 
         if (!mediaPlayer.isPlaying())
             initMediaPlayer();  // play when ready

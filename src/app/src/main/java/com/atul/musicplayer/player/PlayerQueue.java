@@ -100,6 +100,12 @@ public class PlayerQueue {
 
     public void swap(int one, int two) {
         if (!isCurrentPositionOutOfBound(one) && !isCurrentPositionOutOfBound(two)) {
+            if(one == currentPosition) {
+                currentPosition = two;
+            }
+            else if(two == currentPosition) {
+                currentPosition = one;
+            }
             Collections.swap(currentQueue, one, two);
         }
     }

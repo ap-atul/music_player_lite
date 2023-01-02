@@ -114,20 +114,28 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
+        if(query.length() > 0) {
+            updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
+        } else {
+            updateAdapter(unChangedList);
+        }
         return true;
     }
 
     @Override
-    public boolean onQueryTextChange(String newText) {
-        updateAdapter(ListHelper.searchMusicByName(unChangedList, newText.toLowerCase()));
+    public boolean onQueryTextChange(String query) {
+        if(query.length() > 0) {
+            updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
+        }else {
+            updateAdapter(unChangedList);
+        }
         return true;
     }
 
     private void updateAdapter(List<Music> list) {
         musicList.clear();
         musicList.addAll(list);
-        songsAdapter.notifyItemRangeInserted(0, musicList.size());
+        songsAdapter.notifyDataSetChanged();
 
         shuffleControl.setText(String.valueOf(musicList.size()));
     }
