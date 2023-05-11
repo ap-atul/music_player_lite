@@ -1,6 +1,5 @@
 package com.atul.musicplayer;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
@@ -27,6 +24,7 @@ import com.atul.musicplayer.adapter.MainPagerAdapter;
 import com.atul.musicplayer.dialogs.SleepTimerDialog;
 import com.atul.musicplayer.dialogs.SleepTimerDisplayDialog;
 import com.atul.musicplayer.helper.MusicLibraryHelper;
+import com.atul.musicplayer.helper.PermissionHelper;
 import com.atul.musicplayer.helper.ThemeHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
 import com.atul.musicplayer.listener.PlayerDialogListener;
@@ -75,11 +73,16 @@ public class MainActivity extends AppCompatActivity
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
-        if (hasReadStoragePermission(MainActivity.this)) {
+        if (PermissionHelper.hasReadStoragePermission(MainActivity.this)) {
             fetchMusicList();
             setUpUiElements();
-        } else
+        } else {
             manageStoragePermission(MainActivity.this);
+        }
+
+        if (!PermissionHelper.hasNotificationPermission(MainActivity.this)) {
+            PermissionHelper.requestNotificationPermission(MainActivity.this);
+        }
 
         albumState = MPPreferences.getAlbumRequest(this);
 
@@ -133,30 +136,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void manageStoragePermission(Activity context) {
-        if (!hasReadStoragePermission(context)) {
             // required a dialog?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                new MaterialAlertDialogBuilder(context)
-                        .setTitle("Requesting permission")
-                        .setMessage("Enable storage permission for accessing the media files.")
-                        .setPositiveButton("Accept", (dialog, which) -> askReadStoragePermission(context)).show();
-            } else
-                askReadStoragePermission(context);
+        if (PermissionHelper.requirePermissionRationale(context)) {
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle("Requesting permission")
+                    .setMessage("Enable storage permission for accessing the media files.")
+                    .setPositiveButton("Accept", (dialog, which) -> PermissionHelper.requestStoragePermission(context)).show();
+        } else {
+            PermissionHelper.requestStoragePermission(context);
         }
-    }
-
-    public boolean hasReadStoragePermission(Activity context) {
-        return (
-                ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        );
-    }
-
-    public void askReadStoragePermission(Activity context) {
-        ActivityCompat.requestPermissions(
-                context,
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                MPConstants.PERMISSION_READ_STORAGE
-        );
     }
 
     @Override
