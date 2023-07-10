@@ -252,13 +252,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     public void resumeMediaPlayer() {
         if (!isPlaying()) {
+            if (mediaPlayer == null) {
+                initMediaPlayer();
+            }
             mediaPlayer.start();
             setPlayerState(PlayerListener.State.RESUMED);
             playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
-
-            if (notificationManager != null) {
-                notificationManager.updateNotification();
-            }
+            notificationManager.updateNotification();
         }
     }
 
