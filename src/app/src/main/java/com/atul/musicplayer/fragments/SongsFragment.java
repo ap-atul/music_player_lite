@@ -1,5 +1,6 @@
 package com.atul.musicplayer.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,7 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     private ExtendedFloatingActionButton shuffleControl;
 
     public SongsFragment() {
+        // Unused
     }
 
     public static SongsFragment newInstance(MusicSelectListener selectListener) {
@@ -114,24 +116,25 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        if(query.length() > 0) {
-            updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
-        } else {
-            updateAdapter(unChangedList);
-        }
+        onQueryTextChange(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String query) {
+        setSearchResult(query);
+        return true;
+    }
+
+    private void setSearchResult(String query) {
         if(query.length() > 0) {
             updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
         }else {
             updateAdapter(unChangedList);
         }
-        return true;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateAdapter(List<Music> list) {
         musicList.clear();
         musicList.addAll(list);
