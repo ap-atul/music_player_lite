@@ -21,7 +21,9 @@
         <activity android:name=".activities.SelectedArtistActivity" />
         <activity android:name=".activities.SelectedAlbumActivity" />
 
-        <service android:name=".player.PlayerService" />
+        <service
+            android:name=".player.PlayerService"
+            android:foregroundServiceType="mediaPlayback"/>
 
         <activity
             android:name=".MainActivity"
