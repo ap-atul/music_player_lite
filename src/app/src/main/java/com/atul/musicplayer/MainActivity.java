@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity
             Collections.shuffle(musicList);
         }
 
-        if (musicList.size() > 0) {
+        if (!musicList.isEmpty()) {
             playerManager.setMusicList(musicList);
             setPlayerView();
         }
@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void addToQueue(List<Music> musicList) {
-        if (musicList.size() > 0) {
+        if (!musicList.isEmpty()) {
             if (playerManager != null && playerManager.isPlaying())
                 playerManager.addMusicQueue(musicList);
             else if (playerManager != null)
