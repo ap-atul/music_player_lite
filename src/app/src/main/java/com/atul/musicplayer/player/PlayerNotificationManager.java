@@ -7,7 +7,6 @@ import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
 import static com.atul.musicplayer.MPConstants.PREV_ACTION;
 import static com.atul.musicplayer.MPConstants.REQUEST_CODE;
 
-import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -32,9 +31,11 @@ public class PlayerNotificationManager {
     private final NotificationManager notificationManager;
     private final PlayerService playerService;
     private NotificationCompat.Builder notificationBuilder;
+    private final androidx.media.app.NotificationCompat.MediaStyle notificationStyle;
 
     PlayerNotificationManager(@NonNull final PlayerService playerService) {
         this.playerService = playerService;
+        notificationStyle = new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2);
         notificationManager = (NotificationManager) playerService.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
@@ -51,11 +52,7 @@ public class PlayerNotificationManager {
 
     public Notification createNotification() {
         final Music song = playerService.getPlayerManager().getCurrentMusic();
-        notificationBuilder = new NotificationCompat.Builder(playerService, CHANNEL_ID);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel();
-        }
 
         final Intent openPlayerIntent = new Intent(playerService, MainActivity.class);
         openPlayerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -63,29 +60,41 @@ public class PlayerNotificationManager {
         final PendingIntent contentIntent = PendingIntent.getActivity(playerService, REQUEST_CODE,
                 openPlayerIntent, PendingIntent.FLAG_IMMUTABLE);
 
+        if (notificationBuilder == null) {
+            notificationBuilder = new NotificationCompat.Builder(playerService, CHANNEL_ID);
+            notificationBuilder
+                    .setShowWhen(false)
+                    .setSmallIcon(R.drawable.ic_notif_music_note)
+                    .setColorized(true)
+                    .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
+                    .setContentIntent(contentIntent)
+                    .setAutoCancel(true)
+                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel();
+        }
+
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(), song.albumArt);
 
         notificationBuilder
-                .setShowWhen(false)
-                .setSmallIcon(R.drawable.ic_notif_music_note)
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
                 .setProgress(100, playerService.getPlayerManager().getCurrentPosition(), true)
                 .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
-                .setColorized(false)
-                .setContentIntent(contentIntent)
-                .setAutoCancel(true)
                 .setLargeIcon(albumArt)
+                .setStyle(notificationStyle);
+
+        notificationBuilder.clearActions();
+        notificationBuilder
                 .addAction(notificationAction(PREV_ACTION))
                 .addAction(notificationAction(PLAY_PAUSE_ACTION))
-                .addAction(notificationAction(NEXT_ACTION))
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowActionsInCompactView(0, 1, 2));
+                .addAction(notificationAction(NEXT_ACTION));
 
         return notificationBuilder.build();
     }
 
-    @SuppressLint("RestrictedApi")
     public void updateNotification() {
         if (notificationBuilder == null)
             return;
@@ -96,18 +105,19 @@ public class PlayerNotificationManager {
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),
                 song.albumArt);
 
-        if (notificationBuilder.mActions.size() > 0)
-            notificationBuilder.mActions.set(1, notificationAction(PLAY_PAUSE_ACTION));
+        notificationBuilder.clearActions();
+        notificationBuilder
+                .addAction(notificationAction(PREV_ACTION))
+                .addAction(notificationAction(PLAY_PAUSE_ACTION))
+                .addAction(notificationAction(NEXT_ACTION));
 
         notificationBuilder
                 .setLargeIcon(albumArt)
                 .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
-                .setColorized(false)
-                .setAutoCancel(true)
-                .setSubText(song.album);
-
+                .setColorized(true)
+                .setAutoCancel(true);
 
         NotificationManagerCompat.from(playerService).notify(NOTIFICATION_ID, notificationBuilder.build());
     }
@@ -126,6 +136,8 @@ public class PlayerNotificationManager {
             case NEXT_ACTION:
                 icon = R.drawable.ic_controls_next;
                 break;
+            default:
+                break;
         }
         return new NotificationCompat.Action.Builder(icon, action, playerAction(action)).build();
     }
@@ -142,7 +154,7 @@ public class PlayerNotificationManager {
             notificationChannel.setDescription(playerService.getString(R.string.app_name));
             notificationChannel.enableLights(false);
             notificationChannel.enableVibration(false);
-            notificationChannel.setShowBadge(false);
+            notificationChannel.setShowBadge(true);
 
             notificationManager.createNotificationChannel(notificationChannel);
         }
