@@ -16,10 +16,12 @@ import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ServiceInfo;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.PowerManager;
 import android.support.v4.media.session.PlaybackStateCompat;
 
@@ -138,6 +140,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         playerService.getNotificationManager().updateNotification();
 
         int playbackState = isPlaying() ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
+        int currentPosition = mediaPlayer == null ? 0 : mediaPlayer.getCurrentPosition();
 
         playerService.getMediaSessionCompat().setPlaybackState(
                 new PlaybackStateCompat.Builder()
@@ -148,7 +151,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                                         PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
                                         PlaybackStateCompat.ACTION_SEEK_TO |
                                         PlaybackStateCompat.ACTION_PLAY_PAUSE)
-                        .setState(playbackState, mediaPlayer.getCurrentPosition(), 0)
+                        .setState(playbackState, currentPosition, 0)
                         .build());
     }
 
@@ -202,7 +205,11 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     public void attachService() {
         if (notificationManager != null) {
-            playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+            } else {
+                playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+            }
         }
     }
 
@@ -245,13 +252,13 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
     public void resumeMediaPlayer() {
         if (!isPlaying()) {
+            if (mediaPlayer == null) {
+                initMediaPlayer();
+            }
             mediaPlayer.start();
             setPlayerState(PlayerListener.State.RESUMED);
             playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
-
-            if (notificationManager != null) {
-                notificationManager.updateNotification();
-            }
+            notificationManager.updateNotification();
         }
     }
 
