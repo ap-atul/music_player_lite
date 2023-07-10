@@ -153,7 +153,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     @Override
     public void onPrepared() {
-
+        // Unused
     }
 
     @Override
@@ -166,7 +166,7 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     @Override
     public void onPositionChanged(int position) {
-        if (!dragging)
+        if (Boolean.FALSE.equals(dragging))
             songProgress.setProgress(position);
     }
 
@@ -177,10 +177,12 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
 
     @Override
     public void onPlaybackCompleted() {
+        // Unused
     }
 
     @Override
     public void onRelease() {
+        // Unused
     }
 
     @Override
@@ -197,10 +199,16 @@ public class PlayerDialog extends BottomSheetDialog implements SeekBar.OnSeekBar
     }
 
     private void setRepeat() {
-        playerQueue.setRepeat((!playerQueue.isRepeat()));
+        boolean repeatState = !playerQueue.isRepeat();
+        playerQueue.setRepeat(repeatState);
+        int repeat = repeatState ? R.drawable.ic_controls_repeat_one : R.drawable.ic_controls_repeat;
+        repeatControl.setImageResource(repeat);
     }
 
     private void setShuffle() {
-        playerQueue.setShuffle((!playerQueue.isShuffle()));
+        boolean shuffleState = !playerQueue.isShuffle();
+        playerQueue.setShuffle(shuffleState);
+        if (shuffleState) shuffleControl.setAlpha(1f);
+        else shuffleControl.setAlpha(0.3f);
     }
 }
