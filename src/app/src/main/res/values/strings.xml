@@ -47,6 +47,8 @@
     <string name="cancel">Cancel</string>
     <string name="view_pager_title">Main page</string>
     <string name="tab_layout_title">Bottom horizontal menu</string>
+    <string name="auto_play_next_songs">Auto play the song list</string>
+    <string name="auto_play_summary">when enabled, will play the song list automatically</string>
 
 
 </resources>

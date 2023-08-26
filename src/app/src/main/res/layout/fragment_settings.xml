@@ -43,7 +43,7 @@
                 android:id="@+id/theme_mode_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -129,7 +129,6 @@
                 android:id="@+id/accent_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -183,7 +182,6 @@
                 android:id="@+id/album_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -236,7 +234,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/nunito_sans_semibold"
                 android:text="@string/general"
                 android:textColor="?colorPrimary"
@@ -248,7 +246,7 @@
                 android:id="@+id/folder_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -295,7 +293,6 @@
                 android:id="@+id/refresh_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
@@ -339,10 +336,62 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/play_next_song_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/image"
+                    android:src="@drawable/ic_music_queue"
+                    app:tint="?colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/auto_play_next_songs"
+                        android:textColor="@color/colorTextHigh"
+                        android:textSize="@dimen/text_big" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/nunito_sans"
+                        android:text="@string/auto_play_summary"
+                        android:textColor="@color/colorTextMed"
+                        android:textSize="@dimen/text_big_med" />
+
+                </LinearLayout>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/auto_play_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:checked="false" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/review_options"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="?selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"

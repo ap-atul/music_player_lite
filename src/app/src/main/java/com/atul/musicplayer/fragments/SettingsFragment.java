@@ -35,6 +35,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private MainViewModel viewModel;
     private RecyclerView accentView;
     private boolean state;
+    private boolean autoPlayState;
     private LinearLayout chipLayout;
     private ImageView currentThemeMode;
 
@@ -43,6 +44,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private FolderDialog folderDialog;
 
     public SettingsFragment() {
+        // Unused
     }
 
     public static SettingsFragment newInstance() {
@@ -69,6 +71,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         });
 
         SwitchMaterial switchMaterial = view.findViewById(R.id.album_switch);
+        SwitchMaterial autoPlaySwitch = view.findViewById(R.id.auto_play_switch);
         accentView = view.findViewById(R.id.accent_view);
         chipLayout = view.findViewById(R.id.chip_layout);
         currentThemeMode = view.findViewById(R.id.current_theme_mode);
@@ -81,7 +84,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         LinearLayout refreshOption = view.findViewById(R.id.refresh_options);
 
         state = MPPreferences.getAlbumRequest(requireActivity().getApplicationContext());
+        autoPlayState = MPPreferences.getAutoPlay(requireActivity().getApplicationContext());
         switchMaterial.setChecked(state);
+        autoPlaySwitch.setChecked(autoPlayState);
         setCurrentThemeMode();
 
         accentView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
@@ -90,6 +95,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         accentOption.setOnClickListener(this);
         albumOption.setOnClickListener(this);
         switchMaterial.setOnClickListener(this);
+        autoPlaySwitch.setOnClickListener(this);
         themeModeOption.setOnClickListener(this);
         folderOption.setOnClickListener(this);
         refreshOption.setOnClickListener(this);
@@ -149,6 +155,9 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         else if (id == R.id.album_switch)
             setAlbumRequest();
 
+        else if (id == R.id.auto_play_switch)
+            setAutoPlay();
+
         else if (id == R.id.theme_mode_option) {
             int mode = chipLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE;
             chipLayout.setVisibility(mode);
@@ -202,6 +211,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private void setAlbumRequest() {
         MPPreferences.storeAlbumRequest(requireActivity().getApplicationContext(), (!state));
         ThemeHelper.applySettings(getActivity());
+    }
+
+    private void setAutoPlay() {
+        MPPreferences.storeAutoPlay(requireActivity().getApplicationContext(), (!autoPlayState));
     }
 
     private void setUpRateReview() {
