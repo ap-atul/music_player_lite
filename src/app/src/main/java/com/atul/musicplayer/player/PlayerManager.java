@@ -223,7 +223,15 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     @Override
     public void onPrepared(MediaPlayer mp) {
         mp.start();
-        playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+            } else {
+                playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         for (PlayerListener listener : playerListeners)
             listener.onMusicSet(playerQueue.getCurrentMusic());

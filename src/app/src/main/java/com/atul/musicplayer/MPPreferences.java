@@ -35,8 +35,16 @@ public class MPPreferences {
         getEditor(context).putBoolean(MPConstants.SETTINGS_ALBUM_REQUEST, val).apply();
     }
 
+    public static void storeAutoPlay(Context context, boolean val) {
+        getEditor(context).putBoolean(MPConstants.SETTINGS_AUTO_PLAY, val).apply();
+    }
+
     public static boolean getAlbumRequest(Context context) {
         return getSharedPref(context).getBoolean(MPConstants.SETTINGS_ALBUM_REQUEST, false);
+    }
+
+    public static boolean getAutoPlay(Context context) {
+        return getSharedPref(context).getBoolean(MPConstants.SETTINGS_AUTO_PLAY, true);
     }
 
     public static void storeThemeMode(Context context, int theme) {
