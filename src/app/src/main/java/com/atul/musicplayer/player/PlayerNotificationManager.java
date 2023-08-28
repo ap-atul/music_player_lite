@@ -81,7 +81,6 @@ public class PlayerNotificationManager {
         notificationBuilder
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
-                .setProgress(100, playerService.getPlayerManager().getCurrentPosition(), true)
                 .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
                 .setLargeIcon(albumArt)
                 .setStyle(notificationStyle);
@@ -124,21 +123,13 @@ public class PlayerNotificationManager {
 
     @NonNull
     private NotificationCompat.Action notificationAction(@NonNull final String action) {
-        int icon = R.drawable.ic_controls_pause;
-
-        switch (action) {
-            case PREV_ACTION:
-                icon = R.drawable.ic_controls_prev;
-                break;
-            case PLAY_PAUSE_ACTION:
-                icon = playerService.getPlayerManager().isPlaying() ? R.drawable.ic_controls_pause : R.drawable.ic_controls_play;
-                break;
-            case NEXT_ACTION:
-                icon = R.drawable.ic_controls_next;
-                break;
-            default:
-                break;
-        }
+        int icon = -1;
+        if (action.equals(PREV_ACTION)) icon = R.drawable.ic_controls_prev;
+        else if (action.equals(NEXT_ACTION)) icon = R.drawable.ic_controls_next;
+        else if (action.equals(PLAY_PAUSE_ACTION)) icon =
+                playerService.getPlayerManager().isPlaying()
+                        ? R.drawable.ic_controls_pause
+                        : R.drawable.ic_controls_play;
         return new NotificationCompat.Action.Builder(icon, action, playerAction(action)).build();
     }
 
