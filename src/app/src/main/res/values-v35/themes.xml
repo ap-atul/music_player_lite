@@ -2,6 +2,7 @@
 <resources>
 
     <style name="BaseTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
         <item name="colorPrimaryDark">@color/systemBarsColor</item>
     </style>
 
