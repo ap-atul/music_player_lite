@@ -27,6 +27,14 @@ public class PermissionHelper {
         return true;
     }
 
+    public static boolean hasForegroundPlaybackPermission(Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            return ContextCompat.checkSelfPermission(context, Manifest.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK) == PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(context, Manifest.permission.FOREGROUND_SERVICE) == PackageManager.PERMISSION_GRANTED;
+        }
+        return true;
+    }
+
     public static boolean requirePermissionRationale(Activity context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_MEDIA_AUDIO);
@@ -57,6 +65,16 @@ public class PermissionHelper {
             ActivityCompat.requestPermissions(
                     context,
                     new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    MPConstants.PERMISSION_READ_STORAGE
+            );
+        }
+    }
+
+    public static void requestForegroundPlayback(Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            ActivityCompat.requestPermissions(
+                    context,
+                    new String[]{Manifest.permission.FOREGROUND_SERVICE, Manifest.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK},
                     MPConstants.PERMISSION_READ_STORAGE
             );
         }

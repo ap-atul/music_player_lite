@@ -36,7 +36,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
 
         colorInt = ThemeHelper.resolveColorAttr(
                 context,
-                R.attr.colorPrimary
+                androidx.appcompat.R.attr.colorPrimary
         );
 
         defaultTint = context.getColor(R.color.colorTextMed);

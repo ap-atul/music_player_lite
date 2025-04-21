@@ -1,5 +1,6 @@
 package com.atul.musicplayer.player;
 
+import static android.content.Context.RECEIVER_EXPORTED;
 import static com.atul.musicplayer.MPConstants.AUDIO_FOCUSED;
 import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_CAN_DUCK;
 import static com.atul.musicplayer.MPConstants.AUDIO_NO_FOCUS_NO_DUCK;
@@ -10,6 +11,7 @@ import static com.atul.musicplayer.MPConstants.PREV_ACTION;
 import static com.atul.musicplayer.MPConstants.VOLUME_DUCK;
 import static com.atul.musicplayer.MPConstants.VOLUME_NORMAL;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.ContentUris;
@@ -34,6 +36,8 @@ import com.atul.musicplayer.model.Music;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import kotlin.Suppress;
 
 public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
@@ -96,6 +100,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         progressPercent.observeForever(progressObserver);
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     public void registerActionsReceiver() {
         notificationReceiver = new PlayerManager.NotificationReceiver();
         final IntentFilter intentFilter = new IntentFilter();
@@ -108,7 +113,11 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
         intentFilter.addAction(AudioManager.ACTION_AUDIO_BECOMING_NOISY);
 
-        playerService.registerReceiver(notificationReceiver, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            playerService.registerReceiver(notificationReceiver, intentFilter, RECEIVER_EXPORTED);
+        } else {
+            playerService.registerReceiver(notificationReceiver, intentFilter);
+        }
     }
 
     public void unregisterActionsReceiver() {

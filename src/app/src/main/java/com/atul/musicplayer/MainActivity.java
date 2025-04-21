@@ -84,6 +84,10 @@ public class MainActivity extends AppCompatActivity
             PermissionHelper.requestNotificationPermission(MainActivity.this);
         }
 
+        if (!PermissionHelper.hasForegroundPlaybackPermission(MainActivity.this)) {
+            PermissionHelper.requestForegroundPlayback(MainActivity.this);
+        }
+
         albumState = MPPreferences.getAlbumRequest(this);
 
         MaterialCardView playerLayout = findViewById(R.id.player_layout);
