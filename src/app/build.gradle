@@ -11,13 +11,12 @@ android {
             keyPassword 'musicplayerlite'
         }
     }
-    compileSdk 33
-    buildToolsVersion "30.0.3"
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.atul.musicplayer"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 35
         versionCode 16
         versionName "0.16"
     }
@@ -44,4 +43,9 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.5.1'
     implementation 'com.github.bumptech.glide:glide:4.14.2'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
