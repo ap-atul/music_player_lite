@@ -8,6 +8,7 @@ import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
 import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
 import static com.atul.musicplayer.MPConstants.PREV_ACTION;
+import static com.atul.musicplayer.MPConstants.STOP_ACTION;
 import static com.atul.musicplayer.MPConstants.VOLUME_DUCK;
 import static com.atul.musicplayer.MPConstants.VOLUME_NORMAL;
 
@@ -37,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import kotlin.Suppress;
 
 public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener {
 
@@ -47,6 +47,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private final List<PlayerListener> playerListeners = new ArrayList<>();
     private final PlayerQueue playerQueue;
     private final MutableLiveData<Integer> progressPercent = new MutableLiveData<>();
+    private final Observer<Integer> progressObserver;
     private int playerState;
     private MediaPlayer mediaPlayer;
     private NotificationReceiver notificationReceiver;
@@ -70,7 +71,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                             // Lost audio focus, but will gain it back (shortly), so note whether
                             // playback should resume
                             currentAudioFocus = AUDIO_NO_FOCUS_NO_DUCK;
-                            playOnFocusGain = isMediaPlayer() && playerState == PlaybackStateCompat.STATE_PLAYING || playerState == PlaybackStateCompat.STATE_NONE;
+                            playOnFocusGain = isMediaPlayer() && (playerState == PlaybackStateCompat.STATE_PLAYING || playerState == PlaybackStateCompat.STATE_NONE);
                             break;
                         case AudioManager.AUDIOFOCUS_LOSS:
                             // Lost audio focus, probably "permanently"
@@ -93,7 +94,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         this.playerQueue = PlayerQueue.getInstance();
         this.audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
-        Observer<Integer> progressObserver = percent -> {
+        progressObserver = percent -> {
             for (PlayerListener playerListener : playerListeners)
                 playerListener.onPositionChanged(percent);
         };
@@ -108,6 +109,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         intentFilter.addAction(PREV_ACTION);
         intentFilter.addAction(PLAY_PAUSE_ACTION);
         intentFilter.addAction(NEXT_ACTION);
+        intentFilter.addAction(STOP_ACTION);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
@@ -135,9 +137,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void detachListener(PlayerListener playerListener) {
-        if (playerListeners.size() > 2) {
-            playerListeners.remove(playerListener);
-        }
+        playerListeners.remove(playerListener);
     }
 
     private void setPlayerState(@PlayerListener.State int state) {
@@ -146,7 +146,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             listener.onStateChanged(state);
         }
 
-        playerService.getNotificationManager().updateNotification();
+        PlayerNotificationManager nm = playerService.getNotificationManager();
+        if (nm != null) nm.updateNotification();
 
         int playbackState = isPlaying() ? PlaybackStateCompat.STATE_PLAYING : PlaybackStateCompat.STATE_PAUSED;
         int currentPosition = mediaPlayer == null ? 0 : mediaPlayer.getCurrentPosition();
@@ -169,11 +170,11 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public int getCurrentPosition() {
-        return mediaPlayer.getCurrentPosition();
+        return mediaPlayer != null ? mediaPlayer.getCurrentPosition() : 0;
     }
 
     public int getDuration() {
-        return mediaPlayer.getDuration();
+        return mediaPlayer != null ? mediaPlayer.getDuration() : 0;
     }
 
     public PlayerQueue getPlayerQueue() {
@@ -200,7 +201,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     public void addMusicQueue(List<Music> musicList) {
         playerQueue.addMusicListToQueue(new ArrayList<>(musicList));
 
-        if (!mediaPlayer.isPlaying())
+        if (mediaPlayer == null || !mediaPlayer.isPlaying())
             initMediaPlayer();  // play when ready
     }
 
@@ -209,7 +210,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void detachService() {
-        playerService.stopForeground(false);
+        if (!isPlaying()) {
+            playerService.stopForeground(false);
+        }
     }
 
     public void attachService() {
@@ -260,6 +263,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void pauseMediaPlayer() {
+        if (mediaPlayer == null) return;
         setPlayerState(PlayerListener.State.PAUSED);
         mediaPlayer.pause();
 
@@ -274,7 +278,11 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
             }
             mediaPlayer.start();
             setPlayerState(PlayerListener.State.RESUMED);
-            playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification(), ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);
+            } else {
+                playerService.startForeground(NOTIFICATION_ID, notificationManager.createNotification());
+            }
             notificationManager.updateNotification();
         }
     }
@@ -303,12 +311,19 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void release() {
+        progressPercent.removeObserver(progressObserver);
+        audioManager.abandonAudioFocus(audioFocusChangeListener);
+
         if (mediaObserver != null) {
             mediaObserver.stop();
+            mediaObserver = null;
         }
 
         if (playerService != null) {
             playerService.stopForeground(true);
+            if (notificationManager != null) {
+                notificationManager.getNotificationManager().cancel(NOTIFICATION_ID);
+            }
             playerService.stopSelf();
         }
 
@@ -319,11 +334,12 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
         for (PlayerListener playerListener : playerListeners)
             playerListener.onRelease();
-
     }
 
     public void seekTo(int position) {
-        mediaPlayer.seekTo(position);
+        if (mediaPlayer != null) {
+            mediaPlayer.seekTo(position);
+        }
     }
 
     private void configurePlayerState() {
@@ -424,6 +440,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                         playNext();
                         break;
 
+                    case STOP_ACTION:
+                        release();
+                        return;
+
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                         pauseMediaPlayer();
                         break;
@@ -473,8 +493,11 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                 try {
 
                     if (mediaPlayer != null && isPlaying()) {
-                        int percent = mediaPlayer.getCurrentPosition() * 100 / mediaPlayer.getDuration();
-                        progressPercent.postValue(percent);
+                        int duration = mediaPlayer.getDuration();
+                        if (duration > 0) {
+                            int percent = mediaPlayer.getCurrentPosition() * 100 / duration;
+                            progressPercent.postValue(percent);
+                        }
                     }
 
                     Thread.sleep(100);

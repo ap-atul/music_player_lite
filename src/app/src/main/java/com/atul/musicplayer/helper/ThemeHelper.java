@@ -62,7 +62,7 @@ public class ThemeHelper {
 
     public static Integer getTheme(Integer accentColor) {
         Integer theme = getThemeMap().get(accentColor);
-        if(theme == null) {
+        if (theme == null) {
             return getThemeMap().get(R.color.blue);
         }
         return theme;

@@ -14,7 +14,7 @@ public class ListHelper {
 
     public static List<Music> searchMusicByName(List<Music> list, String query) {
         List<Music> filterList = new ArrayList<>();
-        for(Music m: list) {
+        for (Music m : list) {
             if ((m.title.toLowerCase().contains(query) || m.displayName.toLowerCase().contains(query)) ||
                     (m.artist.toLowerCase().contains(query) || m.album.toLowerCase().contains(query))) {
                 filterList.add(m);
@@ -45,8 +45,8 @@ public class ListHelper {
 
     public static List<Artist> searchArtistByName(List<Artist> artistList, String query) {
         List<Artist> filterList = new ArrayList<>();
-        for(Artist a : artistList) {
-            if(a.name.toLowerCase().contains(query)) {
+        for (Artist a : artistList) {
+            if (a.name.toLowerCase().contains(query)) {
                 filterList.add(a);
             }
         }
@@ -85,8 +85,8 @@ public class ListHelper {
 
     public static List<Album> searchByAlbumName(List<Album> albumList, String query) {
         List<Album> filterList = new ArrayList<>();
-        for(Album a: albumList) {
-            if(a.title.toLowerCase().contains(query) || a.artist.toLowerCase().equals(query)) {
+        for (Album a : albumList) {
+            if (a.title.toLowerCase().contains(query) || a.artist.toLowerCase().equals(query)) {
                 filterList.add(a);
             }
         }

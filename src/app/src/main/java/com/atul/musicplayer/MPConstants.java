@@ -19,6 +19,7 @@ public class MPConstants {
     public static final String PLAY_PAUSE_ACTION = "com.atul.musicplayerlite.PLAYPAUSE";
     public static final String NEXT_ACTION = "com.atul.musicplayerlite.NEXT";
     public static final String PREV_ACTION = "com.atul.musicplayerlite.PREV";
+    public static final String STOP_ACTION = "com.atul.musicplayerlite.STOP";
     public static final String CHANNEL_ID = "com.atul.musicplayerlite.CHANNEL_ID";
     public static final int REQUEST_CODE = 100;
 

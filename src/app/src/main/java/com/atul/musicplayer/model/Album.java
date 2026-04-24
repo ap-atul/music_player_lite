@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.atul.musicplayer.helper.ListHelper;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
