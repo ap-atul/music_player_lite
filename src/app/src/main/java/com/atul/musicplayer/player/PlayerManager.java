@@ -8,6 +8,7 @@ import static com.atul.musicplayer.MPConstants.NEXT_ACTION;
 import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
 import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
 import static com.atul.musicplayer.MPConstants.PREV_ACTION;
+import static com.atul.musicplayer.MPConstants.STOP_ACTION;
 import static com.atul.musicplayer.MPConstants.VOLUME_DUCK;
 import static com.atul.musicplayer.MPConstants.VOLUME_NORMAL;
 
@@ -108,6 +109,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
         intentFilter.addAction(PREV_ACTION);
         intentFilter.addAction(PLAY_PAUSE_ACTION);
         intentFilter.addAction(NEXT_ACTION);
+        intentFilter.addAction(STOP_ACTION);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
         intentFilter.addAction(Intent.ACTION_HEADSET_PLUG);
@@ -208,7 +210,8 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void detachService() {
-        playerService.stopForeground(false);
+        // Foreground state is owned by the player lifecycle (play/pause/release).
+        // Never drop foreground here — the activity unbinding must not affect playback.
     }
 
     public void attachService() {
@@ -432,6 +435,10 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
                     case NEXT_ACTION:
                         playNext();
                         break;
+
+                    case STOP_ACTION:
+                        release();
+                        return;
 
                     case BluetoothDevice.ACTION_ACL_DISCONNECTED:
                         pauseMediaPlayer();
