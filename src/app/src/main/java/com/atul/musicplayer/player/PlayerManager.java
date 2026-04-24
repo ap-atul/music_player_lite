@@ -210,8 +210,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     }
 
     public void detachService() {
-        // Foreground state is owned by the player lifecycle (play/pause/release).
-        // Never drop foreground here — the activity unbinding must not affect playback.
+        if (!isPlaying()) {
+            playerService.stopForeground(false);
+        }
     }
 
     public void attachService() {
@@ -320,6 +321,9 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
 
         if (playerService != null) {
             playerService.stopForeground(true);
+            if (notificationManager != null) {
+                notificationManager.getNotificationManager().cancel(NOTIFICATION_ID);
+            }
             playerService.stopSelf();
         }
 
