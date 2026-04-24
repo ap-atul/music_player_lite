@@ -109,6 +109,9 @@ public class PlayerService extends Service {
         }
 
         KeyEvent keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+        if (keyEvent == null) {
+            return false;
+        }
 
         if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyEvent.getKeyCode()) {
@@ -174,6 +177,14 @@ public class PlayerService extends Service {
         if (playerManager != null) {
             playerManager.unregisterActionsReceiver();
             playerManager.release();
+        }
+        if (mediaSessionCompat != null) {
+            mediaSessionCompat.setActive(false);
+            mediaSessionCompat.release();
+            mediaSessionCompat = null;
+        }
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
         }
         notificationManager = null;
         playerManager = null;

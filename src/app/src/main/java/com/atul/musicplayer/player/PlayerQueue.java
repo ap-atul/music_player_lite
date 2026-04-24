@@ -24,7 +24,7 @@ public class PlayerQueue {
     }
 
     private boolean isCurrentPositionOutOfBound(int pos) {
-        return pos >= currentQueue.size() || pos < 0;
+        return currentQueue == null || pos >= currentQueue.size() || pos < 0;
     }
 
     public boolean isShuffle() {
@@ -61,11 +61,16 @@ public class PlayerQueue {
     }
 
     public Music getCurrentMusic() {
+        if (currentQueue == null || currentQueue.isEmpty()) return null;
         return currentQueue.get(currentPosition);
     }
 
     public void addMusicListToQueue(List<Music> music) {
-        currentQueue.addAll(music);
+        if (currentQueue == null) {
+            currentQueue = new ArrayList<>(music);
+        } else {
+            currentQueue.addAll(music);
+        }
         this.currentPosition = (shuffle) ? random.nextInt(currentQueue.size()) : 0;
     }
 

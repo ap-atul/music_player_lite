@@ -7,17 +7,21 @@ import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
 import static com.atul.musicplayer.MPConstants.PREV_ACTION;
 import static com.atul.musicplayer.MPConstants.REQUEST_CODE;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -52,7 +56,9 @@ public class PlayerNotificationManager {
 
     public Notification createNotification() {
         final Music song = playerService.getPlayerManager().getCurrentMusic();
-
+        if (song == null) {
+            return notificationBuilder != null ? notificationBuilder.build() : null;
+        }
 
         final Intent openPlayerIntent = new Intent(playerService, MainActivity.class);
         openPlayerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -94,13 +100,16 @@ public class PlayerNotificationManager {
         return notificationBuilder.build();
     }
 
+    @SuppressLint("MissingPermission")
     public void updateNotification() {
         if (notificationBuilder == null)
             return;
 
-        notificationBuilder.setOngoing(playerService.getPlayerManager().isPlaying());
         PlayerManager playerManager = playerService.getPlayerManager();
         Music song = playerManager.getCurrentMusic();
+        if (song == null) return;
+
+        notificationBuilder.setOngoing(playerManager.isPlaying());
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),
                 song.albumArt);
 
