@@ -8,7 +8,6 @@ import static com.atul.musicplayer.MPConstants.PREV_ACTION;
 import static com.atul.musicplayer.MPConstants.REQUEST_CODE;
 import static com.atul.musicplayer.MPConstants.STOP_ACTION;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -16,13 +15,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -35,8 +32,8 @@ public class PlayerNotificationManager {
 
     private final NotificationManager notificationManager;
     private final PlayerService playerService;
-    private NotificationCompat.Builder notificationBuilder;
     private final androidx.media.app.NotificationCompat.MediaStyle notificationStyle;
+    private NotificationCompat.Builder notificationBuilder;
 
     PlayerNotificationManager(@NonNull final PlayerService playerService) {
         this.playerService = playerService;

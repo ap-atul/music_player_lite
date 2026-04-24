@@ -61,7 +61,7 @@ public class SelectedArtistActivity extends AppCompatActivity implements AlbumSe
 
         songsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         musicList.addAll(defAlbum.music);
-        songsAdapter = new SongsAdapter(musicSelectListener,  musicList);
+        songsAdapter = new SongsAdapter(musicSelectListener, musicList);
         songsRecyclerView.setAdapter(songsAdapter);
 
         albumsRecyclerView.setLayoutManager(

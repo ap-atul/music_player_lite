@@ -127,9 +127,9 @@ public class SongsFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     private void setSearchResult(String query) {
-        if(!query.isEmpty()) {
+        if (!query.isEmpty()) {
             updateAdapter(ListHelper.searchMusicByName(unChangedList, query.toLowerCase()));
-        }else {
+        } else {
             updateAdapter(unChangedList);
         }
     }

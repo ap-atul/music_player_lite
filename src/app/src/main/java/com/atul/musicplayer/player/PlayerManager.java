@@ -47,7 +47,7 @@ public class PlayerManager implements MediaPlayer.OnBufferingUpdateListener, Med
     private final List<PlayerListener> playerListeners = new ArrayList<>();
     private final PlayerQueue playerQueue;
     private final MutableLiveData<Integer> progressPercent = new MutableLiveData<>();
-    private Observer<Integer> progressObserver;
+    private final Observer<Integer> progressObserver;
     private int playerState;
     private MediaPlayer mediaPlayer;
     private NotificationReceiver notificationReceiver;

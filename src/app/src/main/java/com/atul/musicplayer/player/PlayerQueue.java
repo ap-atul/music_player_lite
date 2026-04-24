@@ -98,17 +98,16 @@ public class PlayerQueue {
     public void removeMusicFromQueue(int position) {
         if (!isCurrentPositionOutOfBound(position)) {
             currentQueue.remove(position);
-            if(currentPosition > position)
+            if (currentPosition > position)
                 currentPosition -= 1;
         }
     }
 
     public void swap(int one, int two) {
         if (!isCurrentPositionOutOfBound(one) && !isCurrentPositionOutOfBound(two)) {
-            if(one == currentPosition) {
+            if (one == currentPosition) {
                 currentPosition = two;
-            }
-            else if(two == currentPosition) {
+            } else if (two == currentPosition) {
                 currentPosition = one;
             }
             Collections.swap(currentQueue, one, two);

@@ -1,6 +1,5 @@
 package com.atul.musicplayer.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,8 @@ import java.util.Locale;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
 
-    private final List<Music> musicList;
     public final MusicSelectListener listener;
+    private final List<Music> musicList;
     private final boolean state;
 
     public SongsAdapter(MusicSelectListener listener, List<Music> musics) {
@@ -100,15 +99,15 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
 
 
             itemView.findViewById(R.id.root_layout).setOnClickListener(v -> {
-                    List<Music> toPlay = new ArrayList<>();
-                    boolean autoPlay = MPPreferences.getAutoPlay(itemView.getContext());
-                    if (autoPlay) {
-                        toPlay.addAll(musicList.subList(getAdapterPosition(), musicList.size()));
-                    } else {
-                        toPlay.add(musicList.get(getAdapterPosition()));
+                        List<Music> toPlay = new ArrayList<>();
+                        boolean autoPlay = MPPreferences.getAutoPlay(itemView.getContext());
+                        if (autoPlay) {
+                            toPlay.addAll(musicList.subList(getAdapterPosition(), musicList.size()));
+                        } else {
+                            toPlay.add(musicList.get(getAdapterPosition()));
+                        }
+                        listener.playQueue(toPlay, false);
                     }
-                    listener.playQueue(toPlay, false);
-                }
             );
         }
     }

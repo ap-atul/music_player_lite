@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.listener.AlbumSelectListener;
 import com.atul.musicplayer.model.Album;
@@ -45,10 +44,10 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
                 albumList.get(position).year,
                 albumList.get(position).music.size()));
 
-            Glide.with(holder.albumArt.getContext())
-                    .load(albumList.get(position).music.get(0).albumArt)
-                    .placeholder(R.drawable.ic_album_art)
-                    .into(holder.albumArt);
+        Glide.with(holder.albumArt.getContext())
+                .load(albumList.get(position).music.get(0).albumArt)
+                .placeholder(R.drawable.ic_album_art)
+                .into(holder.albumArt);
     }
 
     @Override
@@ -61,6 +60,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
         private final TextView albumDetails;
         private final TextView albumName;
         private final ImageView albumArt;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
