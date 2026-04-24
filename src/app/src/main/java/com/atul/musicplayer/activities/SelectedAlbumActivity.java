@@ -84,8 +84,6 @@ public class SelectedAlbumActivity extends AppCompatActivity {
                 album.year,
                 album.music.size()));
 
-        boolean state = MPPreferences.getAlbumRequest(this);
-        if (state)
             Glide.with(this)
                     .load(album.music.get(0).albumArt)
                     .placeholder(R.drawable.ic_album_art)
