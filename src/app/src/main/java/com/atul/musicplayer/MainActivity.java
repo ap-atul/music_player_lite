@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void manageStoragePermission(Activity context) {
-            // required a dialog?
+        // required a dialog?
         if (PermissionHelper.requirePermissionRationale(context)) {
             new MaterialAlertDialogBuilder(context)
                     .setTitle("Requesting permission")
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity
     private void setUpQueueDialog() {
         queueDialog = new QueueDialog(MainActivity.this, playerManager.getPlayerQueue());
         queueDialog.setOnDismissListener(v -> {
-            if(!this.isDestroyed()) {
+            if (!this.isDestroyed()) {
                 playerDialog.show();
             }
         });
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity
         }
         SleepTimerDialog sleepTimerDialog = new SleepTimerDialog(MainActivity.this, this);
         sleepTimerDialog.setOnDismissListener(v -> {
-            if(!this.isDestroyed()) playerDialog.show();
+            if (!this.isDestroyed()) playerDialog.show();
         });
 
         playerDialog.dismiss();
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity
     private void setUpSleepTimerDisplayDialog() {
         SleepTimerDisplayDialog sleepTimerDisplayDialog = new SleepTimerDisplayDialog(MainActivity.this, this);
         sleepTimerDisplayDialog.setOnDismissListener(v -> {
-            if(!this.isDestroyed()) playerDialog.show();
+            if (!this.isDestroyed()) playerDialog.show();
         });
 
         playerDialog.dismiss();

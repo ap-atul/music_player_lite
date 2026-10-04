@@ -24,7 +24,7 @@ public class PlayerQueue {
     }
 
     private boolean isCurrentPositionOutOfBound(int pos) {
-        return pos >= currentQueue.size() || pos < 0;
+        return currentQueue == null || pos >= currentQueue.size() || pos < 0;
     }
 
     public boolean isShuffle() {
@@ -61,11 +61,16 @@ public class PlayerQueue {
     }
 
     public Music getCurrentMusic() {
+        if (currentQueue == null || currentQueue.isEmpty()) return null;
         return currentQueue.get(currentPosition);
     }
 
     public void addMusicListToQueue(List<Music> music) {
-        currentQueue.addAll(music);
+        if (currentQueue == null) {
+            currentQueue = new ArrayList<>(music);
+        } else {
+            currentQueue.addAll(music);
+        }
         this.currentPosition = (shuffle) ? random.nextInt(currentQueue.size()) : 0;
     }
 
@@ -93,17 +98,16 @@ public class PlayerQueue {
     public void removeMusicFromQueue(int position) {
         if (!isCurrentPositionOutOfBound(position)) {
             currentQueue.remove(position);
-            if(currentPosition > position)
+            if (currentPosition > position)
                 currentPosition -= 1;
         }
     }
 
     public void swap(int one, int two) {
         if (!isCurrentPositionOutOfBound(one) && !isCurrentPositionOutOfBound(two)) {
-            if(one == currentPosition) {
+            if (one == currentPosition) {
                 currentPosition = two;
-            }
-            else if(two == currentPosition) {
+            } else if (two == currentPosition) {
                 currentPosition = one;
             }
             Collections.swap(currentQueue, one, two);

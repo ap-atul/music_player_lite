@@ -110,7 +110,7 @@ public class QueueAdapter extends RecyclerView.Adapter<QueueAdapter.MyViewHolder
             itemView.findViewById(R.id.control_close).setOnClickListener(v -> {
                 int position = getAdapterPosition();
 
-                if(position >= 0 && position < musicList.size()) {
+                if (position >= 0 && position < musicList.size()) {
                     boolean isPlaying = currentMusic.title.equals(musicList.get(position).title);
 
                     if (!isPlaying) {

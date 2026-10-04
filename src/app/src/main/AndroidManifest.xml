@@ -26,7 +26,8 @@
 
         <service
             android:name=".player.PlayerService"
-            android:foregroundServiceType="mediaPlayback"/>
+            android:foregroundServiceType="mediaPlayback"
+            android:stopWithTask="false"/>
 
         <activity
             android:name=".MainActivity"

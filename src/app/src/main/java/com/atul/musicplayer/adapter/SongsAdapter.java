@@ -9,12 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.atul.musicplayer.App;
 import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.helper.MusicLibraryHelper;
 import com.atul.musicplayer.listener.MusicSelectListener;
 import com.atul.musicplayer.model.Music;
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,14 @@ import java.util.Locale;
 
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder> {
 
-    private final List<Music> musicList;
     public final MusicSelectListener listener;
+    private final List<Music> musicList;
+    private final boolean state;
 
     public SongsAdapter(MusicSelectListener listener, List<Music> musics) {
         this.listener = listener;
         this.musicList = musics;
+        this.state = MPPreferences.getAlbumRequest(App.getContext());
     }
 
     @NonNull
@@ -57,13 +61,17 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
                             MusicLibraryHelper.formatDate(music.dateAdded))
             );
 
-        if (holder.state && !music.albumArt.equals("")) {
-            Glide.with(holder.albumArt.getContext())
-                    .load(music.albumArt)
-                    .placeholder(R.drawable.ic_album_art)
-                    .into(holder.albumArt);
-        } else if (music.albumArt.equals("")) {
-            holder.albumArt.setImageResource(R.drawable.ic_album_art);
+        if (state) {
+            if (!music.albumArt.isEmpty()) {
+                Glide.with(holder.albumArt.getContext())
+                        .load(music.albumArt)
+                        .placeholder(R.drawable.ic_album_art)
+                        .into(holder.albumArt);
+            } else {
+                holder.albumArt.setImageResource(R.drawable.ic_album_art);
+            }
+        } else {
+            holder.albumArtLayout.setVisibility(View.GONE);
         }
     }
 
@@ -78,28 +86,28 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.MyViewHolder
         private final TextView albumName;
         private final TextView songHistory;
         private final ImageView albumArt;
-        private final boolean state;
+        private final MaterialCardView albumArtLayout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            state = MPPreferences.getAlbumRequest(itemView.getContext());
             albumArt = itemView.findViewById(R.id.album_art);
             songHistory = itemView.findViewById(R.id.song_history);
             songName = itemView.findViewById(R.id.song_name);
             albumName = itemView.findViewById(R.id.song_album);
+            albumArtLayout = itemView.findViewById(R.id.album_art_layout);
 
 
             itemView.findViewById(R.id.root_layout).setOnClickListener(v -> {
-                    List<Music> toPlay = new ArrayList<>();
-                    boolean autoPlay = MPPreferences.getAutoPlay(itemView.getContext());
-                    if (autoPlay) {
-                        toPlay.addAll(musicList.subList(getAdapterPosition(), musicList.size()));
-                    } else {
-                        toPlay.add(musicList.get(getAdapterPosition()));
+                        List<Music> toPlay = new ArrayList<>();
+                        boolean autoPlay = MPPreferences.getAutoPlay(itemView.getContext());
+                        if (autoPlay) {
+                            toPlay.addAll(musicList.subList(getAdapterPosition(), musicList.size()));
+                        } else {
+                            toPlay.add(musicList.get(getAdapterPosition()));
+                        }
+                        listener.playQueue(toPlay, false);
                     }
-                    listener.playQueue(toPlay, false);
-                }
             );
         }
     }

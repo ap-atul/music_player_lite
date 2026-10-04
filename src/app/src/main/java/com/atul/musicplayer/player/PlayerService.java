@@ -81,14 +81,23 @@ public class PlayerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent == null) {
+            // START_STICKY restarted the service after the OS killed it.
+            // There is no player state to restore, so cancel any stale notification
+            // that may have survived the kill and shut down cleanly.
+            android.app.NotificationManager nm =
+                    (android.app.NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            if (nm != null) nm.cancel(MPConstants.NOTIFICATION_ID);
+            stopSelf();
+            return START_NOT_STICKY;
+        }
 
-        // prevents the service from closing, when app started from
-        // notification click, this will make sure that a foreground
-        // service exists too.
+        // App brought back to foreground via notification tap — re-attach as foreground
+        // service so the notification stays pinned while music is playing.
         if (playerManager != null && playerManager.isPlaying())
             playerManager.attachService();
 
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     private void configureMediaSession() {
@@ -109,6 +118,9 @@ public class PlayerService extends Service {
         }
 
         KeyEvent keyEvent = mediaButtonEvent.getParcelableExtra(Intent.EXTRA_KEY_EVENT);
+        if (keyEvent == null) {
+            return false;
+        }
 
         if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyEvent.getKeyCode()) {
@@ -147,6 +159,21 @@ public class PlayerService extends Service {
     }
 
     @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        if (playerManager != null) {
+            if (playerManager.isPlaying()) {
+                // Music is active — re-confirm foreground so OS won't kill the service.
+                playerManager.attachService();
+            } else {
+                // Nothing playing — clean up so no orphaned notification lingers.
+                playerManager.release();
+                playerManager = null;
+            }
+        }
+        super.onTaskRemoved(rootIntent);
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
         if (playerManager == null) {
             playerManager = new PlayerManager(this);
@@ -174,6 +201,14 @@ public class PlayerService extends Service {
         if (playerManager != null) {
             playerManager.unregisterActionsReceiver();
             playerManager.release();
+        }
+        if (mediaSessionCompat != null) {
+            mediaSessionCompat.setActive(false);
+            mediaSessionCompat.release();
+            mediaSessionCompat = null;
+        }
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
         }
         notificationManager = null;
         playerManager = null;

@@ -6,7 +6,9 @@ import static com.atul.musicplayer.MPConstants.NOTIFICATION_ID;
 import static com.atul.musicplayer.MPConstants.PLAY_PAUSE_ACTION;
 import static com.atul.musicplayer.MPConstants.PREV_ACTION;
 import static com.atul.musicplayer.MPConstants.REQUEST_CODE;
+import static com.atul.musicplayer.MPConstants.STOP_ACTION;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -30,8 +32,8 @@ public class PlayerNotificationManager {
 
     private final NotificationManager notificationManager;
     private final PlayerService playerService;
-    private NotificationCompat.Builder notificationBuilder;
     private final androidx.media.app.NotificationCompat.MediaStyle notificationStyle;
+    private NotificationCompat.Builder notificationBuilder;
 
     PlayerNotificationManager(@NonNull final PlayerService playerService) {
         this.playerService = playerService;
@@ -52,13 +54,19 @@ public class PlayerNotificationManager {
 
     public Notification createNotification() {
         final Music song = playerService.getPlayerManager().getCurrentMusic();
-
+        if (song == null) {
+            return notificationBuilder != null ? notificationBuilder.build() : null;
+        }
 
         final Intent openPlayerIntent = new Intent(playerService, MainActivity.class);
         openPlayerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         final PendingIntent contentIntent = PendingIntent.getActivity(playerService, REQUEST_CODE,
                 openPlayerIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel();
+        }
 
         if (notificationBuilder == null) {
             notificationBuilder = new NotificationCompat.Builder(playerService, CHANNEL_ID);
@@ -68,17 +76,19 @@ public class PlayerNotificationManager {
                     .setColorized(true)
                     .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                     .setContentIntent(contentIntent)
-                    .setAutoCancel(true)
                     .setVisibility(NotificationCompat.VISIBILITY_PUBLIC);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel();
-        }
+        boolean playing = playerService.getPlayerManager().isPlaying();
+        PendingIntent deleteIntent = PendingIntent.getBroadcast(
+                playerService, REQUEST_CODE + 1,
+                new Intent(STOP_ACTION), PendingIntent.FLAG_IMMUTABLE);
 
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(), song.albumArt);
 
         notificationBuilder
+                .setOngoing(playing)
+                .setDeleteIntent(deleteIntent)
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
                 .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
@@ -94,13 +104,20 @@ public class PlayerNotificationManager {
         return notificationBuilder.build();
     }
 
+    @SuppressLint("MissingPermission")
     public void updateNotification() {
         if (notificationBuilder == null)
             return;
 
-        notificationBuilder.setOngoing(playerService.getPlayerManager().isPlaying());
         PlayerManager playerManager = playerService.getPlayerManager();
         Music song = playerManager.getCurrentMusic();
+        if (song == null) return;
+
+        boolean playing = playerManager.isPlaying();
+        PendingIntent deleteIntent = PendingIntent.getBroadcast(
+                playerService, REQUEST_CODE + 1,
+                new Intent(STOP_ACTION), PendingIntent.FLAG_IMMUTABLE);
+
         Bitmap albumArt = MusicLibraryHelper.getThumbnail(playerService.getApplicationContext(),
                 song.albumArt);
 
@@ -111,12 +128,13 @@ public class PlayerNotificationManager {
                 .addAction(notificationAction(NEXT_ACTION));
 
         notificationBuilder
+                .setOngoing(playing)
+                .setDeleteIntent(deleteIntent)
                 .setLargeIcon(albumArt)
                 .setColor(MusicLibraryHelper.getDominantColorFromThumbnail(albumArt))
                 .setContentTitle(song.title)
                 .setContentText(song.artist)
-                .setColorized(true)
-                .setAutoCancel(true);
+                .setColorized(true);
 
         NotificationManagerCompat.from(playerService).notify(NOTIFICATION_ID, notificationBuilder.build());
     }

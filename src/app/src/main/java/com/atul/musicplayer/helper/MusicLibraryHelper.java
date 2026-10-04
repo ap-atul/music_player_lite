@@ -99,7 +99,7 @@ public class MusicLibraryHelper {
             long albumId = musicCursor.getLong(albumIdInd);
 
             // skip songs smaller than 20 secs
-            if(duration < MPConstants.TWENTY_SECONDS_IN_MS){
+            if (duration < MPConstants.TWENTY_SECONDS_IN_MS) {
                 continue;
             }
 

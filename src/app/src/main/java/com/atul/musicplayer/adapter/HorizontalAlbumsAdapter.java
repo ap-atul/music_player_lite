@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.atul.musicplayer.MPPreferences;
 import com.atul.musicplayer.R;
 import com.atul.musicplayer.listener.AlbumSelectListener;
 import com.atul.musicplayer.model.Album;
@@ -39,11 +38,10 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.albumTitle.setText(albumList.get(position).title);
-        if (holder.state)
-            Glide.with(holder.albumArt.getContext())
-                    .load(albumList.get(position).music.get(0).albumArt)
-                    .placeholder(R.drawable.ic_album_art)
-                    .into(holder.albumArt);
+        Glide.with(holder.albumArt.getContext())
+                .load(albumList.get(position).music.get(0).albumArt)
+                .placeholder(R.drawable.ic_album_art)
+                .into(holder.albumArt);
     }
 
     @Override
@@ -55,11 +53,9 @@ public class HorizontalAlbumsAdapter extends RecyclerView.Adapter<HorizontalAlbu
 
         private final ImageView albumArt;
         private final TextView albumTitle;
-        private final boolean state;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            state = MPPreferences.getAlbumRequest(itemView.getContext());
             albumArt = itemView.findViewById(R.id.album_art);
             albumTitle = itemView.findViewById(R.id.album_title);
 
